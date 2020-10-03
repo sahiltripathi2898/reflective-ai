@@ -49,7 +49,7 @@ export default function Visual() {
           Incident Visuals
         </div>
         <Grid container spacing={3}>
-          <Grid item md={4} style={{ textAlign: 'center' }}>
+          <Grid item lg={4} style={{ textAlign: 'center' }}>
             <Paper className={classes.paper}>
               <Typography
                 variant="h5"
@@ -74,7 +74,7 @@ export default function Visual() {
               <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
             </Paper>
           </Grid>
-          <Grid item md={4}>
+          <Grid item lg={4}>
             <Paper className={classes.paper}>
               <Typography
                 variant="h5"
@@ -99,7 +99,7 @@ export default function Visual() {
               <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
             </Paper>
           </Grid>
-          <Grid item md={4} style={{ textAlign: 'center' }}>
+          <Grid item lg={4} style={{ textAlign: 'center' }}>
             <Paper className={classes.paper}>
               <Typography
                 variant="h5"
@@ -124,7 +124,7 @@ export default function Visual() {
               <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
             </Paper>
           </Grid>
-          <Grid item md={4}>
+          <Grid item lg={4}>
             <Paper className={classes.paper}>
               <Typography
                 variant="h5"
@@ -149,7 +149,7 @@ export default function Visual() {
               <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
             </Paper>
           </Grid>
-          <Grid item md={4}>
+          <Grid item lg={4}>
             <Paper className={classes.paper}>
               <Typography
                 variant="h5"
@@ -174,7 +174,7 @@ export default function Visual() {
               <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
             </Paper>
           </Grid>
-          <Grid item md={4} style={{ textAlign: 'center' }}>
+          <Grid item lg={4} style={{ textAlign: 'center' }}>
             <Paper className={classes.paper}>
               <Typography
                 variant="h5"
@@ -199,7 +199,7 @@ export default function Visual() {
               <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
             </Paper>
           </Grid>
-          <Grid item md={4} style={{ textAlign: 'center' }}>
+          <Grid item lg={4} style={{ textAlign: 'center' }}>
             <Paper className={classes.paper}>
               <Typography
                 variant="h5"
@@ -224,7 +224,7 @@ export default function Visual() {
               <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
             </Paper>
           </Grid>
-          <Grid item md={4} style={{ textAlign: 'center' }}>
+          <Grid item lg={4} style={{ textAlign: 'center' }}>
             <Paper className={classes.paper}>
               <Typography
                 variant="h5"
@@ -249,7 +249,7 @@ export default function Visual() {
               <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
             </Paper>
           </Grid>
-          <Grid item md={4} style={{ textAlign: 'center' }}>
+          <Grid item lg={4} style={{ textAlign: 'center' }}>
             <Paper className={classes.paper}>
               <Typography
                 variant="h5"
@@ -274,7 +274,7 @@ export default function Visual() {
               <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
             </Paper>
           </Grid>
-          <Grid item md={4} style={{ textAlign: 'center' }}>
+          <Grid item lg={4} style={{ textAlign: 'center' }}>
             <Paper className={classes.paper}>
               <Typography
                 variant="h5"

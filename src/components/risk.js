@@ -50,7 +50,7 @@ export default function Risk() {
         Risk Factors
       </div>
       <Grid container spacing={3}>
-        <Grid item md={6}>
+        <Grid item lg={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }}>
             <div style={{ float: 'left', fontSize: '24px', fontWeight: '500' }}>
               <Typography variant="h5"> PPE Violations</Typography>
@@ -78,7 +78,7 @@ export default function Risk() {
             </div>
           </Paper>
         </Grid>
-        <Grid item md={6}>
+        <Grid item lg={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }}>
             <div style={{ float: 'left', fontSize: '24px', fontWeight: '500' }}>
               <Typography variant="h5">
@@ -111,7 +111,7 @@ export default function Risk() {
             </div>
           </Paper>
         </Grid>
-        <Grid item md={6}>
+        <Grid item lg={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }}>
             <div style={{ float: 'left', fontSize: '24px', fontWeight: '500' }}>
               <Typography variant="h5">Crowding Violations</Typography>
@@ -142,7 +142,7 @@ export default function Risk() {
             </div>
           </Paper>
         </Grid>
-        <Grid item md={6}>
+        <Grid item lg={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }}>
             <div style={{ float: 'left', fontSize: '24px', fontWeight: '500' }}>
               <Typography variant="h5">Max Worker Count</Typography>
