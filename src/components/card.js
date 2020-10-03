@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 
 //Icons
 import { BiNoEntry } from 'react-icons/bi';
-import { IoIosMan } from 'react-icons/io';
+import { FaArrowCircleDown } from 'react-icons/fa';
 import { BsGraphUp } from 'react-icons/bs';
 import { GrStatusInfo } from 'react-icons/gr';
 
@@ -76,12 +76,32 @@ export default function SpacingGrid() {
             >
               Worker Count
             </div>
-            <Grid container style={{ marginTop: '0px' }} spacing={9}>
-              <Grid item style={{ fontSize: '40px' }}>
+            <Grid
+              container
+              style={{ marginTop: '0px', padding: '10px' }}
+              spacing={9}
+            >
+              <Grid
+                item
+                style={{
+                  fontSize: '38px',
+                  padding: '14px',
+                  marginLeft: '6px',
+                }}
+              >
                 19
               </Grid>
-              <Grid item style={{ fontSize: '38px', color: 'red' }}>
+              <Grid
+                item
+                style={{
+                  fontSize: '36px',
+                  color: 'red',
+                  padding: '15px',
+                  marginLeft: '40px',
+                }}
+              >
                 -24.2%
+                <FaArrowCircleDown style={{ fontSize: '30px' }} />
               </Grid>
             </Grid>
           </Paper>

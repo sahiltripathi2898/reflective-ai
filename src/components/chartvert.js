@@ -44,7 +44,7 @@ class Chartvert extends React.Component {
           categories: ['Floor 7', 'Floor 6', 'Floor 5'],
           labels: {
             formatter: function (val) {
-              return val + 'K';
+              return val;
             },
           },
         },

@@ -16,14 +16,19 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
+import Badge from '@material-ui/core/Badge';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-// Iconss
+// Icons
 import HomeIcon from '@material-ui/icons/Home';
 import FolderSharpIcon from '@material-ui/icons/FolderSharp';
 import SmsFailedSharpIcon from '@material-ui/icons/SmsFailedSharp'; // Alert
 import NotificationsActiveSharpIcon from '@material-ui/icons/NotificationsActiveSharp'; // Risk Factors
 import TrendingUpSharpIcon from '@material-ui/icons/TrendingUpSharp'; // Status
 import PhotoAlbumSharpIcon from '@material-ui/icons/PhotoAlbumSharp'; // Incident
+import { MdSettings } from 'react-icons/md';
 
 // File imports
 import Dasheader from './home';
@@ -31,6 +36,7 @@ import Cards from './card';
 import Charthor from './charthoriz';
 import Chartvert from './chartvert';
 import Workerlist from './list';
+import Visual from './visual';
 
 const drawerWidth = 240;
 
@@ -48,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    backgroundColor: '#0f2c52',
+    backgroundColor: '#2c387e',
     color: 'white',
   },
   appBarShift: {
@@ -60,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: '36px',
   },
   hide: {
     display: 'none',
@@ -115,6 +121,15 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+  const matches = useMediaQuery('(min-width:600px)');
+
+  const buttonFont = matches ? '12px' : '8px';
+  const buttonMarginRight = matches ? '20px' : '6px';
+  const toggleMargin = matches ? '36px' : '2px';
+  const nameFont = matches ? '24px' : '18px';
+  const accountFont = matches ? '10px' : '8px';
+  const nameMarginRight = matches ? '80px' : '48px';
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -133,12 +148,92 @@ export default function MiniDrawer() {
             className={clsx(classes.menuButton, {
               [classes.hide]: open,
             })}
+            style={{ marginRight: toggleMargin }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Welcome to Reflective AI
-          </Typography>
+          <Button
+            variant="outlined"
+            style={{
+              color: 'white',
+              borderColor: 'white',
+              marginRight: buttonMarginRight,
+              marginLeft: buttonMarginRight,
+              fontSize: buttonFont,
+            }}
+          >
+            Home
+          </Button>
+          <Badge
+            badgeContent={4}
+            color="secondary"
+            style={{ marginRight: buttonMarginRight }}
+          >
+            <Button
+              variant="outlined"
+              style={{
+                color: 'white',
+                borderColor: 'white',
+                fontSize: buttonFont,
+              }}
+            >
+              Past Due
+            </Button>
+          </Badge>
+          <Badge
+            badgeContent={2}
+            color="secondary"
+            style={{ marginRight: buttonMarginRight }}
+          >
+            <Button
+              variant="outlined"
+              style={{
+                color: 'white',
+                borderColor: 'white',
+                fontSize: buttonFont,
+              }}
+            >
+              Open Issues
+            </Button>{' '}
+          </Badge>
+          <div
+            style={{
+              right: '0',
+              position: 'absolute',
+              marginRight: nameMarginRight,
+            }}
+          >
+            <div
+              style={{
+                fontSize: nameFont,
+                fontWeight: '500',
+                fontFamily: 'serif',
+                letterSpacing: '1px',
+              }}
+            >
+              Sahil Tripathi
+            </div>
+            <Button
+              style={{
+                color: 'whitesmoke',
+                fontSize: accountFont,
+                padding: '4px',
+              }}
+            >
+              Account Settings{' '}
+              <MdSettings style={{ fontSize: '18px', marginLeft: '6px' }} />
+            </Button>
+          </div>
+          <Avatar
+            style={{
+              right: '0',
+              position: 'absolute',
+              marginRight: '10px',
+              backgroundColor: '#ff9100',
+            }}
+          >
+            ST
+          </Avatar>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -156,6 +251,17 @@ export default function MiniDrawer() {
         }}
       >
         <div className={classes.toolbar}>
+          <div
+            style={{
+              fontSize: '26px',
+              fontWeight: '600',
+              letterSpacing: '1px',
+              fontFamily: 'serif',
+              color: 'black',
+            }}
+          >
+            Reflective AI
+          </div>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
@@ -232,7 +338,8 @@ export default function MiniDrawer() {
         <Cards />
         <Charthor />
         <Chartvert />
-        <Workerlist />
+        {/*<Workerlist />*/}
+        <Visual />
       </main>
     </div>
   );
