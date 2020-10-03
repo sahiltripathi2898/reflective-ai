@@ -120,7 +120,7 @@ export default function SpacingGrid() {
                 marginBottom: '5px',
               }}
             >
-              Yesterdays's Worker Count
+              Yesterday's Worker Count
             </div>
           </Paper>
         </Grid>

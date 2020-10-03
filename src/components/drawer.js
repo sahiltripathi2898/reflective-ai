@@ -37,6 +37,7 @@ import Charthor from './charthoriz';
 import Chartvert from './chartvert';
 import Workerlist from './list';
 import Visual from './visual';
+import Risk from './risk';
 
 const drawerWidth = 240;
 
@@ -124,11 +125,12 @@ export default function MiniDrawer() {
   const matches = useMediaQuery('(min-width:600px)');
 
   const buttonFont = matches ? '12px' : '8px';
-  const buttonMarginRight = matches ? '20px' : '6px';
+  const buttonMarginRight = matches ? '20px' : '10px';
   const toggleMargin = matches ? '36px' : '2px';
   const nameFont = matches ? '24px' : '18px';
   const accountFont = matches ? '10px' : '8px';
   const nameMarginRight = matches ? '80px' : '48px';
+  const nameVisible = matches ? '' : 'hidden';
 
   return (
     <div className={classes.root}>
@@ -201,6 +203,7 @@ export default function MiniDrawer() {
               right: '0',
               position: 'absolute',
               marginRight: nameMarginRight,
+              visibility: nameVisible,
             }}
           >
             <div
@@ -336,6 +339,7 @@ export default function MiniDrawer() {
         {/* Rest of the components*/}
         <Dasheader />
         <Cards />
+        <Risk />
         <Charthor />
         <Chartvert />
         {/*<Workerlist />*/}
