@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
 
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -20,6 +21,8 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Badge from '@material-ui/core/Badge';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { Menu, MenuItem } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
 // Icons
 import HomeIcon from '@material-ui/icons/Home';
@@ -29,15 +32,9 @@ import NotificationsActiveSharpIcon from '@material-ui/icons/NotificationsActive
 import TrendingUpSharpIcon from '@material-ui/icons/TrendingUpSharp'; // Status
 import PhotoAlbumSharpIcon from '@material-ui/icons/PhotoAlbumSharp'; // Incident
 import { MdSettings } from 'react-icons/md';
-
-// File imports
-import Dasheader from './home';
-import Cards from './card';
-import Charthor from './charthoriz';
-import Chartvert from './chartvert';
-import Workerlist from './list';
-import Visual from './visual';
-import Risk from './risk';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import SettingsIcon from '@material-ui/icons/Settings';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const drawerWidth = 240;
 
@@ -109,9 +106,51 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MiniDrawer() {
+// Account setting dropdown
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5',
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+));
+
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    '&:focus': {
+      backgroundColor: theme.palette.primary.main,
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
+
+//////////////////////////
+// Main Drawer Component
+//////////////////////////
+
+const MiniDrawer = (props) => {
+  //Routing
+  const { history } = props;
+
+  //Using Styles
   const classes = useStyles();
   const theme = useTheme();
+
+  //Drawer open-closing
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -122,6 +161,8 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+  // Media Query
+
   const matches = useMediaQuery('(min-width:600px)');
 
   const buttonFont = matches ? '12px' : '8px';
@@ -129,8 +170,19 @@ export default function MiniDrawer() {
   const toggleMargin = matches ? '36px' : '2px';
   const nameFont = matches ? '24px' : '18px';
   const accountFont = matches ? '10px' : '8px';
-  const nameMarginRight = matches ? '80px' : '48px';
+  const nameMarginRight = matches ? '60px' : '48px';
   const nameVisible = matches ? '' : 'hidden';
+
+  //Account Setting drop down
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <div className={classes.root}>
@@ -154,18 +206,7 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Button
-            variant="outlined"
-            style={{
-              color: 'white',
-              borderColor: 'white',
-              marginRight: buttonMarginRight,
-              marginLeft: buttonMarginRight,
-              fontSize: buttonFont,
-            }}
-          >
-            Home
-          </Button>
+
           <Badge
             badgeContent={4}
             color="secondary"
@@ -206,7 +247,7 @@ export default function MiniDrawer() {
               visibility: nameVisible,
             }}
           >
-            <div
+            {/*<div
               style={{
                 fontSize: nameFont,
                 fontWeight: '500',
@@ -215,17 +256,54 @@ export default function MiniDrawer() {
               }}
             >
               Sahil Tripathi
+            </div>*/}
+            <div>
+              <Button
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+                style={{
+                  color: 'white',
+                  fontSize: accountFont,
+                  padding: '2px',
+                  fontSize: '16px',
+                  textTransform: 'none',
+                }}
+              >
+                Account Settings{' '}
+                <MdSettings style={{ fontSize: '20px', marginLeft: '6px' }} />
+              </Button>
+              <StyledMenu
+                id="customized-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <StyledMenuItem>
+                  <ListItemIcon>
+                    <AccountCircleIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText primary="Hello Sahil" />
+                </StyledMenuItem>
+                <StyledMenuItem>
+                  <ListItemIcon>
+                    <SettingsIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="My Profile Settings"
+                    onClick={() => history.push('/profile-setting')}
+                  />
+                </StyledMenuItem>
+                <Divider />
+                <StyledMenuItem>
+                  <ListItemIcon>
+                    <ExitToAppIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText primary="Logout" />
+                </StyledMenuItem>
+              </StyledMenu>
             </div>
-            <Button
-              style={{
-                color: 'whitesmoke',
-                fontSize: accountFont,
-                padding: '4px',
-              }}
-            >
-              Account Settings{' '}
-              <MdSettings style={{ fontSize: '18px', marginLeft: '6px' }} />
-            </Button>
           </div>
           <Avatar
             style={{
@@ -275,7 +353,11 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          <ListItem button style={{ marginBottom: '10px', marginTop: '5px' }}>
+          <ListItem
+            button
+            onClick={() => history.push('/')}
+            style={{ marginBottom: '10px', marginTop: '5px' }}
+          >
             <ListItemIcon>
               {<HomeIcon style={{ color: '#0f2c52', fontSize: '28px' }} />}
             </ListItemIcon>
@@ -301,7 +383,11 @@ export default function MiniDrawer() {
             </ListItemIcon>
             <ListItemText primary={'Risk Factors'} />
           </ListItem>
-          <ListItem button style={{ marginBottom: '10px' }}>
+          <ListItem
+            button
+            onClick={() => history.push('/alert')}
+            style={{ marginBottom: '10px' }}
+          >
             <ListItemIcon>
               {
                 <NotificationsActiveSharpIcon
@@ -321,7 +407,11 @@ export default function MiniDrawer() {
             </ListItemIcon>
             <ListItemText primary={'Status and Trends'} />
           </ListItem>
-          <ListItem button style={{ marginBottom: '10px' }}>
+          <ListItem
+            button
+            onClick={() => history.push('/chart')}
+            style={{ marginBottom: '10px' }}
+          >
             <ListItemIcon>
               {
                 <PhotoAlbumSharpIcon
@@ -331,20 +421,25 @@ export default function MiniDrawer() {
             </ListItemIcon>
             <ListItemText primary={'Incident and Visuals'} />
           </ListItem>
+          <ListItem
+            button
+            onClick={() => history.push('/integration')}
+            style={{ marginBottom: '10px' }}
+          >
+            <ListItemIcon>
+              {
+                <PhotoAlbumSharpIcon
+                  style={{ color: '#0f2c52', fontSize: '28px' }}
+                />
+              }
+            </ListItemIcon>
+            <ListItemText primary={'Integrations'} />
+          </ListItem>
         </List>
         <Divider />
       </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        {/* Rest of the components*/}
-        <Dasheader />
-        <Cards />
-        <Risk />
-        <Charthor />
-        <Chartvert />
-        {/*<Workerlist />*/}
-        <Visual />
-      </main>
     </div>
   );
-}
+};
+
+export default withRouter(MiniDrawer);

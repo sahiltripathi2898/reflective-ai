@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SpacingGrid() {
+const SpacingGrid = (props) => {
   const classes = useStyles();
 
   return (
@@ -146,4 +146,6 @@ export default function SpacingGrid() {
       </Grid>
     </div>
   );
-}
+};
+
+export default SpacingGrid;
