@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      width: '25ch',
+      width: '30ch',
+      color: 'blue',
     },
   },
 }));
@@ -64,13 +65,20 @@ export default function Settings() {
   };
 
   return (
-    <div style={{ marginTop: '100px', padding: '30px' }}>
+    <div style={{ marginTop: '80px', padding: '20px' }}>
       <Paper
         elevation={8}
         style={{ position: 'absolute', borderRadius: '10px' }}
       >
-        <div style={{ position: 'relative', margin: '20px 0px 20px 0px' }}>
-          <Typography variant="h4" style={{ textAlign: 'center' }}>
+        <div style={{ position: 'relative', margin: '20px 0px 10px 0px' }}>
+          <Typography
+            variant="h3"
+            style={{
+              textAlign: 'center',
+              fontWeight: '600',
+              fontFamily: 'serif',
+            }}
+          >
             Profile Settings
           </Typography>
         </div>
@@ -110,6 +118,9 @@ export default function Settings() {
                 name="address"
                 value={address}
                 onChange={handleInputChange}
+                multiline
+                rows={3}
+                style={{ width: '97.5%' }}
               />
             </div>
             <div>
@@ -166,7 +177,13 @@ export default function Settings() {
             </div>
           </form>
         </div>
-        <div style={{ margin: '0px 0px 20px 32px' }}>
+        <div
+          style={{
+            margin: '0px 0px 20px 32px',
+            position: 'relative',
+            textAlign: 'center',
+          }}
+        >
           <Button
             color="primary"
             variant="contained"

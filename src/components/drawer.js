@@ -286,13 +286,13 @@ const MiniDrawer = (props) => {
                   </ListItemIcon>
                   <ListItemText primary="Hello Sahil" />
                 </StyledMenuItem>
-                <StyledMenuItem>
+                <StyledMenuItem  onClick={() => history.push('/profile-setting')}>
                   <ListItemIcon>
                     <SettingsIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText
                     primary="My Profile Settings"
-                    onClick={() => history.push('/profile-setting')}
+                   
                   />
                 </StyledMenuItem>
                 <Divider />

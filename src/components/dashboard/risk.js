@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(4),
     color: 'black',
     height: '220px',
-    width: '100%',
     borderRadius: '10px',
+    padding: '30px 20px 30px 20px',
   },
 }));
 
@@ -33,7 +33,7 @@ export default function Risk() {
   const classes = useStyles();
 
   const matches = useMediaQuery('(min-width:700px)');
-  const floatPic = matches ? 'right' : 'none';
+  const floatPic = matches ? 'right' : 'right';
   const paperHeight = matches ? '220px' : '270px';
 
   return (
@@ -50,9 +50,16 @@ export default function Risk() {
         Risk Factors
       </div>
       <Grid container spacing={3}>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12} md={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }}>
-            <div style={{ float: 'left', fontSize: '24px', fontWeight: '500' }}>
+            <div
+              style={{
+                float: 'left',
+                fontSize: '24px',
+                fontWeight: '500',
+                width: '70%',
+              }}
+            >
               <Typography variant="h5"> PPE Violations</Typography>
               <Typography
                 variant="h4"
@@ -73,14 +80,21 @@ export default function Risk() {
                 }}
               ></div>
             </div>
-            <div style={{ float: floatPic }}>
+            <div style={{ float: floatPic, width: '30%' }}>
               <img alt="risk-images" src={ppe} width="70px" height="70px" />
             </div>
           </Paper>
         </Grid>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12} md={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }}>
-            <div style={{ float: 'left', fontSize: '24px', fontWeight: '500' }}>
+            <div
+              style={{
+                float: 'left',
+                fontSize: '24px',
+                fontWeight: '500',
+                width: '70%',
+              }}
+            >
               <Typography variant="h5">
                 Physical Distancing Violations
               </Typography>
@@ -106,14 +120,21 @@ export default function Risk() {
                 16.66 % <FaArrowUp />
               </div>
             </div>
-            <div style={{ float: floatPic }}>
+            <div style={{ float: floatPic, width: '30%' }}>
               <img alt="risk-images" src={sd} width="70px" height="70px" />
             </div>
           </Paper>
         </Grid>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12} md={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }}>
-            <div style={{ float: 'left', fontSize: '24px', fontWeight: '500' }}>
+            <div
+              style={{
+                float: 'left',
+                fontSize: '24px',
+                fontWeight: '500',
+                width: '70%',
+              }}
+            >
               <Typography variant="h5">Crowding Violations</Typography>
 
               <div
@@ -137,14 +158,21 @@ export default function Risk() {
                 0 % <FaArrowUp />
               </div>
             </div>
-            <div style={{ float: floatPic }}>
+            <div style={{ float: floatPic, width: '30%' }}>
               <img alt="risk-images" src={crowd} width="70px" height="70px" />
             </div>
           </Paper>
         </Grid>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12} md={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }}>
-            <div style={{ float: 'left', fontSize: '24px', fontWeight: '500' }}>
+            <div
+              style={{
+                float: 'left',
+                fontSize: '24px',
+                fontWeight: '500',
+                width: '70%',
+              }}
+            >
               <Typography variant="h5">Max Worker Count</Typography>
               <div
                 style={{
@@ -167,7 +195,7 @@ export default function Risk() {
                 15.38 % <FaArrowUp />
               </div>
             </div>
-            <div style={{ float: floatPic }}>
+            <div style={{ float: floatPic, width: '30%' }}>
               <img alt="risk-images" src={mw} width="70px" height="70px" />
             </div>
           </Paper>
