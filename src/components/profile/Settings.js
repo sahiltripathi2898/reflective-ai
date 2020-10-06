@@ -7,15 +7,16 @@ import {
   TextField,
   Button,
 } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '30ch',
-      color: 'blue',
-    },
+    flexGrow: 1,
+  },
+  Typography: {
+    marginLeft: '74px',
+    textAlign: 'left',
   },
 }));
 
@@ -65,134 +66,237 @@ export default function Settings() {
   };
 
   return (
-    <div style={{ marginTop: '80px', padding: '20px' }}>
-      <Paper
-        elevation={8}
-        style={{ position: 'absolute', borderRadius: '10px' }}
-      >
-        <div style={{ position: 'relative', margin: '20px 0px 10px 0px' }}>
-          <Typography
-            variant="h3"
-            style={{
-              textAlign: 'center',
-              fontWeight: '600',
-              fontFamily: 'serif',
-            }}
-          >
-            Profile Settings
-          </Typography>
-        </div>
-        <div style={{ position: 'relative', padding: '30px' }}>
-          <form className={classes.root}>
-            <div>
-              <TextField
-                id="outlined-basic"
-                label="First Name"
-                variant="outlined"
-                name="fname"
-                value={fname}
-                onChange={handleInputChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Last Name"
-                variant="outlined"
-                name="lname"
-                value={lname}
-                onChange={handleInputChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Email Address"
-                variant="outlined"
-                name="email"
-                value={email}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <TextField
-                id="outlined-basic"
-                label="Address"
-                variant="outlined"
-                name="address"
-                value={address}
-                onChange={handleInputChange}
-                multiline
-                rows={3}
-                style={{ width: '97.5%' }}
-              />
-            </div>
-            <div>
-              <TextField
-                id="outlined-basic"
-                label="City"
-                variant="outlined"
-                name="city"
-                value={city}
-                onChange={handleInputChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Country"
-                variant="outlined"
-                name="country"
-                value={country}
-                onChange={handleInputChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Zip"
-                variant="outlined"
-                name="zip"
-                value={zip}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <TextField
-                id="outlined-basic"
-                label="Job Title"
-                variant="outlined"
-                name="job"
-                value={job}
-                onChange={handleInputChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Cell Phone"
-                variant="outlined"
-                name="phone"
-                value={phone}
-                onChange={handleInputChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Company"
-                variant="outlined"
-                name="company"
-                value={company}
-                onChange={handleInputChange}
-              />
-            </div>
-          </form>
-        </div>
-        <div
+    <div
+      className={classes.root}
+      style={{ marginTop: '80px', padding: '20px' }}
+    >
+      <div style={{ position: 'relative', margin: '20px 0px 10px 0px' }}>
+        <Typography
+          variant="h3"
           style={{
-            margin: '0px 0px 20px 32px',
-            position: 'relative',
             textAlign: 'center',
+            fontWeight: '600',
+            fontFamily: 'serif',
+            marginBottom: '50px',
           }}
         >
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handleFinalSubmit}
-          >
-            Update Profile
-          </Button>
-        </div>
-      </Paper>
+          Profile Settings
+        </Typography>
+      </div>
+      <form>
+        <Grid
+          container
+          spacing={3}
+          justify="center"
+          style={{ textAlign: 'center' }}
+        >
+          <Grid item sm={6} style={{ padding: '8px' }}>
+            <Typography className={classes.Typography} variant="h6">
+              First Name
+            </Typography>
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              name="fname"
+              value={fname}
+              onChange={handleInputChange}
+              Typography="Name"
+              style={{
+                padding: '10px',
+                verticalAlign: 'middle',
+                width: '80%',
+              }}
+              size="small"
+            />
+          </Grid>
+          <Grid item sm={6} style={{ padding: '8px' }}>
+            <Typography className={classes.Typography} variant="h6">
+              {' '}
+              Last Name
+            </Typography>
+            <TextField
+              id="outlined-basic"
+              Typography="Last Name"
+              variant="outlined"
+              name="lname"
+              value={lname}
+              onChange={handleInputChange}
+              style={{
+                padding: '10px',
+                verticalAlign: 'middle',
+                width: '80%',
+              }}
+              size="small"
+            />
+          </Grid>
+
+          <Grid item sm={6} style={{ padding: '8px' }}>
+            <Typography className={classes.Typography} variant="h6">
+              Address
+            </Typography>
+            <TextField
+              id="outlined-basic"
+              Typography="Address"
+              variant="outlined"
+              name="address"
+              value={address}
+              onChange={handleInputChange}
+              multiline
+              rows={3}
+              style={{
+                padding: '10px',
+                verticalAlign: 'middle',
+                width: '80%',
+              }}
+              size="small"
+            />
+          </Grid>
+          <Grid item sm={6} style={{ padding: '8px' }}>
+            <Typography className={classes.Typography} variant="h6">
+              Email ID
+            </Typography>
+            <TextField
+              id="outlined-basic"
+              Typography="Email Address"
+              variant="outlined"
+              name="email"
+              value={email}
+              onChange={handleInputChange}
+              style={{
+                padding: '10px',
+                verticalAlign: 'middle',
+                width: '80%',
+              }}
+              size="small"
+            />
+          </Grid>
+          <Grid item sm={6} style={{ padding: '8px' }}>
+            <Typography className={classes.Typography} variant="h6">
+              City
+            </Typography>
+            <TextField
+              id="outlined-basic"
+              Typography="City"
+              variant="outlined"
+              name="city"
+              value={city}
+              onChange={handleInputChange}
+              style={{
+                padding: '10px',
+                verticalAlign: 'middle',
+                width: '80%',
+              }}
+              size="small"
+            />
+          </Grid>
+          <Grid item sm={6} style={{ padding: '8px' }}>
+            <Typography className={classes.Typography} variant="h6">
+              Country
+            </Typography>
+            <TextField
+              id="outlined-basic"
+              Typography="Country"
+              variant="outlined"
+              name="country"
+              value={country}
+              onChange={handleInputChange}
+              style={{
+                padding: '10px',
+                verticalAlign: 'middle',
+                width: '80%',
+              }}
+              size="small"
+            />
+          </Grid>
+          <Grid item sm={6} style={{ padding: '8px' }}>
+            <Typography className={classes.Typography} variant="h6">
+              Zip
+            </Typography>
+            <TextField
+              id="outlined-basic"
+              Typography="Zip"
+              variant="outlined"
+              name="zip"
+              value={zip}
+              onChange={handleInputChange}
+              style={{
+                padding: '10px',
+                verticalAlign: 'middle',
+                width: '80%',
+              }}
+              size="small"
+            />
+          </Grid>
+          <Grid item sm={6} style={{ padding: '8px' }}>
+            <Typography className={classes.Typography} variant="h6">
+              Phone No.
+            </Typography>
+            <TextField
+              id="outlined-basic"
+              Typography="Cell Phone"
+              variant="outlined"
+              name="phone"
+              value={phone}
+              onChange={handleInputChange}
+              style={{
+                padding: '10px',
+                verticalAlign: 'middle',
+                width: '80%',
+              }}
+              size="small"
+            />
+          </Grid>
+          <Grid item sm={6} style={{ padding: '8px' }}>
+            <Typography className={classes.Typography} variant="h6">
+              Job Title
+            </Typography>
+            <TextField
+              id="outlined-basic"
+              Typography="Job Title"
+              variant="outlined"
+              name="job"
+              value={job}
+              onChange={handleInputChange}
+              style={{
+                padding: '10px',
+                verticalAlign: 'middle',
+                width: '80%',
+              }}
+              size="small"
+            />
+          </Grid>
+          <Grid item sm={6} style={{ padding: '8px' }}>
+            <Typography className={classes.Typography} variant="h6">
+              Company
+            </Typography>
+            <TextField
+              id="outlined-basic"
+              Typography="Company"
+              variant="outlined"
+              name="company"
+              value={company}
+              onChange={handleInputChange}
+              style={{
+                padding: '10px',
+                verticalAlign: 'middle',
+                width: '80%',
+              }}
+              size="small"
+            />
+          </Grid>
+        </Grid>
+      </form>
+      <div
+        style={{
+          margin: '20px 0px 100px 32px',
+          position: 'relative',
+          textAlign: 'center',
+        }}
+      >
+        <Button color="primary" variant="contained" onClick={handleFinalSubmit}>
+          Update Profile
+        </Button>
+      </div>
     </div>
   );
 }

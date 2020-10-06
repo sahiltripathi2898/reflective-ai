@@ -80,8 +80,14 @@ export default function Risk() {
                 }}
               ></div>
             </div>
-            <div style={{ float: floatPic, width: '30%' }}>
-              <img alt="risk-images" src={ppe} width="70px" height="70px" />
+            <div style={{ float: floatPic, width: '30%', right: '0' }}>
+              <img
+                alt="risk-images"
+                src={ppe}
+                width="70px"
+                height="70px"
+                style={{ float: floatPic }}
+              />
             </div>
           </Paper>
         </Grid>
@@ -121,7 +127,13 @@ export default function Risk() {
               </div>
             </div>
             <div style={{ float: floatPic, width: '30%' }}>
-              <img alt="risk-images" src={sd} width="70px" height="70px" />
+              <img
+                alt="risk-images"
+                src={sd}
+                width="70px"
+                height="70px"
+                style={{ float: floatPic }}
+              />
             </div>
           </Paper>
         </Grid>
@@ -159,7 +171,13 @@ export default function Risk() {
               </div>
             </div>
             <div style={{ float: floatPic, width: '30%' }}>
-              <img alt="risk-images" src={crowd} width="70px" height="70px" />
+              <img
+                alt="risk-images"
+                src={crowd}
+                width="70px"
+                height="70px"
+                style={{ float: floatPic }}
+              />
             </div>
           </Paper>
         </Grid>
@@ -196,7 +214,13 @@ export default function Risk() {
               </div>
             </div>
             <div style={{ float: floatPic, width: '30%' }}>
-              <img alt="risk-images" src={mw} width="70px" height="70px" />
+              <img
+                alt="risk-images"
+                src={mw}
+                width="70px"
+                height="70px"
+                style={{ float: floatPic }}
+              />
             </div>
           </Paper>
         </Grid>

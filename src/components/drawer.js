@@ -35,6 +35,7 @@ import { MdSettings } from 'react-icons/md';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const drawerWidth = 240;
 
@@ -52,8 +53,8 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    backgroundColor: '#2c387e',
-    color: 'white',
+    backgroundColor: 'white',
+    color: 'black',
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -73,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
+    backgroundColor: 'blue',
   },
   drawerOpen: {
     width: drawerWidth,
@@ -80,6 +82,8 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    backgroundColor: '	#031b33',
+    color: 'white',
   },
   drawerClose: {
     transition: theme.transitions.create('width', {
@@ -91,6 +95,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1,
     },
+    backgroundColor: '	#031b33',
   },
   toolbar: {
     display: 'flex',
@@ -213,12 +218,12 @@ const MiniDrawer = (props) => {
             style={{ marginRight: buttonMarginRight }}
           >
             <Button
-              variant="outlined"
+              variant="contained"
               style={{
-                color: 'white',
-                borderColor: 'white',
                 fontSize: buttonFont,
+                fontWeight: '600',
               }}
+              color="primary"
             >
               Past Due
             </Button>
@@ -229,12 +234,12 @@ const MiniDrawer = (props) => {
             style={{ marginRight: buttonMarginRight }}
           >
             <Button
-              variant="outlined"
+              variant="contained"
               style={{
-                color: 'white',
-                borderColor: 'white',
                 fontSize: buttonFont,
+                fontWeight: '600',
               }}
+              color="primary"
             >
               Open Issues
             </Button>{' '}
@@ -263,7 +268,7 @@ const MiniDrawer = (props) => {
                 aria-haspopup="true"
                 onClick={handleClick}
                 style={{
-                  color: 'white',
+                  color: 'black',
                   fontSize: accountFont,
                   padding: '2px',
                   fontSize: '16px',
@@ -271,7 +276,13 @@ const MiniDrawer = (props) => {
                 }}
               >
                 Account Settings{' '}
-                <MdSettings style={{ fontSize: '20px', marginLeft: '6px' }} />
+                <MdSettings
+                  style={{
+                    fontSize: '20px',
+                    marginLeft: '6px',
+                    visibility: '',
+                  }}
+                />
               </Button>
               <StyledMenu
                 id="customized-menu"
@@ -286,14 +297,13 @@ const MiniDrawer = (props) => {
                   </ListItemIcon>
                   <ListItemText primary="Hello Sahil" />
                 </StyledMenuItem>
-                <StyledMenuItem  onClick={() => history.push('/profile-setting')}>
+                <StyledMenuItem
+                  onClick={() => history.push('/profile-setting')}
+                >
                   <ListItemIcon>
                     <SettingsIcon fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText
-                    primary="My Profile Settings"
-                   
-                  />
+                  <ListItemText primary="My Profile Settings" />
                 </StyledMenuItem>
                 <Divider />
                 <StyledMenuItem>
@@ -338,18 +348,22 @@ const MiniDrawer = (props) => {
               fontWeight: '600',
               letterSpacing: '1px',
               fontFamily: 'serif',
-              color: 'black',
+              color: 'white',
             }}
           >
             Reflective AI
           </div>
-          <IconButton onClick={handleDrawerClose}>
+          <ArrowBackIosIcon
+            color="white"
+            onClick={handleDrawerClose}
+            style={{ fontSize: '22px', cursor: 'pointer', marginLeft: '14px' }}
+          >
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
             ) : (
               <ChevronLeftIcon />
             )}
-          </IconButton>
+          </ArrowBackIosIcon>
         </div>
         <Divider />
         <List>
@@ -359,17 +373,13 @@ const MiniDrawer = (props) => {
             style={{ marginBottom: '10px', marginTop: '5px' }}
           >
             <ListItemIcon>
-              {<HomeIcon style={{ color: '#0f2c52', fontSize: '28px' }} />}
+              {<HomeIcon style={{ color: 'white', fontSize: '28px' }} />}
             </ListItemIcon>
             <ListItemText primary={'Home'} />
           </ListItem>
           <ListItem button style={{ marginBottom: '10px' }}>
             <ListItemIcon>
-              {
-                <FolderSharpIcon
-                  style={{ color: '#0f2c52', fontSize: '28px' }}
-                />
-              }
+              {<FolderSharpIcon style={{ color: 'white', fontSize: '28px' }} />}
             </ListItemIcon>
             <ListItemText primary={'Projects'} />
           </ListItem>
@@ -377,7 +387,7 @@ const MiniDrawer = (props) => {
             <ListItemIcon>
               {
                 <SmsFailedSharpIcon
-                  style={{ color: '#0f2c52', fontSize: '28px' }}
+                  style={{ color: 'white', fontSize: '28px' }}
                 />
               }
             </ListItemIcon>
@@ -391,7 +401,7 @@ const MiniDrawer = (props) => {
             <ListItemIcon>
               {
                 <NotificationsActiveSharpIcon
-                  style={{ color: '#0f2c52', fontSize: '28px' }}
+                  style={{ color: 'white', fontSize: '28px' }}
                 />
               }
             </ListItemIcon>
@@ -401,7 +411,7 @@ const MiniDrawer = (props) => {
             <ListItemIcon>
               {
                 <TrendingUpSharpIcon
-                  style={{ color: '#0f2c52', fontSize: '28px' }}
+                  style={{ color: 'white', fontSize: '28px' }}
                 />
               }
             </ListItemIcon>
@@ -415,7 +425,7 @@ const MiniDrawer = (props) => {
             <ListItemIcon>
               {
                 <PhotoAlbumSharpIcon
-                  style={{ color: '#0f2c52', fontSize: '28px' }}
+                  style={{ color: 'white', fontSize: '28px' }}
                 />
               }
             </ListItemIcon>
@@ -429,7 +439,7 @@ const MiniDrawer = (props) => {
             <ListItemIcon>
               {
                 <PhotoAlbumSharpIcon
-                  style={{ color: '#0f2c52', fontSize: '28px' }}
+                  style={{ color: 'white', fontSize: '28px' }}
                 />
               }
             </ListItemIcon>
