@@ -68,7 +68,7 @@ export default function Settings() {
   return (
     <div
       className={classes.root}
-      style={{ marginTop: '80px', padding: '20px' }}
+      style={{ marginTop: '60px', padding: '20px' }}
     >
       <div style={{ position: 'relative', margin: '20px 0px 10px 0px' }}>
         <Typography
@@ -76,7 +76,7 @@ export default function Settings() {
           style={{
             textAlign: 'center',
             fontWeight: '600',
-            fontFamily: 'serif',
+            fontFamily: 'Quicksand,sans-serif',
             marginBottom: '50px',
           }}
         >
@@ -90,7 +90,7 @@ export default function Settings() {
           justify="center"
           style={{ textAlign: 'center' }}
         >
-          <Grid item sm={6} style={{ padding: '8px' }}>
+          <Grid item sm={6} style={{ paddingTop: '0px', paddingBottom: '0px' }}>
             <Typography className={classes.Typography} variant="h6">
               First Name
             </Typography>
@@ -107,9 +107,10 @@ export default function Settings() {
                 width: '80%',
               }}
               size="small"
+              inputProps={{ style: { backgroundColor: 'white' } }}
             />
           </Grid>
-          <Grid item sm={6} style={{ padding: '8px' }}>
+          <Grid item sm={6} style={{ paddingTop: '0px', paddingBottom: '0px' }}>
             <Typography className={classes.Typography} variant="h6">
               {' '}
               Last Name
@@ -127,10 +128,11 @@ export default function Settings() {
                 width: '80%',
               }}
               size="small"
+              inputProps={{ style: { backgroundColor: 'white' } }}
             />
           </Grid>
 
-          <Grid item sm={6} style={{ padding: '8px' }}>
+          <Grid item sm={6} style={{ paddingTop: '0px', paddingBottom: '0px' }}>
             <Typography className={classes.Typography} variant="h6">
               Address
             </Typography>
@@ -149,9 +151,10 @@ export default function Settings() {
                 width: '80%',
               }}
               size="small"
+              inputProps={{ style: { backgroundColor: 'white' } }}
             />
           </Grid>
-          <Grid item sm={6} style={{ padding: '8px' }}>
+          <Grid item sm={6} style={{ paddingTop: '0px', paddingBottom: '0px' }}>
             <Typography className={classes.Typography} variant="h6">
               Email ID
             </Typography>
@@ -168,9 +171,10 @@ export default function Settings() {
                 width: '80%',
               }}
               size="small"
+              inputProps={{ style: { backgroundColor: 'white' } }}
             />
           </Grid>
-          <Grid item sm={6} style={{ padding: '8px' }}>
+          <Grid item sm={6} style={{ paddingTop: '0px', paddingBottom: '0px' }}>
             <Typography className={classes.Typography} variant="h6">
               City
             </Typography>
@@ -187,9 +191,10 @@ export default function Settings() {
                 width: '80%',
               }}
               size="small"
+              inputProps={{ style: { backgroundColor: 'white' } }}
             />
           </Grid>
-          <Grid item sm={6} style={{ padding: '8px' }}>
+          <Grid item sm={6} style={{ paddingTop: '0px', paddingBottom: '0px' }}>
             <Typography className={classes.Typography} variant="h6">
               Country
             </Typography>
@@ -206,9 +211,10 @@ export default function Settings() {
                 width: '80%',
               }}
               size="small"
+              inputProps={{ style: { backgroundColor: 'white' } }}
             />
           </Grid>
-          <Grid item sm={6} style={{ padding: '8px' }}>
+          <Grid item sm={6} style={{ paddingTop: '0px', paddingBottom: '0px' }}>
             <Typography className={classes.Typography} variant="h6">
               Zip
             </Typography>
@@ -225,9 +231,10 @@ export default function Settings() {
                 width: '80%',
               }}
               size="small"
+              inputProps={{ style: { backgroundColor: 'white' } }}
             />
           </Grid>
-          <Grid item sm={6} style={{ padding: '8px' }}>
+          <Grid item sm={6} style={{ paddingTop: '0px', paddingBottom: '0px' }}>
             <Typography className={classes.Typography} variant="h6">
               Phone No.
             </Typography>
@@ -244,9 +251,10 @@ export default function Settings() {
                 width: '80%',
               }}
               size="small"
+              inputProps={{ style: { backgroundColor: 'white' } }}
             />
           </Grid>
-          <Grid item sm={6} style={{ padding: '8px' }}>
+          <Grid item sm={6} style={{ paddingTop: '0px', paddingBottom: '0px' }}>
             <Typography className={classes.Typography} variant="h6">
               Job Title
             </Typography>
@@ -263,9 +271,10 @@ export default function Settings() {
                 width: '80%',
               }}
               size="small"
+              inputProps={{ style: { backgroundColor: 'white' } }}
             />
           </Grid>
-          <Grid item sm={6} style={{ padding: '8px' }}>
+          <Grid item sm={6} style={{ paddingTop: '0px', paddingBottom: '0px' }}>
             <Typography className={classes.Typography} variant="h6">
               Company
             </Typography>
@@ -282,6 +291,7 @@ export default function Settings() {
                 width: '80%',
               }}
               size="small"
+              inputProps={{ style: { backgroundColor: 'white' } }}
             />
           </Grid>
         </Grid>

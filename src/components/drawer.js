@@ -37,12 +37,18 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     backgroundColor: 'whitesmoke',
+  },
+  listItemText: {
+    fontSize: '18px', //Insert your required size
+    fontFamily: 'Hind , sans-serif',
+    fontWeight: '600',
+    letterSpacing: '1px',
   },
   item: {
     padding: '28px',
@@ -273,6 +279,7 @@ const MiniDrawer = (props) => {
                   padding: '2px',
                   fontSize: '16px',
                   textTransform: 'none',
+                  fontFamily: 'Quicksand , sans-serif',
                 }}
               >
                 Account Settings{' '}
@@ -375,13 +382,19 @@ const MiniDrawer = (props) => {
             <ListItemIcon>
               {<HomeIcon style={{ color: 'white', fontSize: '28px' }} />}
             </ListItemIcon>
-            <ListItemText primary={'Home'} />
+            <ListItemText
+              primary={'Home'}
+              classes={{ primary: classes.listItemText }}
+            />
           </ListItem>
           <ListItem button style={{ marginBottom: '10px' }}>
             <ListItemIcon>
               {<FolderSharpIcon style={{ color: 'white', fontSize: '28px' }} />}
             </ListItemIcon>
-            <ListItemText primary={'Projects'} />
+            <ListItemText
+              primary={'Projects'}
+              classes={{ primary: classes.listItemText }}
+            />
           </ListItem>
           <ListItem button style={{ marginBottom: '10px' }}>
             <ListItemIcon>
@@ -391,7 +404,10 @@ const MiniDrawer = (props) => {
                 />
               }
             </ListItemIcon>
-            <ListItemText primary={'Risk Factors'} />
+            <ListItemText
+              primary={'Risk Factors'}
+              classes={{ primary: classes.listItemText }}
+            />
           </ListItem>
           <ListItem
             button
@@ -405,7 +421,10 @@ const MiniDrawer = (props) => {
                 />
               }
             </ListItemIcon>
-            <ListItemText primary={'Alert'} />
+            <ListItemText
+              primary={'Alert'}
+              classes={{ primary: classes.listItemText }}
+            />
           </ListItem>
           <ListItem button style={{ marginBottom: '10px' }}>
             <ListItemIcon>
@@ -415,7 +434,10 @@ const MiniDrawer = (props) => {
                 />
               }
             </ListItemIcon>
-            <ListItemText primary={'Status and Trends'} />
+            <ListItemText
+              primary={'Status and Trends'}
+              classes={{ primary: classes.listItemText }}
+            />
           </ListItem>
           <ListItem
             button
@@ -429,7 +451,10 @@ const MiniDrawer = (props) => {
                 />
               }
             </ListItemIcon>
-            <ListItemText primary={'Incident and Visuals'} />
+            <ListItemText
+              primary={'Incident and Visuals'}
+              classes={{ primary: classes.listItemText }}
+            />
           </ListItem>
           <ListItem
             button
@@ -443,7 +468,10 @@ const MiniDrawer = (props) => {
                 />
               }
             </ListItemIcon>
-            <ListItemText primary={'Integrations'} />
+            <ListItemText
+              primary={'Integrations'}
+              classes={{ primary: classes.listItemText }}
+            />
           </ListItem>
         </List>
         <Divider />

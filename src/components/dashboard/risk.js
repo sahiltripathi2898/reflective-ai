@@ -43,8 +43,8 @@ export default function Risk() {
           fontSize: '2rem',
           marginBottom: '20px',
           marginTop: '20px',
-          fontFamily: 'revert',
-          fontWeight: '600',
+          fontFamily: 'Quicksand , sans-serif',
+          fontSize: '36px',
         }}
       >
         Risk Factors
@@ -60,7 +60,13 @@ export default function Risk() {
                 width: '70%',
               }}
             >
-              <Typography variant="h5"> PPE Violations</Typography>
+              <Typography
+                variant="h5"
+                style={{ fontFamily: 'Roboto , sans-serif' }}
+              >
+                {' '}
+                PPE Violations
+              </Typography>
               <Typography
                 variant="h4"
                 style={{
@@ -101,7 +107,10 @@ export default function Risk() {
                 width: '70%',
               }}
             >
-              <Typography variant="h5">
+              <Typography
+                variant="h5"
+                style={{ fontFamily: 'Roboto , sans-serif' }}
+              >
                 Physical Distancing Violations
               </Typography>
 
@@ -147,7 +156,12 @@ export default function Risk() {
                 width: '70%',
               }}
             >
-              <Typography variant="h5">Crowding Violations</Typography>
+              <Typography
+                variant="h5"
+                style={{ fontFamily: 'Roboto , sans-serif' }}
+              >
+                Crowding Violations
+              </Typography>
 
               <div
                 style={{
@@ -191,7 +205,12 @@ export default function Risk() {
                 width: '70%',
               }}
             >
-              <Typography variant="h5">Max Worker Count</Typography>
+              <Typography
+                variant="h5"
+                style={{ fontFamily: 'Roboto , sans-serif' }}
+              >
+                Max Worker Count
+              </Typography>
               <div
                 style={{
                   color: '#33f266',

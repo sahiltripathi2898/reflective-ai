@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
   font: {
-    fontSize: '30px',
+    fontSize: '36px',
   },
 }));
 
@@ -49,19 +49,28 @@ export default function FullWidthGrid() {
     <div className={classes.root}>
       <div
         className={classes.font}
-        style={{ fontWeight: '600', color: '#2c387e' }}
+        style={{
+          color: '#2c387e',
+          fontFamily: 'Quicksand , sans-serif',
+        }}
       >
         404/2 Building 6
       </div>
-      <div style={{ fontSize: '26px', fontWeight: '600', color: '#2c387e' }}>
+      <div
+        style={{
+          fontSize: '30px',
+          color: '#2c387e',
+          fontFamily: 'Quicksand , sans-serif',
+        }}
+      >
         280 Main St.
       </div>
       <Paper
         elevation={6}
-        spacing={3}
+        spacing={1}
         style={{
           height: divHeight,
-          borderRadius: '20px',
+          borderRadius: '10px',
           marginTop: '40px',
           position: 'relative',
         }}
@@ -70,55 +79,53 @@ export default function FullWidthGrid() {
           container
           spacing={3}
           style={{
-            marginTop: '40px',
             position: 'relative',
             padding: '20px',
           }}
         >
           <Grid item md={3} xs={6}>
-            <div
-              style={{
-                position: 'absolute',
-                marginTop: '20px',
-                fontSize: fontCon,
-              }}
-            >
-              Assignee :
-            </div>
-            <div
-              style={{
-                position: 'absolute',
-                marginTop: '46px',
-                fontSize: fontHead,
-                fontWeight: '600',
-              }}
-            >
-              Ryan Jensen
-            </div>
-            <div
-              style={{
-                position: 'absolute',
-                marginTop: '94px',
-                fontSize: fontCon,
-              }}
-            >
-              Days Issue Open :
-            </div>
-            <div
-              style={{
-                position: 'absolute',
-                marginTop: '120px',
-                fontSize: fontHead,
-                fontWeight: '600',
-              }}
-            >
-              4
+            <div>
+              <div
+                style={{
+                  position: 'absolute',
+                  fontSize: fontCon,
+                }}
+              >
+                Assignee :
+              </div>
+              <div
+                style={{
+                  position: 'absolute',
+                  marginTop: '30px',
+                  fontSize: fontHead,
+                  fontWeight: '600',
+                }}
+              >
+                Ryan Jensen
+              </div>
+              <div
+                style={{
+                  position: 'absolute',
+                  marginTop: '80px',
+                  fontSize: fontCon,
+                }}
+              >
+                Days Issue Open :
+              </div>
+              <div
+                style={{
+                  position: 'absolute',
+                  marginTop: '110px',
+                  fontSize: fontHead,
+                  fontWeight: '600',
+                }}
+              >
+                4
+              </div>
             </div>
           </Grid>
           <Grid item md={3} xs={6}>
-            <div style={{ marginTop: '20px', fontSize: '20px' }}>
-              From Date :
-            </div>
+            <div style={{ fontSize: '20px' }}>From Date :</div>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 margin="normal"
@@ -134,7 +141,7 @@ export default function FullWidthGrid() {
             </MuiPickersUtilsProvider>
           </Grid>
           <Grid item md={3} xs={6}>
-            <div style={{ marginTop: '20px', fontSize: '20px' }}>To Date :</div>
+            <div style={{ fontSize: '20px' }}>To Date :</div>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 margin="normal"
@@ -149,14 +156,24 @@ export default function FullWidthGrid() {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item md={3} xs={6}>
+          <Grid
+            item
+            md={3}
+            xs={6}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <Button
               variant="contained"
               color="primary"
               style={{
                 marginTop: '60px',
-                marginLeft: '10px',
+                position: 'relative',
                 fontSize: buttonFont,
+                textAlign: 'center',
               }}
             >
               Generate Report
