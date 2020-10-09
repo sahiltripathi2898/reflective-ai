@@ -5,11 +5,14 @@ import { makeStyles } from '@material-ui/core/styles';
 // File Imports
 import Drawer from './components/drawer';
 import Dashboard from './components/dashboard/Dashboard';
-import Chart from './components/charts/Charts';
 import Integration from './components/integrations/Integration';
-import Alert from './components/alerts/alert';
 import ClientInteg from './components/integrations/client-integ/ClientInte';
 import ProfileSetting from './components/profile/Settings';
+import SignIn from './Login/SignIn';
+import Register from './Login/Register';
+import Projects from './components/projects/projectTable';
+
+import Protected from './ProtectedRoute';
 
 const useStyles = makeStyles({
   container: {
@@ -22,16 +25,36 @@ function App() {
   return (
     <div className={classes.container}>
       <BrowserRouter>
-        <Drawer />
         <Switch>
           <Route exact path="/">
+            <Protected cmp={<Drawer />} />
+          </Route>
+          <Route exact path="/project">
+            <Protected cmp={<Drawer />} />
+          </Route>
+          <Route exact path="/login">
+            <SignIn />
+          </Route>
+          <Route exact path="/register">
+            <Register />
+          </Route>
+          <Route exact path="/integration">
+            <Protected cmp={<Drawer />} />
+          </Route>
+          <Route exact path="/integration/client">
+            <Protected cmp={<Drawer />} />
+          </Route>
+          <Route exact path="/profile-setting">
+            <Protected cmp={<Drawer />} />
+          </Route>
+        </Switch>
+
+        <Switch>
+          <Route exact path="/">
+            <Projects />
+          </Route>
+          <Route exact path="/project">
             <Dashboard />
-          </Route>
-          <Route exact path="/alert">
-            <Alert />
-          </Route>
-          <Route exact path="/chart">
-            <Chart />
           </Route>
           <Route exact path="/integration">
             <Integration />

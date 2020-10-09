@@ -1,27 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  Drawer,
+  AppBar,
+  Toolbar,
+  List,
+  Typography,
+  CssBaseline,
+  Divider,
+  IconButton,
+  Menu,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Button,
+  Avatar,
+  Badge,
+  MenuItem,
+  useMediaQuery,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import Badge from '@material-ui/core/Badge';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { Menu, MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 // Icons
@@ -162,7 +166,7 @@ const MiniDrawer = (props) => {
   const theme = useTheme();
 
   //Drawer open-closing
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -194,6 +198,28 @@ const MiniDrawer = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  //To get user details
+
+  const [firstName, setFirst] = useState('Sahil');
+  const [lastName, setLast] = useState('Tripahi');
+  useEffect(() => {
+    // const jwt_token = localStorage.getItem('jwt_token');
+    const data = {
+      jwt_token: localStorage.getItem('jwt_token'),
+    };
+    axios
+      .post(
+        'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/user/me',
+        data
+      )
+      .then((res) => {
+        //console.log(res.data);
+        setFirst(res.data.first_name);
+        setLast(res.data.last_name);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -302,7 +328,7 @@ const MiniDrawer = (props) => {
                   <ListItemIcon>
                     <AccountCircleIcon fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText primary="Hello Sahil" />
+                  <ListItemText>Hello {firstName}</ListItemText>
                 </StyledMenuItem>
                 <StyledMenuItem
                   onClick={() => history.push('/profile-setting')}
@@ -313,7 +339,12 @@ const MiniDrawer = (props) => {
                   <ListItemText primary="My Profile Settings" />
                 </StyledMenuItem>
                 <Divider />
-                <StyledMenuItem>
+                <StyledMenuItem
+                  onClick={() => {
+                    localStorage.clear();
+                    history.push('/login');
+                  }}
+                >
                   <ListItemIcon>
                     <ExitToAppIcon fontSize="small" />
                   </ListItemIcon>
@@ -330,7 +361,7 @@ const MiniDrawer = (props) => {
               backgroundColor: '#ff9100',
             }}
           >
-            ST
+            {firstName.charAt(0) + lastName.charAt(0)}
           </Avatar>
         </Toolbar>
       </AppBar>
@@ -387,7 +418,11 @@ const MiniDrawer = (props) => {
               classes={{ primary: classes.listItemText }}
             />
           </ListItem>
-          <ListItem button style={{ marginBottom: '10px' }}>
+          {/*<ListItem
+            button
+            style={{ marginBottom: '10px' }}
+            onClick={() => history.push('/dashboard')}
+          >
             <ListItemIcon>
               {<FolderSharpIcon style={{ color: 'white', fontSize: '28px' }} />}
             </ListItemIcon>
@@ -441,7 +476,7 @@ const MiniDrawer = (props) => {
           </ListItem>
           <ListItem
             button
-            onClick={() => history.push('/chart')}
+            onClick={() => history.push('/dashboard')}
             style={{ marginBottom: '10px' }}
           >
             <ListItemIcon>
@@ -455,7 +490,7 @@ const MiniDrawer = (props) => {
               primary={'Incident and Visuals'}
               classes={{ primary: classes.listItemText }}
             />
-          </ListItem>
+            </ListItem>*/}
           <ListItem
             button
             onClick={() => history.push('/integration')}

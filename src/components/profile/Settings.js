@@ -1,12 +1,7 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
+import axios from 'axios';
 
-import {
-  Paper,
-  Container,
-  Typography,
-  TextField,
-  Button,
-} from '@material-ui/core';
+import { Typography, TextField, Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -23,46 +18,108 @@ const useStyles = makeStyles((theme) => ({
 export default function Settings() {
   const classes = useStyles();
 
-  const userInitial = {
-    fname: '',
-    lname: '',
-    email: '',
-    address: '',
-    city: '',
-    country: '',
-    zip: '',
-    job: '',
-    phone: '',
-    company: '',
+  const [first_name, setFirst] = useState('');
+  const [last_name, setLast] = useState('');
+  const [email_address, setEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
+  const [zip, setZip] = useState('');
+  const [job_title, setJob] = useState('');
+  const [phone_no, setPhone] = useState('');
+  const [company, setCompany] = useState('');
+
+  const firstchange = (e) => {
+    setFirst(e.target.value);
   };
 
-  const [user, setUser] = useState(userInitial);
-
-  const {
-    fname,
-    lname,
-    email,
-    address,
-    city,
-    country,
-    zip,
-    job,
-    phone,
-    company,
-  } = user;
-
-  const handleInputChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+  const lastchange = (e) => {
+    setLast(e.target.value);
   };
+
+  const emailchange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const addresschange = (e) => {
+    setAddress(e.target.value);
+  };
+
+  const citychange = (e) => {
+    setCity(e.target.value);
+  };
+
+  const countrychange = (e) => {
+    setCountry(e.target.value);
+  };
+
+  const zipchange = (e) => {
+    setZip(e.target.value);
+  };
+
+  const jobchange = (e) => {
+    setJob(e.target.value);
+  };
+  const companychange = (e) => {
+    setCompany(e.target.value);
+  };
+  const phonechange = (e) => {
+    setPhone(e.target.value);
+  };
+
+  const userDetail = {
+    first_name: first_name,
+    last_name: last_name,
+    email_address: email_address,
+    address: address,
+    zip: zip,
+    country: country,
+    city: city,
+    phone_no: phone_no,
+    job_title: job_title,
+    company: company,
+  };
+
+  useEffect(() => {
+    const data = {
+      jwt_token: localStorage.getItem('jwt_token'),
+    };
+    axios
+      .post(
+        'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/user/me',
+        data
+      )
+      .then((res) => {
+        setFirst(res.data.first_name);
+        setLast(res.data.last_name);
+        setAddress(res.data.address);
+        setEmail(res.data.email_address);
+        setCountry(res.data.country);
+        setZip(res.data.zip);
+        setCity(res.data.city);
+        setJob(res.data.job_title);
+        setPhone(res.data.phone_no);
+        setCompany(res.data.company);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleFinalSubmit = (e) => {
-    console.log(user);
     e.preventDefault();
-    fetch('/api', {
-      method: 'POST',
-      body: JSON.stringify({ user }),
-      headers: { 'Content-Type': 'application/json' },
-    }).then((res) => res.json());
+    const userUpdated = {
+      ...userDetail,
+      jwt_token: localStorage.getItem('jwt_token'),
+    };
+    console.log(userUpdated);
+    axios
+      .post(
+        'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/user/me/update',
+        userUpdated
+      )
+      .then((res) => {
+        window.alert('Profile Updated');
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -97,10 +154,10 @@ export default function Settings() {
             <TextField
               id="outlined-basic"
               variant="outlined"
-              name="fname"
-              value={fname}
-              onChange={handleInputChange}
-              Typography="Name"
+              name="first_name"
+              value={first_name}
+              onChange={firstchange}
+              Typography="First Name"
               style={{
                 padding: '10px',
                 verticalAlign: 'middle',
@@ -119,9 +176,9 @@ export default function Settings() {
               id="outlined-basic"
               Typography="Last Name"
               variant="outlined"
-              name="lname"
-              value={lname}
-              onChange={handleInputChange}
+              name="last_name"
+              value={last_name}
+              onChange={lastchange}
               style={{
                 padding: '10px',
                 verticalAlign: 'middle',
@@ -142,7 +199,7 @@ export default function Settings() {
               variant="outlined"
               name="address"
               value={address}
-              onChange={handleInputChange}
+              onChange={addresschange}
               multiline
               rows={3}
               style={{
@@ -160,11 +217,11 @@ export default function Settings() {
             </Typography>
             <TextField
               id="outlined-basic"
-              Typography="Email Address"
+              Typography="email_address address"
               variant="outlined"
-              name="email"
-              value={email}
-              onChange={handleInputChange}
+              name="email_address"
+              value={email_address}
+              onChange={emailchange}
               style={{
                 padding: '10px',
                 verticalAlign: 'middle',
@@ -180,11 +237,11 @@ export default function Settings() {
             </Typography>
             <TextField
               id="outlined-basic"
-              Typography="City"
+              Typography="city"
               variant="outlined"
               name="city"
               value={city}
-              onChange={handleInputChange}
+              onChange={citychange}
               style={{
                 padding: '10px',
                 verticalAlign: 'middle',
@@ -200,11 +257,11 @@ export default function Settings() {
             </Typography>
             <TextField
               id="outlined-basic"
-              Typography="Country"
+              Typography="country"
               variant="outlined"
               name="country"
               value={country}
-              onChange={handleInputChange}
+              onChange={countrychange}
               style={{
                 padding: '10px',
                 verticalAlign: 'middle',
@@ -220,11 +277,11 @@ export default function Settings() {
             </Typography>
             <TextField
               id="outlined-basic"
-              Typography="Zip"
+              Typography="zip"
               variant="outlined"
               name="zip"
               value={zip}
-              onChange={handleInputChange}
+              onChange={zipchange}
               style={{
                 padding: '10px',
                 verticalAlign: 'middle',
@@ -240,11 +297,11 @@ export default function Settings() {
             </Typography>
             <TextField
               id="outlined-basic"
-              Typography="Cell Phone"
+              Typography="Phone No"
               variant="outlined"
-              name="phone"
-              value={phone}
-              onChange={handleInputChange}
+              name="phone_no"
+              value={phone_no}
+              onChange={phonechange}
               style={{
                 padding: '10px',
                 verticalAlign: 'middle',
@@ -262,9 +319,9 @@ export default function Settings() {
               id="outlined-basic"
               Typography="Job Title"
               variant="outlined"
-              name="job"
-              value={job}
-              onChange={handleInputChange}
+              name="job_title"
+              value={job_title}
+              onChange={jobchange}
               style={{
                 padding: '10px',
                 verticalAlign: 'middle',
@@ -280,11 +337,11 @@ export default function Settings() {
             </Typography>
             <TextField
               id="outlined-basic"
-              Typography="Company"
+              Typography="company"
               variant="outlined"
               name="company"
               value={company}
-              onChange={handleInputChange}
+              onChange={companychange}
               style={{
                 padding: '10px',
                 verticalAlign: 'middle',
