@@ -11,6 +11,7 @@ import Container from '@material-ui/core/Container';
 import { Typography } from '@material-ui/core';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
+import ProjectData from './ProjectData/ProjectHome'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -59,6 +60,14 @@ const Projects = (props) => {
     console.log(rows);
   }, []);
 
+  const [pName , setpName]= useState('');
+
+  function callProjectDetails(name){
+    setpName(name);
+  }
+
+  if(pName==='')
+  {
   return (
     <Container style={{ marginTop: '70px', padding: '30px' }} maxWidth="md">
       <Typography
@@ -85,12 +94,11 @@ const Projects = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows &&
-              rows.map((row) => (
+            {rows.map((row) => (
                 <StyledTableRow
                   key={row.project_name}
                   style={{ cursor: 'pointer' }}
-                  onClick={() => history.push('/project')}
+                  onClick={() => callProjectDetails(row.project_name)}
                 >
                   <StyledTableCell component="th" scope="row">
                     {row.project_name}
@@ -105,8 +113,13 @@ const Projects = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
+      {pName}
     </Container>
   );
+ }
+  else{
+  return (<ProjectData projectName={pName}/>)
+  }
 };
 
 export default withRouter(Projects);

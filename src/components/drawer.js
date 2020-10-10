@@ -215,7 +215,9 @@ const MiniDrawer = (props) => {
       )
       .then((res) => {
         //console.log(res.data);
-        setFirst(res.data.first_name);
+        if(res.data.first_name !== null)
+          setFirst(res.data.first_name);
+        if(res.data.last_name !==null)
         setLast(res.data.last_name);
       })
       .catch((err) => console.log(err));

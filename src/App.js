@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // File Imports
 import Drawer from './components/drawer';
-import Dashboard from './components/dashboard/Dashboard';
 import Integration from './components/integrations/Integration';
 import ClientInteg from './components/integrations/client-integ/ClientInte';
 import ProfileSetting from './components/profile/Settings';
@@ -26,17 +25,14 @@ function App() {
     <div className={classes.container}>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/">
-            <Protected cmp={<Drawer />} />
-          </Route>
-          <Route exact path="/project">
-            <Protected cmp={<Drawer />} />
-          </Route>
-          <Route exact path="/login">
+        <Route exact path="/login">
             <SignIn />
           </Route>
           <Route exact path="/register">
             <Register />
+          </Route>
+          <Route exact path="/">
+            <Protected cmp={<Drawer />} />
           </Route>
           <Route exact path="/integration">
             <Protected cmp={<Drawer />} />
@@ -52,9 +48,6 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Projects />
-          </Route>
-          <Route exact path="/project">
-            <Dashboard />
           </Route>
           <Route exact path="/integration">
             <Integration />
