@@ -186,7 +186,7 @@ const MiniDrawer = (props) => {
   const nameFont = matches ? '24px' : '18px';
   const accountFont = matches ? '10px' : '8px';
   const nameMarginRight = matches ? '60px' : '48px';
-  const nameVisible = matches ? '' : 'hidden';
+  const nameVisible = matches ? '' : '';
 
   //Account Setting drop down
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -246,7 +246,7 @@ const MiniDrawer = (props) => {
             <MenuIcon />
           </IconButton>
 
-          <Badge
+          {/*<Badge
             badgeContent={4}
             color="secondary"
             style={{ marginRight: buttonMarginRight }}
@@ -277,7 +277,7 @@ const MiniDrawer = (props) => {
             >
               Open Issues
             </Button>{' '}
-          </Badge>
+            </Badge>*/}
           <div
             style={{
               right: '0',

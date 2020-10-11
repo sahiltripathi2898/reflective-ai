@@ -36,18 +36,17 @@ export default function Visual() {
   return (
     <div className={classes.root}>
       <ThemeProvider theme={theme}>
-        <div
-          style={{
-            marginLeft: '20px',
-            fontSize: '2rem',
-            marginBottom: '20px',
-            marginTop: '20px',
-            fontFamily: 'revert',
-            fontWeight: '600',
-          }}
-        >
-          Incident Visuals
-        </div>
+      <div
+        style={{
+          fontSize: '2rem',
+          marginBottom: '20px',
+          marginTop: '20px',
+          fontFamily: 'Quicksand , sans-serif',
+          fontSize: '36px',
+        }}
+      >
+        Incident Visuals
+      </div>
         <Grid container spacing={3}>
           <Grid item lg={4} style={{ textAlign: 'center' }}>
             <Paper className={classes.paper}>

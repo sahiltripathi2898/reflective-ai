@@ -53,7 +53,7 @@ const Projects = (props) => {
         data
       )
       .then((res) => {
-        //console.log(res.data.Projects);
+        console.log(res.data.Projects);
         setRows(res.data.Projects);
       })
       .catch((err) => console.log(err));
