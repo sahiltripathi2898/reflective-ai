@@ -41,8 +41,8 @@ export default function Overview() {
   }
   
   const rows1 = [
-    createData1('Covid 19', 'Alabama', 'sadcih@gmail.com', 49698302),
-    createData1('Dengue', 'Coastal', 'saljdcih@gmail.com', 73496234),
+    createData1('', 'Sahil Tripathi', 'sahil@gmail.com', 49698302),
+    createData1('', 'Aayush', 'aayush@gmail.com', 73496234),
   ];
 
   function createData2(issue, desc, status, cDate, dDate) {
@@ -50,8 +50,8 @@ export default function Overview() {
   }
   
   const rows2 = [
-    createData2('Frozen', 'Lorem Dipsum', 'Active', '10/02/2020', '24/04/2020'),
-    createData2('Cool', 'Lorem Dipsum', 'Inactive', '18/03/2020', '20/06/2020'),
+    createData2('No open issues', '', '', '', ''),
+    createData2('No open issues', '', '', '', ''),
   ];
 
   return (
