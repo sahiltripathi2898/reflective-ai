@@ -51,7 +51,6 @@ export default function Overview() {
   
   const rows2 = [
     createData2('No open issues', '', '', '', ''),
-    createData2('No open issues', '', '', '', ''),
   ];
 
   return (
