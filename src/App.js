@@ -10,6 +10,7 @@ import ProfileSetting from './components/profile/Settings';
 import SignIn from './Login/SignIn';
 import Register from './Login/Register';
 import Projects from './components/projects/projectTable';
+import ResetPassword from './Login/Reset'
 
 import Protected from './ProtectedRoute';
 
@@ -25,11 +26,14 @@ function App() {
     <div className={classes.container}>
       <BrowserRouter>
         <Switch>
-        <Route exact path="/login">
+          <Route exact path="/login">
             <SignIn />
           </Route>
           <Route exact path="/register">
             <Register />
+          </Route>
+          <Route exact path="/reset">
+            <ResetPassword />
           </Route>
           <Route exact path="/">
             <Protected cmp={<Drawer />} />

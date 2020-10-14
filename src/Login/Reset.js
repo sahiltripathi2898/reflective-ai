@@ -5,7 +5,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,37 +36,29 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
   const history = useHistory();
-  const userInitial = {
-    email: '',
-    password: '',
-  };
 
-  const [user, setUser] = useState(userInitial);
-
-  const { email, password } = user;
+  const [email, setEmail] = useState('');
 
   const handleInputChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setEmail(e.target.value);
   };
 
   const handleFinalSubmit = (e) => {
+      const data ={
+          email_address : email
+      }
     e.preventDefault();
-    const headers = {
-      'Content-Type': 'application/json',
-    };
+
     axios
       .post(
         'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/login',
-        user,
-        {
-          headers: headers,
-        }
+        data,
       )
       .then((res) => {
         console.log(res.data);
         if (res.data.message === 'Success') {
-          localStorage.setItem('jwt_token', res.data.token);
-          history.push('/');
+            window.alert('Link has been sent to your Email ID');
+          history.push('/login');
         } else {
           window.alert('Invalid Credentials');
         }
@@ -85,7 +76,7 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Reset Password
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -101,20 +92,6 @@ export default function SignIn() {
             onChange={handleInputChange}
             value={email}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={handleInputChange}
-            value={password}
-          />
-
           <Button
             type="submit"
             fullWidth
@@ -123,17 +100,12 @@ export default function SignIn() {
             className={classes.submit}
             onClick={handleFinalSubmit}
           >
-            Sign In
+            Send Reset Link
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="/reset" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href="/login" variant="body2">
+                Login
               </Link>
             </Grid>
           </Grid>
