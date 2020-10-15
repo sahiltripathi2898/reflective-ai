@@ -5,7 +5,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -64,8 +63,8 @@ export default function SignIn() {
         }
       )
       .then((res) => {
-        console.log(res.data);
-        if (res.data.message === 'Success') {
+        if (res.data.status === 'Success') {
+          console.log(res.data)
           localStorage.setItem('jwt_token', res.data.token);
           history.push('/');
         } else {

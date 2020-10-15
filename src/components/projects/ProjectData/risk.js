@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     padding: '20px',
   },
   paper: {
-    padding: theme.spacing(4),
     color: 'black',
     height: '220px',
     borderRadius: '10px',
@@ -40,7 +39,6 @@ export default function Risk() {
     <div className={classes.root}>
       <div
         style={{
-          fontSize: '2rem',
           marginBottom: '20px',
           marginTop: '20px',
           fontFamily: 'Quicksand , sans-serif',

@@ -9,7 +9,6 @@ import {
   AppBar,
   Toolbar,
   List,
-  Typography,
   CssBaseline,
   Divider,
   IconButton,
@@ -19,7 +18,6 @@ import {
   ListItemText,
   Button,
   Avatar,
-  Badge,
   MenuItem,
   useMediaQuery,
 } from '@material-ui/core';
@@ -30,10 +28,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 // Icons
 import HomeIcon from '@material-ui/icons/Home';
-import FolderSharpIcon from '@material-ui/icons/FolderSharp';
-import SmsFailedSharpIcon from '@material-ui/icons/SmsFailedSharp'; // Alert
-import NotificationsActiveSharpIcon from '@material-ui/icons/NotificationsActiveSharp'; // Risk Factors
-import TrendingUpSharpIcon from '@material-ui/icons/TrendingUpSharp'; // Status
 import PhotoAlbumSharpIcon from '@material-ui/icons/PhotoAlbumSharp'; // Incident
 import { MdSettings } from 'react-icons/md';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -180,11 +174,11 @@ const MiniDrawer = (props) => {
 
   const matches = useMediaQuery('(min-width:600px)');
 
-  const buttonFont = matches ? '12px' : '8px';
-  const buttonMarginRight = matches ? '20px' : '10px';
+  //const buttonFont = matches ? '12px' : '8px';
+  //const buttonMarginRight = matches ? '20px' : '10px';
   const toggleMargin = matches ? '36px' : '2px';
-  const nameFont = matches ? '24px' : '18px';
-  const accountFont = matches ? '10px' : '8px';
+  //const nameFont = matches ? '24px' : '18px';
+  //const accountFont = matches ? '10px' : '8px';
   const nameMarginRight = matches ? '60px' : '48px';
   const nameVisible = matches ? '' : '';
 
@@ -215,10 +209,10 @@ const MiniDrawer = (props) => {
       )
       .then((res) => {
         //console.log(res.data);
-        if(res.data.first_name !== null)
+        if (res.data.first_name !== null)
           setFirst(res.data.first_name);
-        if(res.data.last_name !==null)
-        setLast(res.data.last_name);
+        if (res.data.last_name !== null)
+          setLast(res.data.last_name);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -303,7 +297,6 @@ const MiniDrawer = (props) => {
                 onClick={handleClick}
                 style={{
                   color: 'black',
-                  fontSize: accountFont,
                   padding: '2px',
                   fontSize: '16px',
                   textTransform: 'none',
@@ -401,8 +394,8 @@ const MiniDrawer = (props) => {
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
             ) : (
-              <ChevronLeftIcon />
-            )}
+                <ChevronLeftIcon />
+              )}
           </ArrowBackIosIcon>
         </div>
         <Divider />
