@@ -63,7 +63,8 @@ export default function SignIn() {
         }
       )
       .then((res) => {
-        if (res.data.status === 'Success') {
+        console.log(res)
+        if (res.data.status === 'success') {
           console.log(res.data)
           localStorage.setItem('jwt_token', res.data.token);
           history.push('/');

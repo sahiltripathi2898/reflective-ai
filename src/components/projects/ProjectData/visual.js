@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: '20px',
+    width: '100%'
   },
   paper: {
     padding: theme.spacing(1),
@@ -34,7 +35,7 @@ export default function Visual() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <Grid container style={{ padding: '20px' }}>
       <ThemeProvider theme={theme}>
         <div
           style={{
@@ -72,13 +73,13 @@ export default function Visual() {
               <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
             </Paper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item lg={4} style={{ textAlign: 'center' }}>
             <Paper className={classes.paper}>
               <Typography
                 variant="h5"
                 style={{ marginBottom: '15px', marginTop: '10px' }}
               >
-                Physical Dist. Violations
+                PPE Violations
               </Typography>
               <iframe
                 width="98%"
@@ -103,182 +104,7 @@ export default function Visual() {
                 variant="h5"
                 style={{ marginBottom: '15px', marginTop: '10px' }}
               >
-                Physical Dist. Violations
-              </Typography>
-              <iframe
-                width="98%"
-                height="235"
-                src={video1}
-                frameborder="0"
-                controls
-                allowfullscreen
-                title="video"
-                style={{
-                  borderRadius: '5px',
-                  display: 'inline-block',
-                  margin: '0 auto',
-                }}
-              ></iframe>
-              <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
-            </Paper>
-          </Grid>
-          <Grid item lg={4}>
-            <Paper className={classes.paper}>
-              <Typography
-                variant="h5"
-                style={{ marginBottom: '15px', marginTop: '10px' }}
-              >
-                Physical Dist. Violations
-              </Typography>
-              <iframe
-                width="98%"
-                height="235"
-                src={video1}
-                frameborder="0"
-                controls
-                allowfullscreen
-                title="video"
-                style={{
-                  borderRadius: '5px',
-                  display: 'inline-block',
-                  margin: '0 auto',
-                }}
-              ></iframe>
-              <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
-            </Paper>
-          </Grid>
-          <Grid item lg={4}>
-            <Paper className={classes.paper}>
-              <Typography
-                variant="h5"
-                style={{ marginBottom: '15px', marginTop: '10px' }}
-              >
-                Physical Dist. Violations
-              </Typography>
-              <iframe
-                width="98%"
-                height="235"
-                src={video1}
-                frameborder="0"
-                controls
-                allowfullscreen
-                title="video"
-                style={{
-                  borderRadius: '5px',
-                  display: 'inline-block',
-                  margin: '0 auto',
-                }}
-              ></iframe>
-              <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
-            </Paper>
-          </Grid>
-          <Grid item lg={4} style={{ textAlign: 'center' }}>
-            <Paper className={classes.paper}>
-              <Typography
-                variant="h5"
-                style={{ marginBottom: '15px', marginTop: '10px' }}
-              >
-                Physical Dist. Violations
-              </Typography>
-              <iframe
-                width="98%"
-                height="235"
-                src={video1}
-                frameborder="0"
-                controls
-                allowfullscreen
-                title="video"
-                style={{
-                  borderRadius: '5px',
-                  display: 'inline-block',
-                  margin: '0 auto',
-                }}
-              ></iframe>
-              <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
-            </Paper>
-          </Grid>
-          <Grid item lg={4} style={{ textAlign: 'center' }}>
-            <Paper className={classes.paper}>
-              <Typography
-                variant="h5"
-                style={{ marginBottom: '15px', marginTop: '10px' }}
-              >
-                Physical Dist. Violations
-              </Typography>
-              <iframe
-                width="98%"
-                height="235"
-                src={video1}
-                frameborder="0"
-                controls
-                allowfullscreen
-                title="video"
-                style={{
-                  borderRadius: '5px',
-                  display: 'inline-block',
-                  margin: '0 auto',
-                }}
-              ></iframe>
-              <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
-            </Paper>
-          </Grid>
-          <Grid item lg={4} style={{ textAlign: 'center' }}>
-            <Paper className={classes.paper}>
-              <Typography
-                variant="h5"
-                style={{ marginBottom: '15px', marginTop: '10px' }}
-              >
-                Physical Dist. Violations
-              </Typography>
-              <iframe
-                width="98%"
-                height="235"
-                src={video1}
-                frameborder="0"
-                controls
-                allowfullscreen
-                title="video"
-                style={{
-                  borderRadius: '5px',
-                  display: 'inline-block',
-                  margin: '0 auto',
-                }}
-              ></iframe>
-              <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
-            </Paper>
-          </Grid>
-          <Grid item lg={4} style={{ textAlign: 'center' }}>
-            <Paper className={classes.paper}>
-              <Typography
-                variant="h5"
-                style={{ marginBottom: '15px', marginTop: '10px' }}
-              >
-                Physical Dist. Violations
-              </Typography>
-              <iframe
-                width="98%"
-                height="235"
-                src={video1}
-                frameborder="0"
-                controls
-                allowfullscreen
-                title="video"
-                style={{
-                  borderRadius: '5px',
-                  display: 'inline-block',
-                  margin: '0 auto',
-                }}
-              ></iframe>
-              <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
-            </Paper>
-          </Grid>
-          <Grid item lg={4} style={{ textAlign: 'center' }}>
-            <Paper className={classes.paper}>
-              <Typography
-                variant="h5"
-                style={{ marginBottom: '15px', marginTop: '10px' }}
-              >
-                Physical Dist. Violations
+                Mask Violations
               </Typography>
               <iframe
                 width="98%"
@@ -299,6 +125,6 @@ export default function Visual() {
           </Grid>
         </Grid>
       </ThemeProvider>
-    </div>
+    </Grid>
   );
 }

@@ -402,7 +402,7 @@ const MiniDrawer = (props) => {
         <List>
           <ListItem
             button
-            onClick={() => history.push('/')}
+            onClick={() => window.location.reload()}
             style={{ marginBottom: '10px', marginTop: '5px' }}
           >
             <ListItemIcon>
@@ -506,7 +506,7 @@ const MiniDrawer = (props) => {
         </List>
         <Divider />
       </Drawer>
-    </div>
+    </div >
   );
 };
 

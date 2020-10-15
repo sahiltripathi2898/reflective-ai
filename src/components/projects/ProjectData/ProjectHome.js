@@ -1,70 +1,96 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import Overview from './overview'
 import Risk from './risk';
 import Visual from './visual';
+import Dates from './dates'
 
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
-import {Container} from '@material-ui/core'
+import { Container } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    marginTop:'100px',
-    marginLeft:'20px',    
+    marginTop: '100px',
+    marginLeft: '20px',
   },
 }));
 
 export default function ProjectHome() {
   const classes = useStyles();
-const [buttonId,setbuttonId] = useState('1');
+  const [buttonId, setbuttonId] = useState('1');
+  const [btnA, setbtnA] = useState('#4cebeb')
+  const [btnB, setbtnB] = useState('#4ccceb')
+  const [btnC, setbtnC] = useState('#4ccceb')
+  // on click #4cebeb
+  // #4ccceb
 
-      if(buttonId==='1')
-      {
-        return (
-          <div>
-          <Container className={classes.root}>
-              <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group" >
-                <Button onClick={()=> setbuttonId('1')} style={{}}>Project Overview</Button>
-                <Button  onClick={()=> setbuttonId('2')}>Risk Factors</Button>
-                <Button onClick={()=> setbuttonId('3')}>Incident Visuals</Button>
-              </ButtonGroup>
-          </Container>
-          <Overview/>
-          </div>
-        )
-      }
-      else if(buttonId==='2')
-      {
-        return (
-          <div>
-          <Container className={classes.root}>
-              <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
-                <Button onClick={()=> setbuttonId('1')}>Project Overview</Button>
-                <Button  onClick={()=> setbuttonId('2')}>Risk Factors</Button>
-                <Button onClick={()=> setbuttonId('3')}>Incident Visuals</Button>
-              </ButtonGroup>
-          </Container>
-            <Risk/>
-          </div>
-        )
-      }
-      else if(buttonId==='3')
-      {
-        return (
-          <div>
-          <Container className={classes.root}>
-              <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
-                <Button onClick={()=> setbuttonId('1')}>Project Overview</Button>
-                <Button  onClick={()=> setbuttonId('2')}>Risk Factors</Button>
-                <Button onClick={()=> setbuttonId('3')}>Incident Visuals</Button>
-              </ButtonGroup>
-          </Container>
-          <Visual/>
-          </div>
-        )
-      }
+  function firstBtn() {
+    setbuttonId('1')
+    setbtnA('#4cebeb')
+    setbtnB('#4ccceb')
+    setbtnC('#4ccceb')
+  }
+  function secondBtn() {
+    setbuttonId('2')
+    setbtnA('#4ccceb')
+    setbtnB('#4cebeb')
+    setbtnC('#4ccceb')
+  }
+  function thirdBtn() {
+    setbuttonId('3')
+    setbtnC('#4cebeb')
+    setbtnB('#4ccceb')
+    setbtnA('#4ccceb')
+  }
+
+  if (buttonId === '1') {
+    return (
+      <div>
+        <Container className={classes.root}>
+          <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group" >
+            <Button onClick={firstBtn} style={{ backgroundColor: btnA }}>Project Overview</Button>
+            <Button onClick={secondBtn} style={{ backgroundColor: btnB }}>Risk Factors</Button>
+            <Button onClick={thirdBtn} style={{ backgroundColor: btnC }}>Incident Visuals</Button>
+          </ButtonGroup>
+        </Container>
+        <Overview />
+
+      </div>
+    )
+  }
+  else if (buttonId === '2') {
+    return (
+      <div>
+        <Container className={classes.root}>
+          <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+            <Button onClick={firstBtn} style={{ backgroundColor: btnA }}>Project Overview</Button>
+            <Button onClick={secondBtn} style={{ backgroundColor: btnB }}>Risk Factors</Button>
+            <Button onClick={thirdBtn} style={{ backgroundColor: btnC }}>Incident Visuals</Button>
+          </ButtonGroup>
+        </Container>
+
+        <Dates />
+        <Risk />
+      </div>
+    )
+  }
+  else if (buttonId === '3') {
+    return (
+      <div>
+        <Container className={classes.root}>
+          <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+            <Button onClick={firstBtn} style={{ backgroundColor: btnA }}>Project Overview</Button>
+            <Button onClick={secondBtn} style={{ backgroundColor: btnB }}>Risk Factors</Button>
+            <Button onClick={thirdBtn} style={{ backgroundColor: btnC }}>Incident Visuals</Button>
+          </ButtonGroup>
+        </Container>
+        <Dates />
+        <Visual />
+      </div>
+    )
+  }
 
 }

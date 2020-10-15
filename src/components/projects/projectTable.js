@@ -53,7 +53,7 @@ const Projects = (props) => {
         data
       )
       .then((res) => {
-        setRows(res.data.Projects);
+        setRows(res.data.projects);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -100,11 +100,11 @@ const Projects = (props) => {
                   <StyledTableCell component="th" scope="row">
                     {row.project_name}
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.Status}</StyledTableCell>
-                  <StyledTableCell align="left">{row.Address}</StyledTableCell>
-                  <StyledTableCell align="left">{row.City}</StyledTableCell>
-                  <StyledTableCell align="left">{row.State}</StyledTableCell>
-                  <StyledTableCell align="left">{row.Zip}</StyledTableCell>
+                  <StyledTableCell align="left">{row.status}</StyledTableCell>
+                  <StyledTableCell align="left">{row.address}</StyledTableCell>
+                  <StyledTableCell align="left">{row.city}</StyledTableCell>
+                  <StyledTableCell align="left">{row.state}</StyledTableCell>
+                  <StyledTableCell align="left">{row.zip}</StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
