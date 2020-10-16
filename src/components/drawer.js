@@ -402,7 +402,10 @@ const MiniDrawer = (props) => {
         <List>
           <ListItem
             button
-            onClick={() => window.location.reload()}
+            onClick={() => {
+              history.push('/')
+              window.location.reload()
+            }}
             style={{ marginBottom: '10px', marginTop: '5px' }}
           >
             <ListItemIcon>
