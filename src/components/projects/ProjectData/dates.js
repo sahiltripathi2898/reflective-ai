@@ -17,11 +17,13 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         padding: '20px',
-        marginTop: '50px'
+        marginTop: '50px',
+        width: '80%'
     },
     paper: {
         padding: theme.spacing(2),
         color: theme.palette.text.secondary,
+        borderRadius: '10px'
     },
     button: {
         display: 'block',
@@ -35,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MaterialUIPickers() {
     // The first commit of Material-UI
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+    const [selectedDate, setSelectedDate] = React.useState('10/16/2020');
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -59,10 +61,9 @@ export default function MaterialUIPickers() {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} elevation={5}>
                 <Grid container spacing={3}>
-                    <Grid item xs={4}>
+                    <Grid item md={6} lg={4} xs={12}>
                         <FormControl className={classes.formControl}>
                             <InputLabel id="demo-controlled-open-select-label">Select Camera </InputLabel>
                             <Select
@@ -80,7 +81,7 @@ export default function MaterialUIPickers() {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item md={6} lg={4} xs={12}>
                         <Typography variant="h6" style={{ color: 'black' }}>
                             From Date:
                             </Typography>
@@ -90,16 +91,16 @@ export default function MaterialUIPickers() {
                                 id="date-picker-dialog"
                                 format="MM/dd/yyyy"
                                 onChange={handleDateChange}
+                                value={selectedDate}
                                 KeyboardButtonProps={{
                                     'aria-label': 'change date',
                                 }}
                                 variant="outlined"
-                                placeholder="8/10/2020"
-                                label=""
+                                placeholder="10/08/2020"
                             />
                         </MuiPickersUtilsProvider>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item md={6} lg={4} xs={12}>
                         <Typography variant="h6" style={{ color: 'black' }}>
                             To Date:
                             </Typography>
@@ -109,11 +110,12 @@ export default function MaterialUIPickers() {
                                 id="date-picker-dialog"
                                 format="MM/dd/yyyy"
                                 onChange={handleDateChange}
+                                value={selectedDate}
                                 KeyboardButtonProps={{
                                     'aria-label': 'change date',
                                 }}
                                 variant="outlined"
-                                placeholder="15/10/2020"
+                                placeholder="10/15/2020"
                             />
                         </MuiPickersUtilsProvider>
                     </Grid>

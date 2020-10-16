@@ -35,7 +35,7 @@ export default function Visual() {
   const classes = useStyles();
 
   return (
-    <Grid container style={{ padding: '20px' }}>
+    <Grid container style={{ padding: '20px', marginBottom: '50px' }}>
       <ThemeProvider theme={theme}>
         <div
           style={{
@@ -99,7 +99,7 @@ export default function Visual() {
             </Paper>
           </Grid>
           <Grid item lg={4} style={{ textAlign: 'center' }}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} >
               <Typography
                 variant="h5"
                 style={{ marginBottom: '15px', marginTop: '10px' }}
@@ -123,6 +123,36 @@ export default function Visual() {
               <Typography variant="h6">Thu , 02 July 2020 , 5:10:27</Typography>
             </Paper>
           </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <div
+            style={{
+              marginBottom: '20px',
+              marginTop: '50px',
+              fontFamily: 'Quicksand , sans-serif',
+              fontSize: '36px',
+            }}
+          >
+            Hotspot Analysis
+      </div>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper} style={{ height: '710px' }}>
+            <iframe
+              width="100%"
+              height="680px"
+              src={video1}
+              frameborder="0"
+              controls
+              allowfullscreen
+              title="video"
+              style={{
+                borderRadius: '5px',
+                display: 'inline-block',
+                margin: '0 auto',
+              }}
+            ></iframe>
+          </Paper>
         </Grid>
       </ThemeProvider>
     </Grid>
