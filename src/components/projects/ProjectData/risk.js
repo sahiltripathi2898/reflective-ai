@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import { FaArrowUp } from 'react-icons/fa';
+import video1 from './assets/video.mp4';
+
 
 //Resposive text
 import Typography from '@material-ui/core/Typography';
@@ -33,7 +35,7 @@ export default function Risk() {
 
   const matches = useMediaQuery('(min-width:700px)');
   const floatPic = matches ? 'right' : 'right';
-  const paperHeight = matches ? '220px' : '270px';
+  const paperHeight = matches ? '220px' : '250px';
 
   return (
     <div className={classes.root}>
@@ -239,6 +241,35 @@ export default function Risk() {
                 style={{ float: floatPic }}
               />
             </div>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <div
+            style={{
+              marginTop: '50px',
+              fontFamily: 'Quicksand , sans-serif',
+              fontSize: '36px',
+            }}
+          >
+            Hotspot Analysis
+      </div>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper} style={{ height: '730px', marginBottom: '50px' }}>
+            <iframe
+              width="100%"
+              height="680px"
+              src={video1}
+              frameborder="0"
+              controls
+              allowfullscreen
+              title="video"
+              style={{
+                borderRadius: '5px',
+                display: 'inline-block',
+                margin: '0 auto',
+              }}
+            ></iframe>
           </Paper>
         </Grid>
       </Grid>

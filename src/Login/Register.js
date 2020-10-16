@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -40,12 +40,13 @@ export default function SignUp() {
     first_name: '',
     last_name: '',
     email: '',
-    password: '',
+    company: '',
+    role: ''
   };
 
   const [user, setUser] = useState(userInitial);
 
-  const { first_name, last_name, email, password } = user;
+  const { first_name, last_name, email, company, role } = user;
 
   const handleInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -57,7 +58,7 @@ export default function SignUp() {
 
     axios
       .post(
-        'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/register',
+        'url',
         user
       )
       .then((res) => {
@@ -74,10 +75,10 @@ export default function SignUp() {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <EmailOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Contact Us
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
@@ -86,7 +87,7 @@ export default function SignUp() {
                 autoComplete="first_name"
                 name="first_name"
                 variant="outlined"
-                required
+
                 fullWidth
                 id="firstName"
                 label="First Name"
@@ -98,7 +99,7 @@ export default function SignUp() {
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
+
                 fullWidth
                 id="lastName"
                 label="Last Name"
@@ -111,7 +112,7 @@ export default function SignUp() {
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                required
+
                 fullWidth
                 id="email"
                 label="Email Address"
@@ -124,14 +125,23 @@ export default function SignUp() {
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                required
+
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
+                name="company"
+                label="Company"
+                id="company"
+                value={company}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                name="role"
+                label="Role"
+                id="role"
+                value={role}
                 onChange={handleInputChange}
               />
             </Grid>
@@ -144,7 +154,7 @@ export default function SignUp() {
             className={classes.submit}
             onClick={handleFinalSubmit}
           >
-            Sign Up
+            Contact Us
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
