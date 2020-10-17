@@ -21,7 +21,6 @@ import sd from './assets/sd.jpeg';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    padding: '20px',
   },
   paper: {
     color: 'black',
@@ -31,7 +30,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Risk() {
+export default function Risk(props) {
+  const { cID } = props
+  //console.log(cID)
   const classes = useStyles();
 
   const matches = useMediaQuery('(min-width:700px)');
@@ -40,6 +41,8 @@ export default function Risk() {
 
   // Camera 
   const [cameras, setCameras] = useState([]);
+  const [camera, setCamera] = useState([])
+
   useEffect(() => {
     const data = {
       project_id: localStorage.getItem('pID'),
@@ -51,32 +54,33 @@ export default function Risk() {
         data
       )
       .then((res) => {
+        console.log(res.data.cameras)
         setCameras(res.data.cameras);
+        //setCamera(cameras[cID - 1])
+
       })
       .catch((err) => console.log(err));
   }, []);
 
-  // Camera ID
-  const initialcameraID = () => Number(localStorage.getItem('cameraID'))
-  const [cameraID, setcameraID] = useState(initialcameraID);
+  var mask = 1
+  if (cameras[cID - 1] !== undefined) {
+    mask = cameras[cID - 1].mask
+  }
 
-  useEffect(() => {
-    function checkUsetData() {
-      const item = localStorage.getItem('cameraID')
+  var social_distancing = 1
+  if (cameras[cID - 1] !== undefined) {
+    social_distancing = cameras[cID - 1].social_distancing
+  }
 
-      if (item) {
-        setcameraID(item)
-      }
-    }
+  var hard_hat = 1
+  if (cameras[cID - 1] !== undefined) {
+    hard_hat = cameras[cID - 1].hard_hat
+  }
 
-    window.addEventListener('storage', checkUsetData)
-
-    return () => {
-      window.removeEventListener('storage', checkUsetData)
-    }
-  }, [])
-
-
+  var vis_vest = 1
+  if (cameras[cID - 1] !== undefined) {
+    vis_vest = cameras[cID - 1].vis_vest
+  }
 
   return (
     <div className={classes.root}>
@@ -91,7 +95,7 @@ export default function Risk() {
         Safety Metrics
       </div>
       <Grid container spacing={3}>
-        <Grid item lg={6} xs={12} md={6}>
+        {mask !== null && <Grid item lg={6} xs={12} md={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
             <div
               style={{
@@ -111,12 +115,12 @@ export default function Risk() {
               <Typography
                 variant="h4"
                 style={{
-                  color: '#33f266',
+                  color: 'orange',
                   margin: '3px 0px 3px 0px',
                   fontWeight: '600',
                 }}
               >
-                None
+                {mask}
               </Typography>
               <div
                 style={{
@@ -137,8 +141,8 @@ export default function Risk() {
               />
             </div>
           </Paper>
-        </Grid>
-        <Grid item lg={6} xs={12} md={6}>
+        </Grid>}
+        {social_distancing !== null && <Grid item lg={6} xs={12} md={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
             <div
               style={{
@@ -163,9 +167,9 @@ export default function Risk() {
                   fontWeight: '600',
                 }}
               >
-                17
+                {social_distancing}
               </div>
-              <div
+              {/*<div
                 style={{
                   color: 'orange',
                   margin: '3px 0px 3px 0px',
@@ -174,7 +178,7 @@ export default function Risk() {
                 }}
               >
                 16.66 % <FaArrowUp />
-              </div>
+              </div>*/}
             </div>
             <div style={{ float: floatPic, width: '30%' }}>
               <img
@@ -186,8 +190,8 @@ export default function Risk() {
               />
             </div>
           </Paper>
-        </Grid>
-        <Grid item lg={6} xs={12} md={6}>
+        </Grid>}
+        {hard_hat !== null && <Grid item lg={6} xs={12} md={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
             <div
               style={{
@@ -212,9 +216,9 @@ export default function Risk() {
                   fontWeight: '600',
                 }}
               >
-                17
+                {hard_hat}
               </div>
-              <div
+              {/*<div
                 style={{
                   color: 'orange',
                   margin: '3px 0px 3px 0px',
@@ -223,7 +227,7 @@ export default function Risk() {
                 }}
               >
                 16.66 % <FaArrowUp />
-              </div>
+              </div>*/}
             </div>
             <div style={{ float: floatPic, width: '30%' }}>
               <img
@@ -235,8 +239,8 @@ export default function Risk() {
               />
             </div>
           </Paper>
-        </Grid>
-        <Grid item lg={6} xs={12} md={6}>
+        </Grid>}
+        {vis_vest !== null && <Grid item lg={6} xs={12} md={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
             <div
               style={{
@@ -261,9 +265,9 @@ export default function Risk() {
                   fontWeight: '600',
                 }}
               >
-                17
+                {vis_vest}
               </div>
-              <div
+              {/*<div
                 style={{
                   color: 'orange',
                   margin: '3px 0px 3px 0px',
@@ -272,7 +276,7 @@ export default function Risk() {
                 }}
               >
                 16.66 % <FaArrowUp />
-              </div>
+              </div>*/}
             </div>
             <div style={{ float: floatPic, width: '30%' }}>
               <img
@@ -284,8 +288,8 @@ export default function Risk() {
               />
             </div>
           </Paper>
-        </Grid>
-        <Grid item lg={6} xs={12} md={6}>
+        </Grid>}
+        {social_distancing !== null && <Grid item lg={6} xs={12} md={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
             <div
               style={{
@@ -304,24 +308,24 @@ export default function Risk() {
 
               <div
                 style={{
-                  color: '#33f266',
+                  color: 'orange',
                   margin: '3px 0px 3px 0px',
                   fontSize: '30px',
                   fontWeight: '600',
                 }}
               >
-                0
+                {social_distancing}
               </div>
-              <div
+              {/*<div
                 style={{
-                  color: '#33f266',
+                  color: 'orange',
                   margin: '3px 0px 3px 0px',
                   fontSize: '30px',
                   fontWeight: '600',
                 }}
               >
                 0 % <FaArrowUp />
-              </div>
+              </div>*/}
             </div>
             <div style={{ float: floatPic, width: '30%' }}>
               <img
@@ -333,7 +337,7 @@ export default function Risk() {
               />
             </div>
           </Paper>
-        </Grid>
+        </Grid>}
         <Grid item lg={6} xs={12} md={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
             <div
@@ -352,7 +356,7 @@ export default function Risk() {
               </Typography>
               <div
                 style={{
-                  color: '#33f266',
+                  color: 'orange',
                   margin: '3px 0px 3px 0px',
                   fontSize: '30px',
                   fontWeight: '600',
@@ -360,16 +364,16 @@ export default function Risk() {
               >
                 15
               </div>
-              <div
+              {/*<div
                 style={{
-                  color: '#33f266',
+                  color: 'orange',
                   margin: '3px 0px 3px 0px',
                   fontSize: '30px',
                   fontWeight: '600',
                 }}
               >
                 15.38 % <FaArrowUp />
-              </div>
+              </div>*/}
             </div>
             <div style={{ float: floatPic, width: '30%' }}>
               <img

@@ -14,6 +14,9 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import axios from 'axios'
 
+import Risk from './risk'
+import Visual from './visual'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -36,7 +39,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MaterialUIPickers() {
+export default function MaterialUIPickers(props) {
+    const { bID } = props
+
     // The first commit of Material-UI
     const [selectedDate, setSelectedDate] = React.useState('10/16/2020');
 
@@ -83,13 +88,13 @@ export default function MaterialUIPickers() {
 
     const [cameraID, setcameraID] = useState(1);
 
-    const handleClick = (id) => {
+    /*const handleClick = (id) => {
         setcameraID(id)
     }
 
     useEffect(() => {
         localStorage.setItem('cameraID', cameraID)
-    }, [cameraID])
+    }, [cameraID])*/
 
     const classes = useStyles();
     return (
@@ -109,7 +114,7 @@ export default function MaterialUIPickers() {
                                 value={age}
                             >
                                 {cameras.map((camera, index) => (
-                                    <MenuItem value={camera.camera_id} onClick={() => { handleClick(index + 1) }}>Camera {camera.camera_id}</MenuItem>
+                                    <MenuItem value={camera.camera_id} onClick={() => { setcameraID(index + 1) }}>Camera {camera.camera_id}</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
@@ -154,7 +159,8 @@ export default function MaterialUIPickers() {
                     </Grid>
                 </Grid>
             </Paper>
-
+            {bID === '1' && <Risk cID={cameraID} />}
+            {bID === '2' && <Visual cID={cameraID} />}
         </div>
     );
 }

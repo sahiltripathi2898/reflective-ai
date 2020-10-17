@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router-dom';
+import Logo from '../components/assets/fullLogo.png'
+
 
 import axios from 'axios';
 
@@ -19,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    padding: '20px',
+    backgroundColor: '#031b33',
+    borderRadius: '10px',
+    height: '370px'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -44,9 +50,9 @@ export default function SignIn() {
   };
 
   const handleFinalSubmit = (e) => {
-      const data ={
-          email_address : email
-      }
+    const data = {
+      email_address: email
+    }
     e.preventDefault();
 
     axios
@@ -57,7 +63,7 @@ export default function SignIn() {
       .then((res) => {
         console.log(res.data);
         if (res.data.message === 'Success') {
-            window.alert('Link has been sent to your Email ID');
+          window.alert('Link has been sent to your Email ID');
           history.push('/login');
         } else {
           window.alert('Invalid Credentials');
@@ -72,10 +78,8 @@ export default function SignIn() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
+        <img src={Logo} alt="logo" width="220px" height="80px" style={{ borderRadius: '10px', marginBottom: '15px' }}></img>
+        <Typography component="h1" variant="h5" style={{ color: 'white' }}>
           Reset Password
         </Typography>
         <form className={classes.form} noValidate>
@@ -85,12 +89,14 @@ export default function SignIn() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            placeholder='Email ID'
             name="email"
             autoComplete="email"
             autoFocus
             onChange={handleInputChange}
             value={email}
+            style={{ color: 'white', backgroundColor: 'white', borderRadius: '10px' }}
+
           />
           <Button
             type="submit"
@@ -104,7 +110,7 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="/login" variant="body2">
+              <Link href="/login" variant="body2" style={{ color: 'white' }}>
                 Login
               </Link>
             </Grid>
