@@ -53,18 +53,21 @@ const Projects = (props) => {
         data
       )
       .then((res) => {
+        console.log(res.data)
         setRows(res.data.projects);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  const [pName, setpName] = useState('');
+  const [pID, setpID] = useState(0);
 
-  function callProjectDetails(name) {
-    setpName(name);
+  function callProjectDetails(id) {
+    //localStorage.setItem('cameraID', 1)
+    localStorage.setItem('pID', id)
+    setpID(id);
   }
 
-  if (pName === '') {
+  if (pID === 0) {
     return (
       <Container style={{ marginTop: '70px', padding: '30px' }} maxWidth="md">
         <Typography
@@ -95,7 +98,7 @@ const Projects = (props) => {
                 <StyledTableRow
                   key={row.project_name}
                   style={{ cursor: 'pointer' }}
-                  onClick={() => callProjectDetails(row.project_name)}
+                  onClick={() => callProjectDetails(row.project_id)}
                 >
                   <StyledTableCell component="th" scope="row">
                     {row.project_name}
@@ -110,12 +113,11 @@ const Projects = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
-        {pName}
       </Container>
     );
   }
   else {
-    return (<ProjectData projectName={pName} />)
+    return (<ProjectData projectID={pID} />)
   }
 };
 

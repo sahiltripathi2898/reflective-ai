@@ -1,5 +1,5 @@
 import 'date-fns';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,16 +40,18 @@ export default function MaterialUIPickers() {
     // The first commit of Material-UI
     const [selectedDate, setSelectedDate] = React.useState('10/16/2020');
 
+    const [age, setAge] = React.useState('');
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
 
-    // Camera
-    const [age, setAge] = React.useState('');
-    const [open, setOpen] = React.useState(false);
+
     const handleChange = (event) => {
         setAge(event.target.value);
     };
+
+    // Camera
+    const [open, setOpen] = React.useState(false);
 
     const handleClose = () => {
         setOpen(false);
@@ -57,6 +60,36 @@ export default function MaterialUIPickers() {
     const handleOpen = () => {
         setOpen(true);
     };
+
+    const [cameras, setCameras] = useState([]);
+    useEffect(() => {
+        const data = {
+            project_id: localStorage.getItem('pID'),
+            jwt_token: localStorage.getItem('jwt_token'),
+        };
+        axios
+            .post(
+                'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/project/cameras',
+                data
+            )
+            .then((res) => {
+                //console.log(res.data)
+                setCameras(res.data.cameras);
+
+            })
+            .catch((err) => console.log(err));
+
+    }, []);
+
+    const [cameraID, setcameraID] = useState(1);
+
+    const handleClick = (id) => {
+        setcameraID(id)
+    }
+
+    useEffect(() => {
+        localStorage.setItem('cameraID', cameraID)
+    }, [cameraID])
 
     const classes = useStyles();
     return (
@@ -72,12 +105,12 @@ export default function MaterialUIPickers() {
                                 open={open}
                                 onClose={handleClose}
                                 onOpen={handleOpen}
-                                value={age}
                                 onChange={handleChange}
+                                value={age}
                             >
-                                <MenuItem value={10}>Camera 1</MenuItem>
-                                <MenuItem value={20}>Camera 2</MenuItem>
-                                <MenuItem value={30}>Cmaera 3</MenuItem>
+                                {cameras.map((camera, index) => (
+                                    <MenuItem value={camera.camera_id} onClick={() => { handleClick(index + 1) }}>Camera {camera.camera_id}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>

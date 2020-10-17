@@ -35,6 +35,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
+import Logo from './assets/fullLogo.png'
+
 const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
@@ -375,7 +377,7 @@ const MiniDrawer = (props) => {
         }}
       >
         <div className={classes.toolbar}>
-          <div
+          {/*<div
             style={{
               fontSize: '26px',
               fontWeight: '600',
@@ -385,11 +387,12 @@ const MiniDrawer = (props) => {
             }}
           >
             Reflective AI
-          </div>
+          </div>*/}
+          <img src={Logo} alt="logo" width="190px" height="60px"></img>
           <ArrowBackIosIcon
             color="white"
             onClick={handleDrawerClose}
-            style={{ fontSize: '22px', cursor: 'pointer', marginLeft: '14px' }}
+            style={{ fontSize: '22px', cursor: 'pointer', marginLeft: '14px', marginTop: '12px' }}
           >
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />

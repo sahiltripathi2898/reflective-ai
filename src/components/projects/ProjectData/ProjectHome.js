@@ -51,9 +51,9 @@ export default function ProjectHome() {
       <div>
         <Container className={classes.root}>
           <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group" >
-            <Button onClick={firstBtn} style={{ backgroundColor: btnA }}>Risk Factors</Button>
-            <Button onClick={secondBtn} style={{ backgroundColor: btnB }}>Project Overview </Button>
+            <Button onClick={firstBtn} style={{ backgroundColor: btnA }}>Safety Metrics</Button>
             <Button onClick={thirdBtn} style={{ backgroundColor: btnC }}>Incident Visuals</Button>
+            <Button onClick={secondBtn} style={{ backgroundColor: btnB }}>Project Team</Button>
           </ButtonGroup>
         </Container>
         <Dates />
@@ -68,9 +68,9 @@ export default function ProjectHome() {
       <div>
         <Container className={classes.root}>
           <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
-            <Button onClick={firstBtn} style={{ backgroundColor: btnA }}>Risk Factors</Button>
-            <Button onClick={secondBtn} style={{ backgroundColor: btnB }}>Project Overview </Button>
+            <Button onClick={firstBtn} style={{ backgroundColor: btnA }}>Safety Metrics</Button>
             <Button onClick={thirdBtn} style={{ backgroundColor: btnC }}>Incident Visuals</Button>
+            <Button onClick={secondBtn} style={{ backgroundColor: btnB }}>Project Team</Button>
           </ButtonGroup>
         </Container>
         <Overview />
@@ -82,9 +82,9 @@ export default function ProjectHome() {
       <div>
         <Container className={classes.root}>
           <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
-            <Button onClick={firstBtn} style={{ backgroundColor: btnA }}>Risk Factors</Button>
-            <Button onClick={secondBtn} style={{ backgroundColor: btnB }}>Project Overview </Button>
+            <Button onClick={firstBtn} style={{ backgroundColor: btnA }}>Safety Metrics</Button>
             <Button onClick={thirdBtn} style={{ backgroundColor: btnC }}>Incident Visuals</Button>
+            <Button onClick={secondBtn} style={{ backgroundColor: btnB }}>Project Team</Button>
           </ButtonGroup>
         </Container>
         <Dates />

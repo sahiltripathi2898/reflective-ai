@@ -13,16 +13,18 @@ import { useHistory } from 'react-router-dom';
 
 import axios from 'axios';
 
+import Logo from '../components/assets/fullLogo.png'
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    padding: '20px',
+    backgroundColor: '#031b33',
+    borderRadius: '10px',
+    height: '570px'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -74,10 +76,8 @@ export default function SignUp() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <EmailOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
+        <img src={Logo} alt="logo" width="220px" height="80px" style={{ borderRadius: '10px', marginBottom: '15px' }}></img>
+        <Typography component="h1" variant="h5" style={{ color: 'white' }}>
           Contact Us
         </Typography>
         <form className={classes.form} noValidate>
@@ -87,62 +87,63 @@ export default function SignUp() {
                 autoComplete="first_name"
                 name="first_name"
                 variant="outlined"
-
+                placeholder="First Name"
                 fullWidth
                 id="firstName"
-                label="First Name"
                 autoFocus
                 value={first_name}
                 onChange={handleInputChange}
+                style={{ color: 'white', backgroundColor: 'white', borderRadius: '10px' }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-
+                placeholder="Last Name"
                 fullWidth
                 id="lastName"
-                label="Last Name"
                 name="last_name"
                 autoComplete="last_name"
                 value={last_name}
                 onChange={handleInputChange}
+                style={{ color: 'white', backgroundColor: 'white', borderRadius: '10px' }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-
+                placeholder="Email ID"
                 fullWidth
                 id="email"
-                label="Email Address"
                 name="email"
                 autoComplete="email"
                 value={email}
                 onChange={handleInputChange}
+                style={{ color: 'white', backgroundColor: 'white', borderRadius: '10px' }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-
+                placeholder="Company Name"
                 fullWidth
                 name="company"
-                label="Company"
                 id="company"
                 value={company}
                 onChange={handleInputChange}
+                style={{ color: 'white', backgroundColor: 'white', borderRadius: '10px' }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
+                placeholder="Role"
                 fullWidth
                 name="role"
-                label="Role"
                 id="role"
                 value={role}
                 onChange={handleInputChange}
+                style={{ color: 'white', backgroundColor: 'white', borderRadius: '10px' }}
               />
             </Grid>
           </Grid>
@@ -158,7 +159,7 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/" variant="body2">
+              <Link href="/" variant="body2" style={{ color: 'white' }}>
                 Already have an account? Sign in
               </Link>
             </Grid>
