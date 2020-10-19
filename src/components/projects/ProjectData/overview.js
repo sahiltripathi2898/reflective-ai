@@ -52,7 +52,7 @@ export default function Overview() {
         data
       )
       .then((res) => {
-        console.log(res.data)
+        //console.log(res.data)
         setTeam(res.data.team)
         //setRows(res.data.projects);
       })

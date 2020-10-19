@@ -53,11 +53,11 @@ export default function MaterialUIPickers(props) {
     const [age, setAge] = React.useState('');
     const handleStartDateChange = (date) => {
         setsDate(date);
-        console.log(sDate)
+        //console.log(sDate)
     };
     const handleEndDateChange = (date) => {
         seteDate(date);
-        console.log(eDate)
+        //console.log(eDate)
     };
 
     const [disableDate, setdisableDate] = useState(false)
@@ -92,7 +92,7 @@ export default function MaterialUIPickers(props) {
                 data
             )
             .then((res) => {
-                console.log(res.data)
+                //console.log(res.data)
                 setCameras(res.data.cameras);
             })
             .catch((err) => console.log(err));
@@ -122,7 +122,7 @@ export default function MaterialUIPickers(props) {
                                     <MenuItem value={camera.camera_id} key={index} onClick={() => {
                                         setcameraID(index + 1)
                                         if (camera.start_date !== null) {
-                                            setsDate(new Date())
+                                            setsDate(new Date(camera.start_date))
                                             setdisableDate(false)
                                         }
                                         else if (camera.start_date === null) {

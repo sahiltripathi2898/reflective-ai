@@ -59,14 +59,14 @@ export default function Risk(props) {
       start_date: startDate,
       end_date: endDate
     };
-    console.log(data)
+    //console.log(data)
     axios
       .post(
         'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/camera/metrics',
         data
       )
       .then((res) => {
-        console.log(res.data)
+        //console.log(res.data)
         setMetric(res.data);
       })
       .catch((err) => console.log(err));

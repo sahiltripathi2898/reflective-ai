@@ -58,14 +58,14 @@ export default function Visual(props) {
       start_date: startDate,
       end_date: endDate
     };
-    console.log(data)
+    //console.log(data)
     axios
       .post(
         'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/camera/videos',
         data
       )
       .then((res) => {
-        console.log(res.data)
+        //console.log(res.data)
         setHat(res.data.hard_hat)
         setPhy(res.data.physical_distancing)
         setMask(res.data.mask)
