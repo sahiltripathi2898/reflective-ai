@@ -90,11 +90,11 @@ export default function Visual(props) {
           Incident Visuals
       </div>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          {phys.length > 0 && <Grid item xs={12}>
             <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
               Physical Distancing Violations
             </Typography>
-          </Grid>
+          </Grid>}
           {phys.length > 0 && phys.map((phy) => (
             <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
               <Paper className={classes.paper} elevation={5}>
@@ -117,14 +117,14 @@ export default function Visual(props) {
               </Paper>
             </Grid>
           ))}
-          {phys.length === 0 && <Typography variant="body1" style={{ textAlign: 'center', marginTop: '4px', marginLeft: '12px' }}>No Observation</Typography>}
-          <Grid item xs={12}>
+          {/*           {phys.length === 0 && <Typography variant="body1" style={{ textAlign: 'center', marginTop: '4px', marginLeft: '12px' }}>No Observation</Typography>}
+ */}          {phys.length > 0 && <Grid item xs={12}>
             <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
-          </Grid>
+          </Grid>}
           <Grid item xs={12}>
-            <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
+            {masks.length > 0 && <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
               Mask Violations
-            </Typography>
+            </Typography>}
           </Grid>
           {masks.length > 0 && masks.map((mask) => (
             <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
@@ -148,14 +148,14 @@ export default function Visual(props) {
               </Paper>
             </Grid>
           ))}
-          {masks.length === 0 && <Typography variant="body1" style={{ textAlign: 'center', marginTop: '4px', marginLeft: '12px' }}>No Observation</Typography>}
-          <Grid item xs={12}>
+          {/*           {masks.length === 0 && <Typography variant="body1" style={{ textAlign: 'center', marginTop: '4px', marginLeft: '12px' }}>No Observation</Typography>}
+ */}          {masks.length > 0 && <Grid item xs={12}>
             <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
-          </Grid>
+          </Grid>}
           <Grid item xs={12}>
-            <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
+            {hats.length > 0 && <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
               PPE Compliance - Hard Hat
-            </Typography>
+            </Typography>}
           </Grid>
           {hats.length > 0 && hats.map((hat) => (
             <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
@@ -179,14 +179,14 @@ export default function Visual(props) {
               </Paper>
             </Grid>
           ))}
-          {hats.length === 0 && <Typography variant="body1" style={{ textAlign: 'center', marginTop: '4px', marginLeft: '12px' }}>No Observation</Typography>}
-          <Grid item xs={12}>
+          {/*           {hats.length === 0 && <Typography variant="body1" style={{ textAlign: 'center', marginTop: '4px', marginLeft: '12px' }}>No Observation</Typography>}
+ */}          {hats.length > 0 && <Grid item xs={12}>
             <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
-          </Grid>
+          </Grid>}
           <Grid item xs={12}>
-            <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
+            {vests.length > 0 && <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
               PPE Compliance - High Viz Vest
-            </Typography>
+            </Typography>}
           </Grid>
           {vests.length > 0 && vests.map((vest) => (
             <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
@@ -210,9 +210,12 @@ export default function Visual(props) {
               </Paper>
             </Grid>
           ))}
-          {vests.length === 0 && <Typography variant="body1" style={{ textAlign: 'center', marginTop: '4px', marginLeft: '12px' }}>No Observation</Typography>}
-
+          {/*           {vests.length === 0 && <Typography variant="body1" style={{ textAlign: 'center', marginTop: '4px', marginLeft: '12px' }}>No Observation</Typography>}
+ */}{vests.length > 0 && <Grid item xs={12}>
+            <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
+          </Grid>}
         </Grid>
+
       </ThemeProvider>
     </Grid>
   );

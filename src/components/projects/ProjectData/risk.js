@@ -59,7 +59,7 @@ export default function Risk(props) {
       start_date: startDate,
       end_date: endDate
     };
-    //console.log(data)
+    console.log(data)
     axios
       .post(
         'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/camera/metrics',
@@ -126,7 +126,7 @@ export default function Risk(props) {
                 style={{ fontFamily: 'Roboto , sans-serif' }}
               >
                 {' '}
-                PPE Compliance - Face Mask
+                PPE Compliance - Face Mask (%)
               </Typography>
               <Typography
                 variant="h4"
@@ -221,7 +221,7 @@ export default function Risk(props) {
                 variant="h5"
                 style={{ fontFamily: 'Roboto , sans-serif' }}
               >
-                PPE Compliance - Hard Hat
+                PPE Compliance - Hard Hat (%)
               </Typography>
 
               <div
@@ -270,7 +270,7 @@ export default function Risk(props) {
                 variant="h5"
                 style={{ fontFamily: 'Roboto , sans-serif' }}
               >
-                PPE Compliance - High Viz Vest
+                PPE Compliance - High Viz Vest (%)
               </Typography>
 
               <div

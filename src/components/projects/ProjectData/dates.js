@@ -94,12 +94,15 @@ export default function MaterialUIPickers(props) {
             .then((res) => {
                 //console.log(res.data)
                 setCameras(res.data.cameras);
+                setsDate(new Date(res.data.cameras[0].start_date))
             })
             .catch((err) => console.log(err));
-
     }, []);
 
-    const [cameraID, setcameraID] = useState(0);
+    /* if (cameras !== undefined)
+        */
+
+    const [cameraID, setcameraID] = useState(1);
 
     const classes = useStyles();
     return (
@@ -171,6 +174,7 @@ export default function MaterialUIPickers(props) {
                                 variant="outlined"
                                 placeholder="10/15/2020"
                                 maxDate={new Date()}
+                                minDate={sDate}
                             />
                         </MuiPickersUtilsProvider>
                     </Grid>
