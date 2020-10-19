@@ -43,19 +43,31 @@ export default function MaterialUIPickers(props) {
     const { bID } = props
 
     // The first commit of Material-UI
-    const [selectedDate, setSelectedDate] = React.useState('10/16/2020');
+    /*  const [selectedDate, setSelectedDate] = React.useState(new Date());
+     const [selectedDate, setSelectedDate] = React.useState(new Date()); */
+
+    // Dates
+    const [sDate, setsDate] = useState(new Date())
+    const [eDate, seteDate] = useState(new Date())
 
     const [age, setAge] = React.useState('');
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
+    const handleStartDateChange = (date) => {
+        setsDate(date);
+        console.log(sDate)
+    };
+    const handleEndDateChange = (date) => {
+        seteDate(date);
+        console.log(eDate)
     };
 
+    const [disableDate, setdisableDate] = useState(false)
 
+
+    // Drop down
     const handleChange = (event) => {
         setAge(event.target.value);
     };
 
-    // Camera
     const [open, setOpen] = React.useState(false);
 
     const handleClose = () => {
@@ -66,10 +78,12 @@ export default function MaterialUIPickers(props) {
         setOpen(true);
     };
 
+    //Camera API call
     const [cameras, setCameras] = useState([]);
+
     useEffect(() => {
         const data = {
-            project_id: localStorage.getItem('pID'),
+            project_id: localStorage.getItem('projectID'),
             jwt_token: localStorage.getItem('jwt_token'),
         };
         axios
@@ -78,23 +92,14 @@ export default function MaterialUIPickers(props) {
                 data
             )
             .then((res) => {
-                //console.log(res.data)
+                console.log(res.data)
                 setCameras(res.data.cameras);
-
             })
             .catch((err) => console.log(err));
 
     }, []);
 
-    const [cameraID, setcameraID] = useState(1);
-
-    /*const handleClick = (id) => {
-        setcameraID(id)
-    }
-
-    useEffect(() => {
-        localStorage.setItem('cameraID', cameraID)
-    }, [cameraID])*/
+    const [cameraID, setcameraID] = useState(0);
 
     const classes = useStyles();
     return (
@@ -114,7 +119,16 @@ export default function MaterialUIPickers(props) {
                                 value={age}
                             >
                                 {cameras.map((camera, index) => (
-                                    <MenuItem value={camera.camera_id} onClick={() => { setcameraID(index + 1) }}>Camera {camera.camera_id}</MenuItem>
+                                    <MenuItem value={camera.camera_id} key={index} onClick={() => {
+                                        setcameraID(index + 1)
+                                        if (camera.start_date !== null) {
+                                            setsDate(new Date())
+                                            setdisableDate(false)
+                                        }
+                                        else if (camera.start_date === null) {
+                                            setdisableDate(true)
+                                        }
+                                    }}>Camera {camera.camera_id}</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
@@ -128,13 +142,15 @@ export default function MaterialUIPickers(props) {
                                 margin="normal"
                                 id="date-picker-dialog"
                                 format="MM/dd/yyyy"
-                                onChange={handleDateChange}
-                                value={selectedDate}
+                                onChange={handleStartDateChange}
+                                value={sDate}
                                 KeyboardButtonProps={{
                                     'aria-label': 'change date',
                                 }}
                                 variant="outlined"
                                 placeholder="10/08/2020"
+                                disabled={disableDate}
+                                maxDate={new Date()}
                             />
                         </MuiPickersUtilsProvider>
                     </Grid>
@@ -147,20 +163,21 @@ export default function MaterialUIPickers(props) {
                                 margin="normal"
                                 id="date-picker-dialog"
                                 format="MM/dd/yyyy"
-                                onChange={handleDateChange}
-                                value={selectedDate}
+                                onChange={handleEndDateChange}
+                                value={eDate}
                                 KeyboardButtonProps={{
                                     'aria-label': 'change date',
                                 }}
                                 variant="outlined"
                                 placeholder="10/15/2020"
+                                maxDate={new Date()}
                             />
                         </MuiPickersUtilsProvider>
                     </Grid>
                 </Grid>
             </Paper>
-            {bID === '1' && <Risk cID={cameraID} />}
-            {bID === '2' && <Visual cID={cameraID} />}
+            {bID === '1' && <Risk cID={cameraID} sDate={sDate} eDate={eDate} />}
+            {bID === '2' && <Visual cID={cameraID} sDate={sDate} eDate={eDate} />}
         </div>
     );
 }

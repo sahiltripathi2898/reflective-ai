@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 
 import Overview from './overview'
-import Risk from './risk';
-import Visual from './visual';
 import Dates from './dates'
 
 import Button from '@material-ui/core/Button';

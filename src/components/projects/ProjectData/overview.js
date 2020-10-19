@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Typography, Divider, Grid } from '@material-ui/core'
+import axios from 'axios'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -36,22 +37,51 @@ const useStyles = makeStyles({
 export default function Overview() {
   const classes = useStyles();
 
-  function createData1(role, name, email, mobile) {
-    return { role, name, email, mobile };
-  }
+  const [team, setTeam] = useState([])
 
-  const rows1 = [
-    createData1('', 'Sahil Tripathi', 'sahil@gmail.com', 49698302),
-    createData1('', 'Aayush', 'aayush@gmail.com', 73496234),
-  ];
 
-  function createData2(issue, desc, status, cDate, dDate) {
-    return { issue, desc, status, cDate, dDate };
-  }
+  useEffect(() => {
+    const data = {
+      jwt_token: localStorage.getItem('jwt_token'),
+      company_id: localStorage.getItem('companyID'),
+      project_id: localStorage.getItem('projectID')
+    };
+    axios
+      .post(
+        ' http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/project/team',
+        data
+      )
+      .then((res) => {
+        console.log(res.data)
+        setTeam(res.data.team)
+        //setRows(res.data.projects);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
-  const rows2 = [
-    createData2('No open issues', '', '', '', ''),
-  ];
+  /*  const [projects, setProjects] = useState([])
+   
+   useEffect(() => {
+     const data = {
+       jwt_token: localStorage.getItem('jwt_token'),
+       company_id: localStorage.getItem('companyID'),
+       project_id: localStorage.getItem('productID')
+     };
+     axios
+       .post(
+         ' http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/project/team',
+         data
+       )
+       .then((res) => {
+         console.log(res.data)
+         setTeam(res.data.team)
+         //setRows(res.data.projects);
+       })
+       .catch((err) => console.log(err));
+   }, []); */
+
+
+
 
   return (
     <Grid container style={{ padding: '20px' }} >
@@ -82,14 +112,14 @@ export default function Overview() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows1.map((row) => (
-                <StyledTableRow key={row.role}>
+              {team.map((member, index) => (
+                <StyledTableRow key={member[0]}>
                   <StyledTableCell component="th" scope="row">
-                    {row.role}
+                    {member[4]}
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.name}</StyledTableCell>
-                  <StyledTableCell align="left">{row.email}</StyledTableCell>
-                  <StyledTableCell align="left">{row.mobile}</StyledTableCell>
+                  <StyledTableCell align="left">{member[0] + member[1]}</StyledTableCell>
+                  <StyledTableCell align="left">{member[2]}</StyledTableCell>
+                  <StyledTableCell align="left">{member[3]}</StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
@@ -117,17 +147,17 @@ export default function Overview() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows2.map((row) => (
-                <StyledTableRow key={row.issue}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.issue}
+
+              <StyledTableRow >
+                <StyledTableCell component="th" scope="row">
+                  No Open Issues
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.desc}</StyledTableCell>
-                  <StyledTableCell align="left">{row.status}</StyledTableCell>
-                  <StyledTableCell align="left">{row.cDate}</StyledTableCell>
-                  <StyledTableCell align="left">{row.dDate}</StyledTableCell>
-                </StyledTableRow>
-              ))}
+                <StyledTableCell align="left"></StyledTableCell>
+                <StyledTableCell align="left"></StyledTableCell>
+                <StyledTableCell align="left"></StyledTableCell>
+                <StyledTableCell align="left"></StyledTableCell>
+              </StyledTableRow>
+
             </TableBody>
           </Table>
         </TableContainer>

@@ -61,10 +61,11 @@ const Projects = (props) => {
 
   const [pID, setpID] = useState(0);
 
-  function callProjectDetails(id) {
+  function callProjectDetails(projectID, companyID) {
     //localStorage.setItem('cameraID', 1)
-    localStorage.setItem('pID', id)
-    setpID(id);
+    localStorage.setItem('projectID', projectID)
+    localStorage.setItem('companyID', companyID)
+    setpID(projectID);
   }
 
   if (pID === 0) {
@@ -98,7 +99,7 @@ const Projects = (props) => {
                 <StyledTableRow
                   key={row.project_name}
                   style={{ cursor: 'pointer' }}
-                  onClick={() => callProjectDetails(row.project_id)}
+                  onClick={() => callProjectDetails(row.project_id, row.company_id)}
                 >
                   <StyledTableCell component="th" scope="row">
                     {row.project_name}

@@ -21,6 +21,7 @@ import sd from './assets/sd.jpeg';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    marginTop: '50px'
   },
   paper: {
     color: 'black',
@@ -31,55 +32,70 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Risk(props) {
-  const { cID } = props
-  //console.log(cID)
+  const { cID, sDate, eDate } = props
+  /*   //console.log(cID)
+    console.log(sDate)
+    console.log(eDate) */
+
+  var startDate = sDate.toISOString().slice(0, 10) + " 00:00:00";
+  var endDate = eDate.toISOString().slice(0, 10) + " 23:00:00";
+
+  /*   console.log(startDate)
+    console.log(endDate) */
   const classes = useStyles();
 
   const matches = useMediaQuery('(min-width:700px)');
   const floatPic = matches ? 'right' : 'right';
   const paperHeight = matches ? '220px' : '250px';
 
-  // Camera 
-  const [cameras, setCameras] = useState([]);
-  const [camera, setCamera] = useState([])
+  // Metric 
+  const [metric, setMetric] = useState([]);
 
   useEffect(() => {
     const data = {
-      project_id: localStorage.getItem('pID'),
+      project_id: Number(localStorage.getItem('projectID')),
       jwt_token: localStorage.getItem('jwt_token'),
+      camera_id: cID,
+      start_date: startDate,
+      end_date: endDate
     };
+    console.log(data)
     axios
       .post(
-        'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/project/cameras',
+        'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/camera/metrics',
         data
       )
       .then((res) => {
-        console.log(res.data.cameras)
-        setCameras(res.data.cameras);
-        //setCamera(cameras[cID - 1])
-
+        console.log(res.data)
+        setMetric(res.data);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [cID, sDate, eDate]);
 
-  var mask = 1
-  if (cameras[cID - 1] !== undefined) {
-    mask = cameras[cID - 1].mask
+  //console.log(metric)
+  var mask = 0
+  if (metric !== undefined) {
+    mask = metric.ppe_compliance_mask
   }
 
-  var social_distancing = 1
-  if (cameras[cID - 1] !== undefined) {
-    social_distancing = cameras[cID - 1].social_distancing
+  var social_distancing = 0
+  if (metric !== undefined) {
+    social_distancing = metric.ppe_compliance_sd
   }
 
-  var hard_hat = 1
-  if (cameras[cID - 1] !== undefined) {
-    hard_hat = cameras[cID - 1].hard_hat
+  var hard_hat = 0
+  if (metric !== undefined) {
+    hard_hat = metric.ppe_compliance_hardhat
   }
 
-  var vis_vest = 1
-  if (cameras[cID - 1] !== undefined) {
-    vis_vest = cameras[cID - 1].vis_vest
+  var vis_vest = 0
+  if (metric !== undefined) {
+    vis_vest = metric.ppe_compliance_viz_vest
+  }
+
+  var occ = 0
+  if (metric !== undefined) {
+    occ = metric.occupancy_max
   }
 
   return (
@@ -338,7 +354,7 @@ export default function Risk(props) {
             </div>
           </Paper>
         </Grid>}
-        <Grid item lg={6} xs={12} md={6}>
+        {occ !== null && <Grid item lg={6} xs={12} md={6}>
           <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
             <div
               style={{
@@ -362,7 +378,7 @@ export default function Risk(props) {
                   fontWeight: '600',
                 }}
               >
-                15
+                {occ}
               </div>
               {/*<div
                 style={{
@@ -385,7 +401,7 @@ export default function Risk(props) {
               />
             </div>
           </Paper>
-        </Grid>
+        </Grid>}
         <Grid item xs={12}>
           <div
             style={{
