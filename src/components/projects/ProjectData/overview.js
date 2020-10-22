@@ -48,7 +48,7 @@ export default function Overview() {
     };
     axios
       .post(
-        ' http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/project/team',
+        'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/project/team',
         data
       )
       .then((res) => {

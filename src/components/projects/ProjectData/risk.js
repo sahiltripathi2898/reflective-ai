@@ -5,7 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-import { FaArrowUp } from 'react-icons/fa';
 import video1 from './assets/video.mp4';
 
 
@@ -62,7 +61,7 @@ export default function Risk(props) {
     console.log(data)
     axios
       .post(
-        'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/camera/metrics',
+        'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/camera/metrics',
         data
       )
       .then((res) => {

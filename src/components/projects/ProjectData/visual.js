@@ -61,7 +61,7 @@ export default function Visual(props) {
     //console.log(data)
     axios
       .post(
-        'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/camera/videos',
+        'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/camera/videos',
         data
       )
       .then((res) => {
@@ -101,8 +101,8 @@ export default function Visual(props) {
                 <iframe
                   width="98%"
                   height="235"
-                  src={"http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/media" + phy.data_path}
-                  poster={"http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/media" + phy.thumbnail_path}
+                  src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.data_path}
+                  poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.thumbnail_path}
                   controls
                   frameborder="0"
                   allowfullscreen
@@ -132,8 +132,8 @@ export default function Visual(props) {
                 <iframe
                   width="98%"
                   height="235"
-                  src={"http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/media" + mask.data_path}
-                  poster={"http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/media" + mask.thumbnail_path}
+                  src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.data_path}
+                  poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.thumbnail_path}
                   controls
                   frameborder="0"
                   allowfullscreen
@@ -163,8 +163,8 @@ export default function Visual(props) {
                 <iframe
                   width="98%"
                   height="235"
-                  src={"http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/media" + hat.data_path}
-                  poster={"http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/media" + hat.thumbnail_path}
+                  src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.data_path}
+                  poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.thumbnail_path}
                   controls
                   frameborder="0"
                   allowfullscreen
@@ -194,8 +194,8 @@ export default function Visual(props) {
                 <video
                   width="98%"
                   height="235"
-                  src={"http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/media" + vest.data_path}
-                  poster={"http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/media" + vest.thumbnail_path}
+                  src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.data_path}
+                  poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.thumbnail_path}
                   controls
                   frameborder="0"
                   allowfullscreen

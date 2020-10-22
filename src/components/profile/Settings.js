@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { Typography, TextField, Button } from '@material-ui/core';
@@ -86,7 +86,7 @@ export default function Settings() {
     };
     axios
       .post(
-        'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/user/me',
+        'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/user/me',
         data
       )
       .then((res) => {

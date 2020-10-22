@@ -49,11 +49,11 @@ const Projects = (props) => {
     };
     axios
       .post(
-        ' http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/projects/me',
+        ' http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/projects/me',
         data
       )
       .then((res) => {
-        console.log(res.data)
+        //console.log(res.data)
         setRows(res.data.projects);
       })
       .catch((err) => console.log(err));
