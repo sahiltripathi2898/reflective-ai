@@ -61,7 +61,8 @@ export default function Settings() {
     setJob(e.target.value);
   };
   const companychange = (e) => {
-    setCompany(e.target.value);
+    if (e.target.value !== undefined)
+      setCompany(e.target.value);
   };
   const phonechange = (e) => {
     setPhone(e.target.value);
@@ -90,6 +91,7 @@ export default function Settings() {
         data
       )
       .then((res) => {
+        console.log(res.data)
         setFirst(res.data.first_name);
         setLast(res.data.last_name);
         setAddress(res.data.address);
@@ -98,7 +100,7 @@ export default function Settings() {
         setZip(res.data.zip);
         setCity(res.data.city);
         setJob(res.data.job_title);
-        setPhone(res.data.phone_no);
+        setPhone(res.data.cell_phone);
         setCompany(res.data.company);
       })
       .catch((err) => console.log(err));
@@ -113,10 +115,11 @@ export default function Settings() {
     console.log(userUpdated);
     axios
       .post(
-        'http://ec2-13-56-161-17.us-west-1.compute.amazonaws.com:7789/user/me/update',
+        'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/user/me/update',
         userUpdated
       )
       .then((res) => {
+        console.log(res.data)
         window.alert('Profile Updated');
       })
       .catch((err) => console.log(err));
@@ -151,6 +154,7 @@ export default function Settings() {
             <Typography className={classes.Typography} variant="h6">
               First Name
             </Typography>
+
             <TextField
               id="outlined-basic"
               variant="outlined"

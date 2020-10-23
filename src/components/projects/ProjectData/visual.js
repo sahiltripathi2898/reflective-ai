@@ -5,7 +5,9 @@ import Grid from '@material-ui/core/Grid';
 import { Divider } from '@material-ui/core'
 import axios from 'axios'
 
-import video1 from './assets/video.mp4';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 //Resposive text
 import {
@@ -29,6 +31,19 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     height: '290px',
     borderRadius: '10px',
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paperModal: {
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    width: '70%',
+    height: '650px',
+    borderRadius: '10px'
   },
 }));
 
@@ -75,6 +90,15 @@ export default function Visual(props) {
       .catch((err) => console.log(err));
   }, [cID, sDate, eDate]);
 
+  const [open, setOpen] = React.useState(false);
+  const [modalVideo, setModalVideo] = useState('')
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Grid container style={{ marginBottom: '50px', marginTop: '30px', }}>
@@ -90,6 +114,7 @@ export default function Visual(props) {
           Incident Visuals
       </div>
         <Grid container spacing={3}>
+
           {phys.length > 0 && <Grid item xs={12}>
             <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
               Physical Distancing Violations
@@ -98,27 +123,17 @@ export default function Visual(props) {
           {phys.length > 0 && phys.map((phy) => (
             <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
               <Paper className={classes.paper} elevation={5}>
-                <iframe
-                  width="98%"
-                  height="235"
-                  src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.data_path}
-                  poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.thumbnail_path}
-                  controls
-                  frameborder="0"
-                  allowfullscreen
-                  title="video"
-                  style={{
-                    borderRadius: '5px',
-                    display: 'inline-block',
-                    margin: '0 auto',
-                  }}
-                ></iframe>
+                <video width="98%" height="235" controls="true" poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.thumbnail_path} onClick={() => {
+                  handleOpen()
+                  setModalVideo("http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.data_path)
+                }} style={{ outline: 'none', cursor: 'pointer' }}>
+                  <source src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.data_path} />
+                </video>
                 <Typography variant="h6">{phy.datetime}</Typography>
               </Paper>
             </Grid>
           ))}
-          {/*           {phys.length === 0 && <Typography variant="body1" style={{ textAlign: 'center', marginTop: '4px', marginLeft: '12px' }}>No Observation</Typography>}
- */}          {phys.length > 0 && <Grid item xs={12}>
+          {phys.length > 0 && <Grid item xs={12}>
             <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
           </Grid>}
           <Grid item xs={12}>
@@ -129,27 +144,17 @@ export default function Visual(props) {
           {masks.length > 0 && masks.map((mask) => (
             <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
               <Paper className={classes.paper} elevation={5}>
-                <iframe
-                  width="98%"
-                  height="235"
-                  src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.data_path}
-                  poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.thumbnail_path}
-                  controls
-                  frameborder="0"
-                  allowfullscreen
-                  title="video"
-                  style={{
-                    borderRadius: '5px',
-                    display: 'inline-block',
-                    margin: '0 auto',
-                  }}
-                ></iframe>
+                <video width="98%" height="235" controls="true" poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.thumbnail_path} onClick={() => {
+                  handleOpen()
+                  setModalVideo("http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.data_path)
+                }} style={{ outline: 'none', cursor: 'pointer' }}>
+                  <source src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.data_path} />
+                </video>
                 <Typography variant="h6">{mask.datetime}</Typography>
               </Paper>
             </Grid>
           ))}
-          {/*           {masks.length === 0 && <Typography variant="body1" style={{ textAlign: 'center', marginTop: '4px', marginLeft: '12px' }}>No Observation</Typography>}
- */}          {masks.length > 0 && <Grid item xs={12}>
+          {masks.length > 0 && <Grid item xs={12}>
             <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
           </Grid>}
           <Grid item xs={12}>
@@ -160,27 +165,17 @@ export default function Visual(props) {
           {hats.length > 0 && hats.map((hat) => (
             <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
               <Paper className={classes.paper} elevation={5}>
-                <iframe
-                  width="98%"
-                  height="235"
-                  src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.data_path}
-                  poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.thumbnail_path}
-                  controls
-                  frameborder="0"
-                  allowfullscreen
-                  title="video"
-                  style={{
-                    borderRadius: '5px',
-                    display: 'inline-block',
-                    margin: '0 auto',
-                  }}
-                ></iframe>
+                <video width="98%" height="235" controls="true" poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.thumbnail_path} onClick={() => {
+                  handleOpen()
+                  setModalVideo("http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.data_path)
+                }} style={{ outline: 'none', cursor: 'pointer' }}>
+                  <source src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.data_path} />
+                </video>
                 <Typography variant="h6">{hat.datetime}</Typography>
               </Paper>
             </Grid>
           ))}
-          {/*           {hats.length === 0 && <Typography variant="body1" style={{ textAlign: 'center', marginTop: '4px', marginLeft: '12px' }}>No Observation</Typography>}
- */}          {hats.length > 0 && <Grid item xs={12}>
+          {hats.length > 0 && <Grid item xs={12}>
             <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
           </Grid>}
           <Grid item xs={12}>
@@ -191,32 +186,41 @@ export default function Visual(props) {
           {vests.length > 0 && vests.map((vest) => (
             <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
               <Paper className={classes.paper} elevation={5}>
-                <video
-                  width="98%"
-                  height="235"
-                  src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.data_path}
-                  poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.thumbnail_path}
-                  controls
-                  frameborder="0"
-                  allowfullscreen
-                  title="video"
-                  style={{
-                    borderRadius: '5px',
-                    display: 'inline-block',
-                    margin: '0 auto',
-                  }}
-                ></video>
+                <video width="98%" height="235" controls="true" poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.thumbnail_path} onClick={() => {
+                  handleOpen()
+                  setModalVideo("http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.data_path)
+                }} style={{ outline: 'none', cursor: 'pointer' }}>
+                  <source src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.data_path} />
+                </video>
                 <Typography variant="h6">{vest.datetime}</Typography>
               </Paper>
             </Grid>
           ))}
-          {/*           {vests.length === 0 && <Typography variant="body1" style={{ textAlign: 'center', marginTop: '4px', marginLeft: '12px' }}>No Observation</Typography>}
- */}{vests.length > 0 && <Grid item xs={12}>
+          {vests.length > 0 && <Grid item xs={12}>
             <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
           </Grid>}
         </Grid>
-
       </ThemeProvider>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <div className={classes.paperModal} style={{ outline: 'none' }}>
+            <video width="100%" height="90%" controls="true" style={{ marginTop: '30px', outline: 'none' }}>
+              <source src={modalVideo} />
+            </video>
+          </div>
+        </Fade>
+      </Modal>
     </Grid>
   );
 }

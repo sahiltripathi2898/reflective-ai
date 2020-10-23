@@ -111,7 +111,7 @@ export default function Risk(props) {
       </div>
       <Grid container spacing={3}>
         {mask !== null && <Grid item lg={6} xs={12} md={6}>
-          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
+          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
             <div
               style={{
                 float: 'left',
@@ -158,7 +158,7 @@ export default function Risk(props) {
           </Paper>
         </Grid>}
         {social_distancing !== null && <Grid item lg={6} xs={12} md={6}>
-          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
+          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
             <div
               style={{
                 float: 'left',
@@ -207,7 +207,7 @@ export default function Risk(props) {
           </Paper>
         </Grid>}
         {hard_hat !== null && <Grid item lg={6} xs={12} md={6}>
-          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
+          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
             <div
               style={{
                 float: 'left',
@@ -256,7 +256,7 @@ export default function Risk(props) {
           </Paper>
         </Grid>}
         {vis_vest !== null && <Grid item lg={6} xs={12} md={6}>
-          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
+          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
             <div
               style={{
                 float: 'left',
@@ -305,7 +305,7 @@ export default function Risk(props) {
           </Paper>
         </Grid>}
         {social_distancing !== null && <Grid item lg={6} xs={12} md={6}>
-          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
+          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
             <div
               style={{
                 float: 'left',
@@ -354,7 +354,7 @@ export default function Risk(props) {
           </Paper>
         </Grid>}
         {occ !== null && <Grid item lg={6} xs={12} md={6}>
-          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={5}>
+          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
             <div
               style={{
                 float: 'left',
@@ -401,7 +401,7 @@ export default function Risk(props) {
             </div>
           </Paper>
         </Grid>}
-        <Grid item xs={12}>
+        {social_distancing !== null && <Grid item xs={12}>
           <div
             style={{
               marginTop: '50px',
@@ -411,9 +411,9 @@ export default function Risk(props) {
           >
             Hotspot Analysis
       </div>
-        </Grid>
+        </Grid>}
         <Grid item xs={12}>
-          <Paper className={classes.paper} style={{ height: '730px', marginBottom: '50px' }}>
+          {social_distancing !== null && <Paper className={classes.paper} style={{ height: '730px', marginBottom: '50px' }} elevation={10}>
             <iframe
               width="100%"
               height="680px"
@@ -428,7 +428,7 @@ export default function Risk(props) {
                 margin: '0 auto',
               }}
             ></iframe>
-          </Paper>
+          </Paper>}
         </Grid>
       </Grid>
     </div>

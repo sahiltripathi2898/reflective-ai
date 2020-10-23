@@ -13,6 +13,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import axios from 'axios'
+import FormHelperText from '@material-ui/core/FormHelperText';
+
 
 import Risk from './risk'
 import Visual from './visual'
@@ -22,7 +24,9 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: '20px',
         marginTop: '50px',
-        width: '100%'
+    },
+    dates: {
+        flexGrow: 1
     },
     paper: {
         padding: theme.spacing(2),
@@ -103,85 +107,97 @@ export default function MaterialUIPickers(props) {
         */
 
     const [cameraID, setcameraID] = useState(1);
+    const [help, sethelp] = useState(true)
 
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <Paper className={classes.paper} elevation={5}>
-                <Grid container spacing={3}>
-                    <Grid item md={6} lg={4} xs={12}>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel id="demo-controlled-open-select-label">Select Camera </InputLabel>
-                            <Select
-                                labelId="demo-controlled-open-select-label"
-                                id="demo-controlled-open-select"
-                                open={open}
-                                onClose={handleClose}
-                                onOpen={handleOpen}
-                                onChange={handleChange}
-                                value={age}
-                            >
-                                {cameras.map((camera, index) => (
-                                    <MenuItem value={camera.camera_id} key={index} onClick={() => {
-                                        setcameraID(index + 1)
-                                        if (camera.start_date !== null) {
-                                            setsDate(new Date(camera.start_date))
-                                            setdisableDate(false)
-                                        }
-                                        else if (camera.start_date === null) {
-                                            setdisableDate(true)
-                                        }
-                                    }}>Camera {camera.camera_id}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item md={6} lg={4} xs={12}>
-                        <Typography variant="h6" style={{ color: 'black' }}>
-                            From Date:
+            <Grid container spacing={3} >
+                <Grid item xs={12}>
+                    <Paper className={classes.paper} elevation={5}>
+                        <div className={classes.dates}>
+                            <Grid container spacing={3} >
+                                <Grid item lg={4} md={6} xs={12}>
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel id="demo-controlled-open-select-label">Select Camera </InputLabel>
+                                        <Select
+                                            labelId="demo-controlled-open-select-label"
+                                            id="demo-controlled-open-select"
+                                            onClose={handleClose}
+                                            onOpen={handleOpen}
+                                            onChange={handleChange}
+                                            value={age}
+                                            placeholder="Camera 1"
+                                        >
+                                            {cameras.map((camera, index) => (
+                                                <MenuItem value={camera.camera_id} key={index} onClick={() => {
+                                                    sethelp(false)
+                                                    setcameraID(index + 1)
+                                                    if (camera.start_date !== null) {
+                                                        setsDate(new Date(camera.start_date))
+                                                        setdisableDate(false)
+                                                    }
+                                                    else if (camera.start_date === null) {
+                                                        setdisableDate(true)
+                                                    }
+                                                }}>Camera {camera.camera_id}</MenuItem>
+                                            ))}
+                                        </Select>
+                                        {help && <FormHelperText>Camera 1 is selected</FormHelperText>}
+                                    </FormControl>
+                                </Grid>
+                                <Grid item lg={4} md={6} xs={12}>
+                                    <Typography variant="h6" style={{ color: 'black' }}>
+                                        From Date:
                             </Typography>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
-                                margin="normal"
-                                id="date-picker-dialog"
-                                format="MM/dd/yyyy"
-                                onChange={handleStartDateChange}
-                                value={sDate}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
-                                variant="outlined"
-                                placeholder="10/08/2020"
-                                disabled={disableDate}
-                                maxDate={new Date()}
-                            />
-                        </MuiPickersUtilsProvider>
-                    </Grid>
-                    <Grid item md={6} lg={4} xs={12}>
-                        <Typography variant="h6" style={{ color: 'black' }}>
-                            To Date:
+                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                        <KeyboardDatePicker
+                                            margin="normal"
+                                            id="date-picker-dialog"
+                                            format="MM/dd/yyyy"
+                                            onChange={handleStartDateChange}
+                                            value={sDate}
+                                            KeyboardButtonProps={{
+                                                'aria-label': 'change date',
+                                            }}
+                                            variant="outlined"
+                                            placeholder="10/08/2020"
+                                            disabled={disableDate}
+                                            maxDate={new Date()}
+                                        />
+                                    </MuiPickersUtilsProvider>
+                                </Grid>
+                                <Grid item lg={4} md={6} xs={12}>
+                                    <Typography variant="h6" style={{ color: 'black' }}>
+                                        To Date:
                             </Typography>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
-                                margin="normal"
-                                id="date-picker-dialog"
-                                format="MM/dd/yyyy"
-                                onChange={handleEndDateChange}
-                                value={eDate}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
-                                variant="outlined"
-                                placeholder="10/15/2020"
-                                maxDate={new Date()}
-                                minDate={sDate}
-                            />
-                        </MuiPickersUtilsProvider>
-                    </Grid>
+                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                        <KeyboardDatePicker
+                                            margin="normal"
+                                            id="date-picker-dialog"
+                                            format="MM/dd/yyyy"
+                                            onChange={handleEndDateChange}
+                                            value={eDate}
+                                            KeyboardButtonProps={{
+                                                'aria-label': 'change date',
+                                            }}
+                                            variant="outlined"
+                                            placeholder="10/15/2020"
+                                            maxDate={new Date()}
+                                            minDate={sDate}
+                                        />
+                                    </MuiPickersUtilsProvider>
+                                </Grid>
+                            </Grid>
+                        </div>
+                    </Paper>
                 </Grid>
-            </Paper>
-            {bID === '1' && <Risk cID={cameraID} sDate={sDate} eDate={eDate} />}
-            {bID === '2' && <Visual cID={cameraID} sDate={sDate} eDate={eDate} />}
+                <Grid item xs={12}>
+                    {bID === '1' && <Risk cID={cameraID} sDate={sDate} eDate={eDate} />}
+                    {bID === '2' && <Visual cID={cameraID} sDate={sDate} eDate={eDate} />}
+                </Grid>
+            </Grid>
+
         </div>
     );
 }

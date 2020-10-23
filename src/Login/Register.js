@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '20px',
     backgroundColor: '#031b33',
     borderRadius: '10px',
-    height: '570px'
+    height: '590px'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -40,13 +40,16 @@ export default function SignUp() {
     first_name: '',
     last_name: '',
     email: '',
-    company: '',
+    company_name: '',
     role: ''
   };
 
+  const [visform, setvisform] = useState('')
+  const [msg, setmsg] = useState('hidden')
+
   const [user, setUser] = useState(userInitial);
 
-  const { first_name, last_name, email, company, role } = user;
+  const { first_name, last_name, email, company_name, role } = user;
 
   const handleInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -58,12 +61,14 @@ export default function SignUp() {
 
     axios
       .post(
-        'url',
+        'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/contact',
         user
       )
       .then((res) => {
         console.log(res.data);
-        history.push('/');
+        setvisform('hidden')
+        setmsg('')
+        //history.push('/login');
       })
       .catch((err) => {
         console.log(err);
@@ -73,7 +78,7 @@ export default function SignUp() {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <div className={classes.paper} style={{ visibility: visform }}>
         <img src={Logo} alt="logo" width="220px" height="80px" style={{ borderRadius: '10px', marginBottom: '15px' }}></img>
         <Typography component="h1" variant="h5" style={{ color: 'white' }}>
           Contact Us
@@ -125,9 +130,9 @@ export default function SignUp() {
                 variant="outlined"
                 placeholder="Company Name"
                 fullWidth
-                name="company"
-                id="company"
-                value={company}
+                name="company_name"
+                id="company_name"
+                value={company_name}
                 onChange={handleInputChange}
                 style={{ color: 'white', backgroundColor: 'white', borderRadius: '10px' }}
               />
@@ -163,6 +168,14 @@ export default function SignUp() {
             </Grid>
           </Grid>
         </form>
+      </div>
+      <div style={{ visibility: msg, position: 'fixed', top: '160px', marginLeft: '36px' }}>
+        <Typography variant="h2" style={{ textAlign: 'center', marginTop: '30px', marginBottom: '10px', fontWeight: '600', letterSpacing: '1px' }}>
+          Thank You !
+        </Typography>
+        <Typography variant="h6" style={{ textAlign: 'center' }}>
+          We will contact you shortly .
+        </Typography>
       </div>
     </Container>
   );
