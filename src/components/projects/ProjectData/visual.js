@@ -54,6 +54,18 @@ export default function Visual(props) {
   /*   console.log(cID)
     console.log(sDate)
     console.log(eDate) */
+
+  const [disable, setDisable] = useState(true)
+  useEffect(() => {
+    var year = sDate.getFullYear();
+    //console.log(year)
+    if (year === 1970)
+      setDisable(true)
+    else
+      setDisable(false)
+    //console.log(disable)
+  }, [sDate])
+
   var startDate = sDate.toISOString().slice(0, 10) + " 00:00:00";
   var endDate = eDate.toISOString().slice(0, 10) + " 23:00:00";
 
@@ -101,126 +113,135 @@ export default function Visual(props) {
   };
 
   return (
-    <Grid container style={{ marginBottom: '50px', marginTop: '30px', }}>
-      <ThemeProvider theme={theme}>
-        <div
-          style={{
-            marginBottom: '20px',
-            marginTop: '20px',
-            fontFamily: 'Quicksand , sans-serif',
-            fontSize: '36px',
+    <div>
+      {disable === true && <div>
+        <Typography variant="h4" style={{ textAlign: 'center', marginTop: '50px' }}>
+          Camera has not started streaming yet .
+      </Typography>
+      </div>}
+      {disable === false && <Grid container style={{ marginBottom: '50px', marginTop: '30px', }}>
+        <ThemeProvider theme={theme}>
+          <div>
+            <div
+              style={{
+                marginBottom: '20px',
+                marginTop: '20px',
+                fontFamily: 'Quicksand , sans-serif',
+                fontSize: '36px',
+              }}
+            >
+              Incident Visuals
+      </div>
+            <Grid container spacing={3}>
+
+              {phys.length > 0 && <Grid item xs={12}>
+                <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
+                  Physical Distancing Violations
+            </Typography>
+              </Grid>}
+              {phys.length > 0 && phys.map((phy) => (
+                <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
+                  <Paper className={classes.paper} elevation={5}>
+                    <video width="98%" height="235" controls="true" poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.thumbnail_path} onClick={() => {
+                      handleOpen()
+                      setModalVideo("http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.data_path)
+                    }} style={{ outline: 'none', cursor: 'pointer' }}>
+                      <source src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.data_path} />
+                    </video>
+                    <Typography variant="h6">{phy.datetime}</Typography>
+                  </Paper>
+                </Grid>
+              ))}
+              {phys.length > 0 && <Grid item xs={12}>
+                <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
+              </Grid>}
+              <Grid item xs={12}>
+                {masks.length > 0 && <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
+                  Mask Violations
+            </Typography>}
+              </Grid>
+              {masks.length > 0 && masks.map((mask) => (
+                <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
+                  <Paper className={classes.paper} elevation={5}>
+                    <video width="98%" height="235" controls="true" poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.thumbnail_path} onClick={() => {
+                      handleOpen()
+                      setModalVideo("http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.data_path)
+                    }} style={{ outline: 'none', cursor: 'pointer' }}>
+                      <source src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.data_path} />
+                    </video>
+                    <Typography variant="h6">{mask.datetime}</Typography>
+                  </Paper>
+                </Grid>
+              ))}
+              {masks.length > 0 && <Grid item xs={12}>
+                <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
+              </Grid>}
+              <Grid item xs={12}>
+                {hats.length > 0 && <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
+                  PPE Compliance - Hard Hat (Violations)
+            </Typography>}
+              </Grid>
+              {hats.length > 0 && hats.map((hat) => (
+                <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
+                  <Paper className={classes.paper} elevation={5}>
+                    <video width="98%" height="235" controls="true" poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.thumbnail_path} onClick={() => {
+                      handleOpen()
+                      setModalVideo("http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.data_path)
+                    }} style={{ outline: 'none', cursor: 'pointer' }}>
+                      <source src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.data_path} />
+                    </video>
+                    <Typography variant="h6">{hat.datetime}</Typography>
+                  </Paper>
+                </Grid>
+              ))}
+              {hats.length > 0 && <Grid item xs={12}>
+                <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
+              </Grid>}
+              <Grid item xs={12}>
+                {vests.length > 0 && <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
+                  PPE Compliance - High Viz Vest (Violations)
+            </Typography>}
+              </Grid>
+              {vests.length > 0 && vests.map((vest) => (
+                <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
+                  <Paper className={classes.paper} elevation={5}>
+                    <video width="98%" height="235" controls="true" poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.thumbnail_path} onClick={() => {
+                      handleOpen()
+                      setModalVideo("http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.data_path)
+                    }} style={{ outline: 'none', cursor: 'pointer' }}>
+                      <source src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.data_path} />
+                    </video>
+                    <Typography variant="h6">{vest.datetime}</Typography>
+                  </Paper>
+                </Grid>
+              ))}
+              {vests.length > 0 && <Grid item xs={12}>
+                <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
+              </Grid>}
+            </Grid>
+          </div>
+        </ThemeProvider>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
           }}
         >
-          Incident Visuals
-      </div>
-        <Grid container spacing={3}>
-
-          {phys.length > 0 && <Grid item xs={12}>
-            <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
-              Physical Distancing Violations
-            </Typography>
-          </Grid>}
-          {phys.length > 0 && phys.map((phy) => (
-            <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
-              <Paper className={classes.paper} elevation={5}>
-                <video width="98%" height="235" controls="true" poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.thumbnail_path} onClick={() => {
-                  handleOpen()
-                  setModalVideo("http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.data_path)
-                }} style={{ outline: 'none', cursor: 'pointer' }}>
-                  <source src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + phy.data_path} />
-                </video>
-                <Typography variant="h6">{phy.datetime}</Typography>
-              </Paper>
-            </Grid>
-          ))}
-          {phys.length > 0 && <Grid item xs={12}>
-            <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
-          </Grid>}
-          <Grid item xs={12}>
-            {masks.length > 0 && <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
-              Mask Violations
-            </Typography>}
-          </Grid>
-          {masks.length > 0 && masks.map((mask) => (
-            <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
-              <Paper className={classes.paper} elevation={5}>
-                <video width="98%" height="235" controls="true" poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.thumbnail_path} onClick={() => {
-                  handleOpen()
-                  setModalVideo("http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.data_path)
-                }} style={{ outline: 'none', cursor: 'pointer' }}>
-                  <source src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + mask.data_path} />
-                </video>
-                <Typography variant="h6">{mask.datetime}</Typography>
-              </Paper>
-            </Grid>
-          ))}
-          {masks.length > 0 && <Grid item xs={12}>
-            <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
-          </Grid>}
-          <Grid item xs={12}>
-            {hats.length > 0 && <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
-              PPE Compliance - Hard Hat
-            </Typography>}
-          </Grid>
-          {hats.length > 0 && hats.map((hat) => (
-            <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
-              <Paper className={classes.paper} elevation={5}>
-                <video width="98%" height="235" controls="true" poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.thumbnail_path} onClick={() => {
-                  handleOpen()
-                  setModalVideo("http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.data_path)
-                }} style={{ outline: 'none', cursor: 'pointer' }}>
-                  <source src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + hat.data_path} />
-                </video>
-                <Typography variant="h6">{hat.datetime}</Typography>
-              </Paper>
-            </Grid>
-          ))}
-          {hats.length > 0 && <Grid item xs={12}>
-            <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
-          </Grid>}
-          <Grid item xs={12}>
-            {vests.length > 0 && <Typography variant="h5" style={{ marginTop: '34px', fontWeight: '600' }}>
-              PPE Compliance - High Viz Vest
-            </Typography>}
-          </Grid>
-          {vests.length > 0 && vests.map((vest) => (
-            <Grid item lg={4} sm={6} style={{ textAlign: 'center' }}>
-              <Paper className={classes.paper} elevation={5}>
-                <video width="98%" height="235" controls="true" poster={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.thumbnail_path} onClick={() => {
-                  handleOpen()
-                  setModalVideo("http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.data_path)
-                }} style={{ outline: 'none', cursor: 'pointer' }}>
-                  <source src={"http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media" + vest.data_path} />
-                </video>
-                <Typography variant="h6">{vest.datetime}</Typography>
-              </Paper>
-            </Grid>
-          ))}
-          {vests.length > 0 && <Grid item xs={12}>
-            <Divider style={{ backgroundColor: 'gray', height: '2px' }} />
-          </Grid>}
-        </Grid>
-      </ThemeProvider>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paperModal} style={{ outline: 'none' }}>
-            <video width="100%" height="90%" controls="true" style={{ marginTop: '30px', outline: 'none' }}>
-              <source src={modalVideo} />
-            </video>
-          </div>
-        </Fade>
-      </Modal>
-    </Grid>
+          <Fade in={open}>
+            <div className={classes.paperModal} style={{ outline: 'none' }}>
+              <video width="100%" height="90%" controls="true" style={{ marginTop: '30px', outline: 'none' }}>
+                <source src={modalVideo} />
+              </video>
+            </div>
+          </Fade>
+        </Modal>
+      </Grid>}
+    </div>
   );
 }

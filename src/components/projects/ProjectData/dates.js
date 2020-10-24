@@ -16,6 +16,7 @@ import axios from 'axios'
 import FormHelperText from '@material-ui/core/FormHelperText';
 
 
+import Overview from './overview'
 import Risk from './risk'
 import Visual from './visual'
 
@@ -96,15 +97,14 @@ export default function MaterialUIPickers(props) {
                 data
             )
             .then((res) => {
-                //console.log(res.data)
+                console.log(res.data)
                 setCameras(res.data.cameras);
                 setsDate(new Date(res.data.cameras[0].start_date))
+                if (res.data.cameras[0].start_date === null)
+                    setdisableDate(true)
             })
             .catch((err) => console.log(err));
     }, []);
-
-    /* if (cameras !== undefined)
-        */
 
     const [cameraID, setcameraID] = useState(1);
     const [help, sethelp] = useState(true)
@@ -143,7 +143,7 @@ export default function MaterialUIPickers(props) {
                                                 }}>Camera {camera.camera_id}</MenuItem>
                                             ))}
                                         </Select>
-                                        {help && <FormHelperText>Camera 1 is selected</FormHelperText>}
+                                        {help && <FormHelperText>Default Camera 1</FormHelperText>}
                                     </FormControl>
                                 </Grid>
                                 <Grid item lg={4} md={6} xs={12}>
@@ -185,6 +185,7 @@ export default function MaterialUIPickers(props) {
                                             placeholder="10/15/2020"
                                             maxDate={new Date()}
                                             minDate={sDate}
+                                            disabled={disableDate}
                                         />
                                     </MuiPickersUtilsProvider>
                                 </Grid>
@@ -197,7 +198,6 @@ export default function MaterialUIPickers(props) {
                     {bID === '2' && <Visual cID={cameraID} sDate={sDate} eDate={eDate} />}
                 </Grid>
             </Grid>
-
         </div>
     );
 }

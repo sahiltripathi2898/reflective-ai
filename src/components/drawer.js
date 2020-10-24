@@ -161,6 +161,16 @@ const MiniDrawer = (props) => {
   const classes = useStyles();
   const theme = useTheme();
 
+  // Media Query
+
+  const matches = useMediaQuery('(min-width:600px)');
+
+  const toggleMargin = matches ? '36px' : '2px';
+  const nameMarginRight = matches ? '60px' : '48px';
+  const nameVisible = matches ? '' : '';
+
+
+
   //Drawer open-closing
   const [open, setOpen] = React.useState(true);
 
@@ -172,17 +182,12 @@ const MiniDrawer = (props) => {
     setOpen(false);
   };
 
-  // Media Query
+  useEffect(() => {
+    console.log(window.screen.width)
+    if (window.screen.width < 800)
+      handleDrawerClose()
+  }, [])
 
-  const matches = useMediaQuery('(min-width:600px)');
-
-  //const buttonFont = matches ? '12px' : '8px';
-  //const buttonMarginRight = matches ? '20px' : '10px';
-  const toggleMargin = matches ? '36px' : '2px';
-  //const nameFont = matches ? '24px' : '18px';
-  //const accountFont = matches ? '10px' : '8px';
-  const nameMarginRight = matches ? '60px' : '48px';
-  const nameVisible = matches ? '' : '';
 
   //Account Setting drop down
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -328,7 +333,10 @@ const MiniDrawer = (props) => {
                   <ListItemText>Hello {firstName}</ListItemText>
                 </StyledMenuItem>
                 <StyledMenuItem
-                  onClick={() => history.push('/profile-setting')}
+                  onClick={() => {
+                    handleClose()
+                    history.push('/profile-setting')
+                  }}
                 >
                   <ListItemIcon>
                     <SettingsIcon fontSize="small" />

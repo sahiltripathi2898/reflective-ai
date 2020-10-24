@@ -32,9 +32,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Risk(props) {
   const { cID, sDate, eDate } = props
-  /*   //console.log(cID)
-    console.log(sDate)
-    console.log(eDate) */
+  //console.log(cID)
+  //console.log(sDate)
+  //console.log(eDate) 
+  const [disable, setDisable] = useState(true)
+  useEffect(() => {
+    var year = sDate.getFullYear();
+    //console.log(year)
+    if (year === 1970)
+      setDisable(true)
+    else
+      setDisable(false)
+    //console.log(disable)
+  }, [sDate])
 
   var startDate = sDate.toISOString().slice(0, 10) + " 00:00:00";
   var endDate = eDate.toISOString().slice(0, 10) + " 23:00:00";
@@ -58,7 +68,7 @@ export default function Risk(props) {
       start_date: startDate,
       end_date: endDate
     };
-    console.log(data)
+    //console.log(data)
     axios
       .post(
         'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/camera/metrics',
@@ -99,92 +109,98 @@ export default function Risk(props) {
 
   return (
     <div className={classes.root}>
-      <div
-        style={{
-          marginBottom: '20px',
-          marginTop: '20px',
-          fontFamily: 'Quicksand , sans-serif',
-          fontSize: '36px',
-        }}
-      >
-        Safety Metrics
+      {disable === true && <div>
+        <Typography variant="h4" style={{ textAlign: 'center' }}>
+          Camera has not started streaming yet .
+        </Typography>
+      </div>}
+      {disable === false && <div>
+        <div
+          style={{
+            marginBottom: '20px',
+            marginTop: '20px',
+            fontFamily: 'Quicksand , sans-serif',
+            fontSize: '36px',
+          }}
+        >
+          Safety Metrics
       </div>
-      <Grid container spacing={3}>
-        {mask !== null && <Grid item lg={6} xs={12} md={6}>
-          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
-            <div
-              style={{
-                float: 'left',
-                fontSize: '24px',
-                fontWeight: '500',
-                width: '70%',
-              }}
-            >
-              <Typography
-                variant="h5"
-                style={{ fontFamily: 'Roboto , sans-serif' }}
+        <Grid container spacing={3}>
+          {mask !== null && <Grid item lg={6} xs={12} md={6}>
+            <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
+              <div
+                style={{
+                  float: 'left',
+                  fontSize: '24px',
+                  fontWeight: '500',
+                  width: '70%',
+                }}
               >
-                {' '}
+                <Typography
+                  variant="h5"
+                  style={{ fontFamily: 'Roboto , sans-serif' }}
+                >
+                  {' '}
                 PPE Compliance - Face Mask (%)
               </Typography>
-              <Typography
-                variant="h4"
-                style={{
-                  color: 'orange',
-                  margin: '3px 0px 3px 0px',
-                  fontWeight: '600',
-                }}
-              >
-                {mask}
-              </Typography>
+                <Typography
+                  variant="h4"
+                  style={{
+                    color: 'orange',
+                    margin: '3px 0px 3px 0px',
+                    fontWeight: '600',
+                  }}
+                >
+                  {mask}
+                </Typography>
+                <div
+                  style={{
+                    color: '#33f266s',
+                    margin: '3px 0px 3px 0px',
+                    fontSize: '30px',
+                    fontWeight: '600',
+                  }}
+                ></div>
+              </div>
+              <div style={{ float: floatPic, width: '30%', right: '0' }}>
+                <img
+                  alt="risk-images"
+                  src={ppe}
+                  width="70px"
+                  height="70px"
+                  style={{ float: floatPic }}
+                />
+              </div>
+            </Paper>
+          </Grid>}
+          {social_distancing !== null && <Grid item lg={6} xs={12} md={6}>
+            <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
               <div
                 style={{
-                  color: '#33f266s',
-                  margin: '3px 0px 3px 0px',
-                  fontSize: '30px',
-                  fontWeight: '600',
+                  float: 'left',
+                  fontSize: '24px',
+                  fontWeight: '500',
+                  width: '70%',
                 }}
-              ></div>
-            </div>
-            <div style={{ float: floatPic, width: '30%', right: '0' }}>
-              <img
-                alt="risk-images"
-                src={ppe}
-                width="70px"
-                height="70px"
-                style={{ float: floatPic }}
-              />
-            </div>
-          </Paper>
-        </Grid>}
-        {social_distancing !== null && <Grid item lg={6} xs={12} md={6}>
-          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
-            <div
-              style={{
-                float: 'left',
-                fontSize: '24px',
-                fontWeight: '500',
-                width: '70%',
-              }}
-            >
-              <Typography
-                variant="h5"
-                style={{ fontFamily: 'Roboto , sans-serif' }}
               >
-                Physical Distancing Violations
+                <Typography
+                  variant="h5"
+                  style={{ fontFamily: 'Roboto , sans-serif' }}
+                >
+                  Physical Distancing Violations
               </Typography>
 
-              <div
-                style={{
-                  color: 'orange',
-                  margin: '3px 0px 3px 0px',
-                  fontSize: '30px',
-                  fontWeight: '600',
-                }}
-              >
-                {social_distancing}
-              </div>
-              {/*<div
+                <div
+                  style={{
+                    color: 'orange',
+                    margin: '3px 0px 3px 0px',
+                    fontSize: '30px',
+                    fontWeight: '600',
+                  }}
+                >
+                  {social_distancing}
+                </div>
+                {/*<div
                 style={{
                   color: 'orange',
                   margin: '3px 0px 3px 0px',
@@ -194,46 +210,46 @@ export default function Risk(props) {
               >
                 16.66 % <FaArrowUp />
               </div>*/}
-            </div>
-            <div style={{ float: floatPic, width: '30%' }}>
-              <img
-                alt="risk-images"
-                src={sd}
-                width="70px"
-                height="70px"
-                style={{ float: floatPic }}
-              />
-            </div>
-          </Paper>
-        </Grid>}
-        {hard_hat !== null && <Grid item lg={6} xs={12} md={6}>
-          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
-            <div
-              style={{
-                float: 'left',
-                fontSize: '24px',
-                fontWeight: '500',
-                width: '70%',
-              }}
-            >
-              <Typography
-                variant="h5"
-                style={{ fontFamily: 'Roboto , sans-serif' }}
-              >
-                PPE Compliance - Hard Hat (%)
-              </Typography>
-
+              </div>
+              <div style={{ float: floatPic, width: '30%' }}>
+                <img
+                  alt="risk-images"
+                  src={sd}
+                  width="70px"
+                  height="70px"
+                  style={{ float: floatPic }}
+                />
+              </div>
+            </Paper>
+          </Grid>}
+          {hard_hat !== null && <Grid item lg={6} xs={12} md={6}>
+            <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
               <div
                 style={{
-                  color: 'orange',
-                  margin: '3px 0px 3px 0px',
-                  fontSize: '30px',
-                  fontWeight: '600',
+                  float: 'left',
+                  fontSize: '24px',
+                  fontWeight: '500',
+                  width: '70%',
                 }}
               >
-                {hard_hat}
-              </div>
-              {/*<div
+                <Typography
+                  variant="h5"
+                  style={{ fontFamily: 'Roboto , sans-serif' }}
+                >
+                  PPE Compliance - Hard Hat (%)
+              </Typography>
+
+                <div
+                  style={{
+                    color: 'orange',
+                    margin: '3px 0px 3px 0px',
+                    fontSize: '30px',
+                    fontWeight: '600',
+                  }}
+                >
+                  {hard_hat}
+                </div>
+                {/*<div
                 style={{
                   color: 'orange',
                   margin: '3px 0px 3px 0px',
@@ -243,46 +259,46 @@ export default function Risk(props) {
               >
                 16.66 % <FaArrowUp />
               </div>*/}
-            </div>
-            <div style={{ float: floatPic, width: '30%' }}>
-              <img
-                alt="risk-images"
-                src={sd}
-                width="70px"
-                height="70px"
-                style={{ float: floatPic }}
-              />
-            </div>
-          </Paper>
-        </Grid>}
-        {vis_vest !== null && <Grid item lg={6} xs={12} md={6}>
-          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
-            <div
-              style={{
-                float: 'left',
-                fontSize: '24px',
-                fontWeight: '500',
-                width: '70%',
-              }}
-            >
-              <Typography
-                variant="h5"
-                style={{ fontFamily: 'Roboto , sans-serif' }}
-              >
-                PPE Compliance - High Viz Vest (%)
-              </Typography>
-
+              </div>
+              <div style={{ float: floatPic, width: '30%' }}>
+                <img
+                  alt="risk-images"
+                  src={sd}
+                  width="70px"
+                  height="70px"
+                  style={{ float: floatPic }}
+                />
+              </div>
+            </Paper>
+          </Grid>}
+          {vis_vest !== null && <Grid item lg={6} xs={12} md={6}>
+            <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
               <div
                 style={{
-                  color: 'orange',
-                  margin: '3px 0px 3px 0px',
-                  fontSize: '30px',
-                  fontWeight: '600',
+                  float: 'left',
+                  fontSize: '24px',
+                  fontWeight: '500',
+                  width: '70%',
                 }}
               >
-                {vis_vest}
-              </div>
-              {/*<div
+                <Typography
+                  variant="h5"
+                  style={{ fontFamily: 'Roboto , sans-serif' }}
+                >
+                  PPE Compliance - High Viz Vest (%)
+              </Typography>
+
+                <div
+                  style={{
+                    color: 'orange',
+                    margin: '3px 0px 3px 0px',
+                    fontSize: '30px',
+                    fontWeight: '600',
+                  }}
+                >
+                  {vis_vest}
+                </div>
+                {/*<div
                 style={{
                   color: 'orange',
                   margin: '3px 0px 3px 0px',
@@ -292,46 +308,46 @@ export default function Risk(props) {
               >
                 16.66 % <FaArrowUp />
               </div>*/}
-            </div>
-            <div style={{ float: floatPic, width: '30%' }}>
-              <img
-                alt="risk-images"
-                src={sd}
-                width="70px"
-                height="70px"
-                style={{ float: floatPic }}
-              />
-            </div>
-          </Paper>
-        </Grid>}
-        {social_distancing !== null && <Grid item lg={6} xs={12} md={6}>
-          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
-            <div
-              style={{
-                float: 'left',
-                fontSize: '24px',
-                fontWeight: '500',
-                width: '70%',
-              }}
-            >
-              <Typography
-                variant="h5"
-                style={{ fontFamily: 'Roboto , sans-serif' }}
-              >
-                Crowding Violations
-              </Typography>
-
+              </div>
+              <div style={{ float: floatPic, width: '30%' }}>
+                <img
+                  alt="risk-images"
+                  src={sd}
+                  width="70px"
+                  height="70px"
+                  style={{ float: floatPic }}
+                />
+              </div>
+            </Paper>
+          </Grid>}
+          {social_distancing !== null && <Grid item lg={6} xs={12} md={6}>
+            <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
               <div
                 style={{
-                  color: 'orange',
-                  margin: '3px 0px 3px 0px',
-                  fontSize: '30px',
-                  fontWeight: '600',
+                  float: 'left',
+                  fontSize: '24px',
+                  fontWeight: '500',
+                  width: '70%',
                 }}
               >
-                {social_distancing}
-              </div>
-              {/*<div
+                <Typography
+                  variant="h5"
+                  style={{ fontFamily: 'Roboto , sans-serif' }}
+                >
+                  Crowding Violations
+              </Typography>
+
+                <div
+                  style={{
+                    color: 'orange',
+                    margin: '3px 0px 3px 0px',
+                    fontSize: '30px',
+                    fontWeight: '600',
+                  }}
+                >
+                  {social_distancing}
+                </div>
+                {/*<div
                 style={{
                   color: 'orange',
                   margin: '3px 0px 3px 0px',
@@ -341,45 +357,45 @@ export default function Risk(props) {
               >
                 0 % <FaArrowUp />
               </div>*/}
-            </div>
-            <div style={{ float: floatPic, width: '30%' }}>
-              <img
-                alt="risk-images"
-                src={crowd}
-                width="70px"
-                height="70px"
-                style={{ float: floatPic }}
-              />
-            </div>
-          </Paper>
-        </Grid>}
-        {occ !== null && <Grid item lg={6} xs={12} md={6}>
-          <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
-            <div
-              style={{
-                float: 'left',
-                fontSize: '24px',
-                fontWeight: '500',
-                width: '70%',
-              }}
-            >
-              <Typography
-                variant="h5"
-                style={{ fontFamily: 'Roboto , sans-serif' }}
-              >
-                Occupancy Maximum
-              </Typography>
+              </div>
+              <div style={{ float: floatPic, width: '30%' }}>
+                <img
+                  alt="risk-images"
+                  src={crowd}
+                  width="70px"
+                  height="70px"
+                  style={{ float: floatPic }}
+                />
+              </div>
+            </Paper>
+          </Grid>}
+          {occ !== null && <Grid item lg={6} xs={12} md={6}>
+            <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
               <div
                 style={{
-                  color: 'orange',
-                  margin: '3px 0px 3px 0px',
-                  fontSize: '30px',
-                  fontWeight: '600',
+                  float: 'left',
+                  fontSize: '24px',
+                  fontWeight: '500',
+                  width: '70%',
                 }}
               >
-                {occ}
-              </div>
-              {/*<div
+                <Typography
+                  variant="h5"
+                  style={{ fontFamily: 'Roboto , sans-serif' }}
+                >
+                  Occupancy Maximum
+              </Typography>
+                <div
+                  style={{
+                    color: 'orange',
+                    margin: '3px 0px 3px 0px',
+                    fontSize: '30px',
+                    fontWeight: '600',
+                  }}
+                >
+                  {occ}
+                </div>
+                {/*<div
                 style={{
                   color: 'orange',
                   margin: '3px 0px 3px 0px',
@@ -389,48 +405,49 @@ export default function Risk(props) {
               >
                 15.38 % <FaArrowUp />
               </div>*/}
-            </div>
-            <div style={{ float: floatPic, width: '30%' }}>
-              <img
-                alt="risk-images"
-                src={mw}
-                width="70px"
-                height="70px"
-                style={{ float: floatPic }}
-              />
-            </div>
-          </Paper>
-        </Grid>}
-        {social_distancing !== null && <Grid item xs={12}>
-          <div
-            style={{
-              marginTop: '50px',
-              fontFamily: 'Quicksand , sans-serif',
-              fontSize: '36px',
-            }}
-          >
-            Hotspot Analysis
-      </div>
-        </Grid>}
-        <Grid item xs={12}>
-          {social_distancing !== null && <Paper className={classes.paper} style={{ height: '730px', marginBottom: '50px' }} elevation={10}>
-            <iframe
-              width="100%"
-              height="680px"
-              src={video1}
-              frameborder="0"
-              controls
-              allowfullscreen
-              title="video"
+              </div>
+              <div style={{ float: floatPic, width: '30%' }}>
+                <img
+                  alt="risk-images"
+                  src={mw}
+                  width="70px"
+                  height="70px"
+                  style={{ float: floatPic }}
+                />
+              </div>
+            </Paper>
+          </Grid>}
+          {social_distancing !== null && <Grid item xs={12}>
+            <div
               style={{
-                borderRadius: '5px',
-                display: 'inline-block',
-                margin: '0 auto',
+                marginTop: '50px',
+                fontFamily: 'Quicksand , sans-serif',
+                fontSize: '36px',
               }}
-            ></iframe>
-          </Paper>}
+            >
+              Hotspot Analysis
+      </div>
+          </Grid>}
+          <Grid item xs={12}>
+            {social_distancing !== null && <Paper className={classes.paper} style={{ height: '730px', marginBottom: '50px' }} elevation={10}>
+              <iframe
+                width="100%"
+                height="680px"
+                src={video1}
+                frameborder="0"
+                controls
+                allowfullscreen
+                title="video"
+                style={{
+                  borderRadius: '5px',
+                  display: 'inline-block',
+                  margin: '0 auto',
+                }}
+              ></iframe>
+            </Paper>}
+          </Grid>
         </Grid>
-      </Grid>
+      </div>}
     </div>
   );
 }

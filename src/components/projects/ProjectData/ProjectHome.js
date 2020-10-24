@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Overview from './overview'
 import Dates from './dates'
@@ -6,18 +6,24 @@ import Dates from './dates'
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core'
+import { Container, Typography } from '@material-ui/core'
+
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    marginTop: '100px',
+    marginTop: '40px',
     marginLeft: '20px',
+    paddingLeft: '0px'
   },
 }));
 
-export default function ProjectHome() {
+export default function ProjectHome(props) {
   const classes = useStyles();
+
+  const { projectID, name, address } = props
+
   const [buttonId, setbuttonId] = useState('1');
   const [btnA, setbtnA] = useState('#4cebeb')
   const [btnB, setbtnB] = useState('#4ccceb')
@@ -47,12 +53,21 @@ export default function ProjectHome() {
   if (buttonId === '1') {
     return (
       <div>
+        <div style={{ marginTop: '85px', marginLeft: '20px' }}>
+          <Typography variant="h4" style={{ fontWeight: '600' }}>
+            {name}
+          </Typography>
+          <Typography variant="h6">
+            {address}
+          </Typography>
+        </div>
         <Container className={classes.root}>
           <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group" >
             <Button onClick={firstBtn} style={{ backgroundColor: btnA }}>Safety Metrics</Button>
             <Button onClick={secondBtn} style={{ backgroundColor: btnB }}>Incident Visuals</Button>
             <Button onClick={thirdBtn} style={{ backgroundColor: btnC }}>Project Team</Button>
           </ButtonGroup>
+
         </Container>
         <Dates bID={buttonId} />
       </div>
@@ -61,6 +76,14 @@ export default function ProjectHome() {
   else if (buttonId === '2') {
     return (
       <div>
+        <div style={{ marginTop: '85px', marginLeft: '20px' }}>
+          <Typography variant="h4" style={{ fontWeight: '600' }}>
+            {name}
+          </Typography>
+          <Typography variant="h6">
+            {address}
+          </Typography>
+        </div>
         <Container className={classes.root}>
           <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
             <Button onClick={firstBtn} style={{ backgroundColor: btnA }}>Safety Metrics</Button>
@@ -75,6 +98,14 @@ export default function ProjectHome() {
   else if (buttonId === '3') {
     return (
       <div>
+        <div style={{ marginTop: '85px', marginLeft: '20px' }}>
+          <Typography variant="h4" style={{ fontWeight: '600' }}>
+            {name}
+          </Typography>
+          <Typography variant="h6">
+            {address}
+          </Typography>
+        </div>
         <Container className={classes.root}>
           <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
             <Button onClick={firstBtn} style={{ backgroundColor: btnA }}>Safety Metrics</Button>
