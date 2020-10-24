@@ -113,7 +113,7 @@ export default function ProjectHome(props) {
             <Button onClick={thirdBtn} style={{ backgroundColor: btnC }}>Project Team</Button>
           </ButtonGroup>
         </Container>
-        <Overview />
+        <Dates bID={buttonId} />
       </div>
     )
   }

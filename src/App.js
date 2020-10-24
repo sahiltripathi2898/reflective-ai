@@ -11,6 +11,7 @@ import SignIn from './Login/SignIn';
 import Register from './Login/Register';
 import Projects from './components/projects/projectTable';
 import ResetPassword from './Login/Reset'
+import Project from './components/projects/ProjectData/ProjectHome'
 
 import Protected from './ProtectedRoute';
 
@@ -38,6 +39,9 @@ function App() {
           <Route exact path="/">
             <Protected cmp={<Drawer />} />
           </Route>
+          {/* <Route exact path="/project">
+            <Protected cmp={<Drawer />} />
+          </Route> */}
           <Route exact path="/integration">
             <Protected cmp={<Drawer />} />
           </Route>
@@ -53,6 +57,9 @@ function App() {
           <Route exact path="/">
             <Projects />
           </Route>
+          {/* <Route exact path="/project">
+            <Project />
+          </Route> */}
           <Route exact path="/integration">
             <Integration />
           </Route>

@@ -109,11 +109,20 @@ export default function MaterialUIPickers(props) {
     const [cameraID, setcameraID] = useState(1);
     const [help, sethelp] = useState(true)
 
+    const [visible, setVisible] = useState(true)
+
+    useEffect(() => {
+        if (bID === '3')
+            setVisible(false)
+        else
+            setVisible(true)
+    }, [bID])
+
     const classes = useStyles();
     return (
         <div className={classes.root}>
             <Grid container spacing={3} >
-                <Grid item xs={12}>
+                {visible === true && <Grid item xs={12}>
                     <Paper className={classes.paper} elevation={5}>
                         <div className={classes.dates}>
                             <Grid container spacing={3} >
@@ -192,10 +201,11 @@ export default function MaterialUIPickers(props) {
                             </Grid>
                         </div>
                     </Paper>
-                </Grid>
+                </Grid>}
                 <Grid item xs={12}>
                     {bID === '1' && <Risk cID={cameraID} sDate={sDate} eDate={eDate} />}
                     {bID === '2' && <Visual cID={cameraID} sDate={sDate} eDate={eDate} />}
+                    {bID === '3' && <Overview />}
                 </Grid>
             </Grid>
         </div>

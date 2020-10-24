@@ -39,7 +39,7 @@ const useStyles = makeStyles({
 
 const Projects = (props) => {
   const classes = useStyles();
-  //const { history } = props;
+  const { history } = props;
 
   const [rows, setRows] = useState([]);
 
@@ -103,7 +103,10 @@ const Projects = (props) => {
                 <StyledTableRow
                   key={row.project_name}
                   style={{ cursor: 'pointer' }}
-                  onClick={() => callProjectDetails(row.project_id, row.company_id, row.project_name, row.address)}
+                  onClick={() => {
+                    callProjectDetails(row.project_id, row.company_id, row.project_name, row.address)
+                    //history.push('/project')
+                  }}
                 >
                   <StyledTableCell component="th" scope="row">
                     {row.project_name}

@@ -84,7 +84,7 @@ export default function Overview() {
 
 
   return (
-    <Grid container style={{ padding: '20px' }} >
+    <Grid container style={{ padding: '0px' }} >
       {/*<Grid item xs={12}
         style={{
           marginBottom: '30px',
@@ -96,7 +96,7 @@ export default function Overview() {
         Projects Overview
       </Grid>*/}
       <Grid item xs={12}>
-        <Typography variant="h6" style={{ marginBottom: '10px', marginTop: '45px', }}>
+        <Typography variant="h6" style={{ marginBottom: '10px' }}>
           PROJECT TEAM
       </Typography>
       </Grid>
