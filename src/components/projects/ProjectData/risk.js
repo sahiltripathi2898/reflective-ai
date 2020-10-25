@@ -12,10 +12,13 @@ import video1 from './assets/video.mp4';
 import Typography from '@material-ui/core/Typography';
 
 //images
-import ppe from './assets/ppe.png';
+
 import crowd from './assets/crowd.jpeg';
 import mw from './assets/mw.jpeg';
-import sd from './assets/sd.jpeg';
+import maskimg from './assets/mask.jpg';
+import phyimg from './assets/phy.jpg';
+import hatimg from './assets/hat.jpg'
+import vestimg from './assets/vest.jpg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -165,9 +168,9 @@ export default function Risk(props) {
               <div style={{ float: floatPic, width: '30%', right: '0' }}>
                 <img
                   alt="risk-images"
-                  src={ppe}
-                  width="70px"
-                  height="70px"
+                  src={maskimg}
+                  width="90px"
+                  height="90px"
                   style={{ float: floatPic }}
                 />
               </div>
@@ -214,9 +217,9 @@ export default function Risk(props) {
               <div style={{ float: floatPic, width: '30%' }}>
                 <img
                   alt="risk-images"
-                  src={sd}
-                  width="70px"
-                  height="70px"
+                  src={phyimg}
+                  width="90px"
+                  height="90px"
                   style={{ float: floatPic }}
                 />
               </div>
@@ -263,9 +266,9 @@ export default function Risk(props) {
               <div style={{ float: floatPic, width: '30%' }}>
                 <img
                   alt="risk-images"
-                  src={sd}
-                  width="70px"
-                  height="70px"
+                  src={hatimg}
+                  width="90px"
+                  height="90px"
                   style={{ float: floatPic }}
                 />
               </div>
@@ -312,9 +315,9 @@ export default function Risk(props) {
               <div style={{ float: floatPic, width: '30%' }}>
                 <img
                   alt="risk-images"
-                  src={sd}
-                  width="70px"
-                  height="70px"
+                  src={vestimg}
+                  width="90px"
+                  height="90px"
                   style={{ float: floatPic }}
                 />
               </div>
@@ -362,8 +365,8 @@ export default function Risk(props) {
                 <img
                   alt="risk-images"
                   src={crowd}
-                  width="70px"
-                  height="70px"
+                  width="90px"
+                  height="90px"
                   style={{ float: floatPic }}
                 />
               </div>
@@ -410,8 +413,8 @@ export default function Risk(props) {
                 <img
                   alt="risk-images"
                   src={mw}
-                  width="70px"
-                  height="70px"
+                  width="90px"
+                  height="90px"
                   style={{ float: floatPic }}
                 />
               </div>
