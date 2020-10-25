@@ -13,8 +13,8 @@ import Typography from '@material-ui/core/Typography';
 
 //images
 
-import crowd from './assets/crowd.jpeg';
-import mw from './assets/mw.jpeg';
+import crowdimg from './assets/crowd.jpg';
+import occupancyimg from './assets/occupancy.jpg';
 import maskimg from './assets/mask.jpg';
 import phyimg from './assets/phy.jpg';
 import hatimg from './assets/hat.jpg'
@@ -364,7 +364,7 @@ export default function Risk(props) {
               <div style={{ float: floatPic, width: '30%' }}>
                 <img
                   alt="risk-images"
-                  src={crowd}
+                  src={crowdimg}
                   width="90px"
                   height="90px"
                   style={{ float: floatPic }}
@@ -412,7 +412,7 @@ export default function Risk(props) {
               <div style={{ float: floatPic, width: '30%' }}>
                 <img
                   alt="risk-images"
-                  src={mw}
+                  src={occupancyimg}
                   width="90px"
                   height="90px"
                   style={{ float: floatPic }}
