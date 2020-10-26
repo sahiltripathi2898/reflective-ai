@@ -26,7 +26,7 @@ const Integration = (props) => {
             onMouseEnter={() => setVisible('')}
             onMouseLeave={() => setVisible('hidden')}>
           </img>
-          <Typography variant="h5" style={{ position: 'absolute', textAlign: 'center', marginTop: '15px', visibility: visible, marginLeft: '90px', color: 'gray' }}>Coming Soon !</Typography>
+          <Typography variant="h5" style={{ position: 'absolute', textAlign: 'center', marginTop: '195px', visibility: visible, marginLeft: '90px', color: 'gray' }}>Coming Soon !</Typography>
         </Paper>
       </Container>
     </div>

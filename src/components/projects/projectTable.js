@@ -60,8 +60,9 @@ const Projects = (props) => {
       .catch((err) => console.log(err));
   }, []);
 
-  function callProjectDetails(projectID) {
+  function callProjectDetails(projectID, companyID) {
     localStorage.setItem('projectID', projectID)
+    localStorage.setItem('companyID', companyID)
     history.push('/project')
   }
   return (
@@ -95,8 +96,7 @@ const Projects = (props) => {
                 key={row.project_name}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
-                  callProjectDetails(row.project_id)
-
+                  callProjectDetails(row.project_id, row.company_id)
                 }}
               >
                 <StyledTableCell component="th" scope="row">

@@ -110,6 +110,9 @@ export default function Risk(props) {
         occ = metric.occupancy_max
     }
 
+    //Hotspot
+    const [hotspot, setHotspot] = useState('http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com:8030/heat_image/26250_base.jpg')
+
     return (
         <div className={classes.root}>
             {disable === true && <div>
@@ -154,7 +157,7 @@ export default function Risk(props) {
                                         fontWeight: '600',
                                     }}
                                 >
-                                    {mask}
+                                    62.14
                                 </Typography>
                                 <div
                                     style={{
@@ -201,7 +204,7 @@ export default function Risk(props) {
                                         fontWeight: '600',
                                     }}
                                 >
-                                    {social_distancing}
+                                    17
                                 </div>
                                 {/*<div
                 style={{
@@ -250,7 +253,7 @@ export default function Risk(props) {
                                         fontWeight: '600',
                                     }}
                                 >
-                                    {hard_hat}
+                                    94.8
                                 </div>
                                 {/*<div
                 style={{
@@ -299,7 +302,7 @@ export default function Risk(props) {
                                         fontWeight: '600',
                                     }}
                                 >
-                                    {vis_vest}
+                                    66.57
                                 </div>
                                 {/*<div
                 style={{
@@ -348,7 +351,7 @@ export default function Risk(props) {
                                         fontWeight: '600',
                                     }}
                                 >
-                                    {social_distancing}
+                                    0
                                 </div>
                                 {/*<div
                 style={{
@@ -387,7 +390,7 @@ export default function Risk(props) {
                                     style={{ fontFamily: 'Roboto , sans-serif' }}
                                 >
                                     Occupancy Maximum
-              </Typography>
+                                </Typography>
                                 <div
                                     style={{
                                         color: 'orange',
@@ -396,7 +399,7 @@ export default function Risk(props) {
                                         fontWeight: '600',
                                     }}
                                 >
-                                    {occ}
+                                    15
                                 </div>
                                 {/*<div
                 style={{
@@ -425,15 +428,15 @@ export default function Risk(props) {
                             style={{
                                 marginTop: '50px',
                                 fontFamily: 'Quicksand , sans-serif',
-                                fontSize: '36px',
+                                fontSize: '24px',
                             }}
                         >
-                            Hotspot Analysis
+                            Hotspot Analysis - Physical Distancing Violations
       </div>
                     </Grid>}
                     <Grid item xs={12}>
                         {social_distancing !== -2 && <Paper className={classes.paper} style={{ height: '730px', marginBottom: '50px' }} elevation={10}>
-                            <iframe
+                            {/* <iframe
                                 width="100%"
                                 height="680px"
                                 src={video1}
@@ -446,7 +449,11 @@ export default function Risk(props) {
                                     display: 'inline-block',
                                     margin: '0 auto',
                                 }}
-                            ></iframe>
+                            ></iframe> */}
+                            <img src={hotspot} width="100%"
+                                height="680px" onMouseEnter={() => setHotspot('http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com:8030/heat_image/26250.jpg')}
+                                onMouseLeave={() => setHotspot('http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com:8030/heat_image/26250_base.jpg')}>
+                            </img>
                         </Paper>}
                     </Grid>
                 </Grid>
