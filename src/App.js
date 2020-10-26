@@ -9,7 +9,7 @@ import ClientInteg from './components/integrations/client-integ/ClientInte';
 import ProfileSetting from './components/profile/Settings';
 import SignIn from './Login/SignIn';
 import Register from './Login/Register';
-import Projects from './components/projects/projectTable';
+import ProjectTable from './components/projects/projectTable';
 import ResetPassword from './Login/Reset'
 import Project from './components/projects/ProjectData/ProjectHome'
 
@@ -39,9 +39,9 @@ function App() {
           <Route exact path="/">
             <Protected cmp={<Drawer />} />
           </Route>
-          {/* <Route exact path="/project">
+          <Route exact path="/project">
             <Protected cmp={<Drawer />} />
-          </Route> */}
+          </Route>
           <Route exact path="/integration">
             <Protected cmp={<Drawer />} />
           </Route>
@@ -55,11 +55,11 @@ function App() {
 
         <Switch>
           <Route exact path="/">
-            <Projects />
+            <ProjectTable />
           </Route>
-          {/* <Route exact path="/project">
+          <Route exact path="/project">
             <Project />
-          </Route> */}
+          </Route>
           <Route exact path="/integration">
             <Integration />
           </Route>

@@ -11,6 +11,7 @@ import Container from '@material-ui/core/Container';
 import { Typography } from '@material-ui/core';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
+
 import ProjectData from './ProjectData/ProjectHome'
 
 const StyledTableCell = withStyles((theme) => ({
@@ -59,74 +60,60 @@ const Projects = (props) => {
       .catch((err) => console.log(err));
   }, []);
 
-  const [pID, setpID] = useState(0);
-  const [pName, setpName] = useState('')
-  const [pAddress, setpAddress] = useState('')
-
-  function callProjectDetails(projectID, companyID, projectName, projectAddress) {
-    //localStorage.setItem('cameraID', 1)
+  function callProjectDetails(projectID) {
     localStorage.setItem('projectID', projectID)
-    localStorage.setItem('companyID', companyID)
-    setpAddress(projectAddress)
-    setpName(projectName)
-    setpID(projectID);
+    history.push('/project')
   }
-
-  if (pID === 0) {
-    return (
-      <Container style={{ marginTop: '70px', padding: '30px' }} maxWidth="md">
-        <Typography
-          variant="h2"
-          style={{
-            textAlign: 'center',
-            marginBottom: '30px',
-            fontWeight: '600',
-            letterSpacing: '1px',
-          }}
-        >
-          Projects List
+  return (
+    <Container style={{ marginTop: '70px', padding: '30px' }} maxWidth="md">
+      <Typography
+        variant="h2"
+        style={{
+          textAlign: 'center',
+          marginBottom: '30px',
+          fontWeight: '600',
+          letterSpacing: '1px',
+        }}
+      >
+        Projects List
       </Typography>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Project Name</StyledTableCell>
-                <StyledTableCell align="left">Status</StyledTableCell>
-                <StyledTableCell align="left">Address</StyledTableCell>
-                <StyledTableCell align="left">State</StyledTableCell>
-                <StyledTableCell align="left">City</StyledTableCell>
-                <StyledTableCell align="left">Zip</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow
-                  key={row.project_name}
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    callProjectDetails(row.project_id, row.company_id, row.project_name, row.address)
-                    //history.push('/project')
-                  }}
-                >
-                  <StyledTableCell component="th" scope="row">
-                    {row.project_name}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">{row.status}</StyledTableCell>
-                  <StyledTableCell align="left">{row.address}</StyledTableCell>
-                  <StyledTableCell align="left">{row.city}</StyledTableCell>
-                  <StyledTableCell align="left">{row.state}</StyledTableCell>
-                  <StyledTableCell align="left">{row.zip}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Container>
-    );
-  }
-  else {
-    return (<ProjectData projectID={pID} name={pName} address={pAddress} />)
-  }
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Project Name</StyledTableCell>
+              <StyledTableCell align="left">Status</StyledTableCell>
+              <StyledTableCell align="left">Address</StyledTableCell>
+              <StyledTableCell align="left">State</StyledTableCell>
+              <StyledTableCell align="left">City</StyledTableCell>
+              <StyledTableCell align="left">Zip</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <StyledTableRow
+                key={row.project_name}
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  callProjectDetails(row.project_id)
+
+                }}
+              >
+                <StyledTableCell component="th" scope="row">
+                  {row.project_name}
+                </StyledTableCell>
+                <StyledTableCell align="left">{row.status}</StyledTableCell>
+                <StyledTableCell align="left">{row.address}</StyledTableCell>
+                <StyledTableCell align="left">{row.city}</StyledTableCell>
+                <StyledTableCell align="left">{row.state}</StyledTableCell>
+                <StyledTableCell align="left">{row.zip}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
+  );
 };
 
 export default withRouter(Projects);

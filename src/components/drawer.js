@@ -415,7 +415,6 @@ const MiniDrawer = (props) => {
             button
             onClick={() => {
               history.push('/')
-              window.location.reload()
             }}
             style={{ marginBottom: '10px', marginTop: '5px' }}
           >
@@ -427,79 +426,6 @@ const MiniDrawer = (props) => {
               classes={{ primary: classes.listItemText }}
             />
           </ListItem>
-          {/*<ListItem
-            button
-            style={{ marginBottom: '10px' }}
-            onClick={() => history.push('/dashboard')}
-          >
-            <ListItemIcon>
-              {<FolderSharpIcon style={{ color: 'white', fontSize: '28px' }} />}
-            </ListItemIcon>
-            <ListItemText
-              primary={'Projects'}
-              classes={{ primary: classes.listItemText }}
-            />
-          </ListItem>
-          <ListItem button style={{ marginBottom: '10px' }}>
-            <ListItemIcon>
-              {
-                <SmsFailedSharpIcon
-                  style={{ color: 'white', fontSize: '28px' }}
-                />
-              }
-            </ListItemIcon>
-            <ListItemText
-              primary={'Risk Factors'}
-              classes={{ primary: classes.listItemText }}
-            />
-          </ListItem>
-          <ListItem
-            button
-            onClick={() => history.push('/alert')}
-            style={{ marginBottom: '10px' }}
-          >
-            <ListItemIcon>
-              {
-                <NotificationsActiveSharpIcon
-                  style={{ color: 'white', fontSize: '28px' }}
-                />
-              }
-            </ListItemIcon>
-            <ListItemText
-              primary={'Alert'}
-              classes={{ primary: classes.listItemText }}
-            />
-          </ListItem>
-          <ListItem button style={{ marginBottom: '10px' }}>
-            <ListItemIcon>
-              {
-                <TrendingUpSharpIcon
-                  style={{ color: 'white', fontSize: '28px' }}
-                />
-              }
-            </ListItemIcon>
-            <ListItemText
-              primary={'Status and Trends'}
-              classes={{ primary: classes.listItemText }}
-            />
-          </ListItem>
-          <ListItem
-            button
-            onClick={() => history.push('/dashboard')}
-            style={{ marginBottom: '10px' }}
-          >
-            <ListItemIcon>
-              {
-                <PhotoAlbumSharpIcon
-                  style={{ color: 'white', fontSize: '28px' }}
-                />
-              }
-            </ListItemIcon>
-            <ListItemText
-              primary={'Incident and Visuals'}
-              classes={{ primary: classes.listItemText }}
-            />
-            </ListItem>*/}
           <ListItem
             button
             onClick={() => history.push('/integration')}

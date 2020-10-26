@@ -107,7 +107,7 @@ export default function MaterialUIPickers(props) {
     }, []);
 
     const [cameraID, setcameraID] = useState(1);
-    const [help, sethelp] = useState(true)
+    //const [help, sethelp] = useState(true)
 
     const [visible, setVisible] = useState(true)
 
@@ -128,7 +128,7 @@ export default function MaterialUIPickers(props) {
                             <Grid container spacing={3} >
                                 <Grid item lg={4} md={6} xs={12}>
                                     <FormControl className={classes.formControl}>
-                                        <InputLabel id="demo-controlled-open-select-label">Select Camera </InputLabel>
+                                        <InputLabel shrink id="demo-controlled-open-select-label">Select Camera </InputLabel>
                                         <Select
                                             labelId="demo-controlled-open-select-label"
                                             id="demo-controlled-open-select"
@@ -136,12 +136,25 @@ export default function MaterialUIPickers(props) {
                                             onOpen={handleOpen}
                                             onChange={handleChange}
                                             value={age}
-                                            placeholder="Camera 1"
+                                            displayEmpty
                                         >
-                                            {cameras.map((camera, index) => (
-                                                <MenuItem value={camera.camera_id} key={index} onClick={() => {
-                                                    sethelp(false)
-                                                    setcameraID(index + 1)
+                                            <MenuItem value="" onClick={() => {
+                                                //sethelp(false)
+                                                setcameraID(1)
+                                                if (cameras[0].start_date !== null) {
+                                                    setsDate(new Date(cameras[0].start_date))
+                                                    setdisableDate(false)
+                                                }
+                                                else if (cameras[0].start_date === null) {
+                                                    setdisableDate(true)
+                                                }
+                                            }}>
+                                                Camera 1
+                                            </MenuItem>
+                                            {cameras.slice(1).map((camera, index) => (
+                                                <MenuItem value={camera.camera_id} key={index + 1} onClick={() => {
+                                                    //sethelp(false)
+                                                    setcameraID(index + 2)
                                                     if (camera.start_date !== null) {
                                                         setsDate(new Date(camera.start_date))
                                                         setdisableDate(false)
@@ -152,7 +165,7 @@ export default function MaterialUIPickers(props) {
                                                 }}>Camera {camera.camera_id}</MenuItem>
                                             ))}
                                         </Select>
-                                        {help && <FormHelperText>Default Camera 1</FormHelperText>}
+                                        {/*  {help && <FormHelperText>Default Camera 1</FormHelperText>} */}
                                     </FormControl>
                                 </Grid>
                                 <Grid item lg={4} md={6} xs={12}>

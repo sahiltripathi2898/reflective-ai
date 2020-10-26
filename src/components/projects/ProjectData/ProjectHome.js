@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import Overview from './overview'
 import Dates from './dates'
 
 import Button from '@material-ui/core/Button';
@@ -19,10 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ProjectHome(props) {
+export default function ProjectHome() {
   const classes = useStyles();
-
-  const { projectID, name, address } = props
 
   const [buttonId, setbuttonId] = useState('1');
   const [btnA, setbtnA] = useState('#4cebeb')
@@ -30,6 +27,26 @@ export default function ProjectHome(props) {
   const [btnC, setbtnC] = useState('#4ccceb')
   // on click #4cebeb
   // #4ccceb
+
+  const [project_name, setName] = useState('')
+  const [project_address, setAddress] = useState('')
+
+  useEffect(() => {
+    const data = {
+      jwt_token: localStorage.getItem('jwt_token'),
+      project_id: localStorage.getItem('projectID')
+    }
+    axios
+      .post(
+        ' http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/project/details',
+        data
+      )
+      .then((res) => {
+        setName(res.data.project.project_name)
+        setAddress(res.data.project.address)
+      })
+      .catch((err) => console.log(err));
+  }, [])
 
   function firstBtn() {
     setbuttonId('1')
@@ -55,10 +72,10 @@ export default function ProjectHome(props) {
       <div>
         <div style={{ marginTop: '85px', marginLeft: '20px' }}>
           <Typography variant="h4" style={{ fontWeight: '600' }}>
-            {name}
+            {project_name}
           </Typography>
           <Typography variant="h6">
-            {address}
+            {project_address}
           </Typography>
         </div>
         <Container className={classes.root}>
@@ -78,10 +95,10 @@ export default function ProjectHome(props) {
       <div>
         <div style={{ marginTop: '85px', marginLeft: '20px' }}>
           <Typography variant="h4" style={{ fontWeight: '600' }}>
-            {name}
+            {project_name}
           </Typography>
           <Typography variant="h6">
-            {address}
+            {project_address}
           </Typography>
         </div>
         <Container className={classes.root}>
@@ -100,10 +117,10 @@ export default function ProjectHome(props) {
       <div>
         <div style={{ marginTop: '85px', marginLeft: '20px' }}>
           <Typography variant="h4" style={{ fontWeight: '600' }}>
-            {name}
+            {project_name}
           </Typography>
           <Typography variant="h6">
-            {address}
+            {project_address}
           </Typography>
         </div>
         <Container className={classes.root}>
