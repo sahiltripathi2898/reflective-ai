@@ -20,6 +20,11 @@ import phyimg from './assets/phy.jpg';
 import hatimg from './assets/hat.jpg'
 import vestimg from './assets/vest.jpg'
 
+//Graph 
+import HardHatGraph from './graphs/hardhat'
+import MaskGraph from './graphs/mask'
+import VestGraph from './graphs/vest'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -118,24 +123,22 @@ export default function Risk(props) {
         </Typography>
       </div>}
       {disable === false && <div>
-        <div
+        <Typography
+        variant="h4"
           style={{
             marginBottom: '20px',
             marginTop: '20px',
             fontFamily: 'Quicksand , sans-serif',
-            fontSize: '36px',
           }}
         >
           Safety Metrics
-      </div>
+      </Typography>
         <Grid container spacing={3}>
           {mask !== null && <Grid item lg={6} xs={12} md={6}>
             <Paper className={classes.paper} style={{ height: paperHeight }} elevation={10}>
               <div
                 style={{
                   float: 'left',
-                  fontSize: '24px',
-                  fontWeight: '500',
                   width: '70%',
                 }}
               >
@@ -147,7 +150,7 @@ export default function Risk(props) {
                 PPE Compliance - Face Mask (%)
               </Typography>
                 <Typography
-                  variant="h4"
+                variant="h4"
                   style={{
                     color: 'orange',
                     margin: '3px 0px 3px 0px',
@@ -156,14 +159,6 @@ export default function Risk(props) {
                 >
                   {mask}
                 </Typography>
-                <div
-                  style={{
-                    color: '#33f266s',
-                    margin: '3px 0px 3px 0px',
-                    fontSize: '30px',
-                    fontWeight: '600',
-                  }}
-                ></div>
               </div>
               <div style={{ float: floatPic, width: '30%', right: '0' }}>
                 <img
@@ -181,8 +176,7 @@ export default function Risk(props) {
               <div
                 style={{
                   float: 'left',
-                  fontSize: '24px',
-                  fontWeight: '500',
+               
                   width: '70%',
                 }}
               >
@@ -193,26 +187,17 @@ export default function Risk(props) {
                   Physical Distancing Violations
               </Typography>
 
-                <div
+                <Typography
+                variant="h4"
                   style={{
                     color: 'orange',
                     margin: '3px 0px 3px 0px',
-                    fontSize: '30px',
                     fontWeight: '600',
                   }}
                 >
                   {social_distancing}
-                </div>
-                {/*<div
-                style={{
-                  color: 'orange',
-                  margin: '3px 0px 3px 0px',
-                  fontSize: '30px',
-                  fontWeight: '600',
-                }}
-              >
-                16.66 % <FaArrowUp />
-              </div>*/}
+                </Typography>
+                
               </div>
               <div style={{ float: floatPic, width: '30%' }}>
                 <img
@@ -230,8 +215,6 @@ export default function Risk(props) {
               <div
                 style={{
                   float: 'left',
-                  fontSize: '24px',
-                  fontWeight: '500',
                   width: '70%',
                 }}
               >
@@ -242,26 +225,16 @@ export default function Risk(props) {
                   PPE Compliance - Hard Hat (%)
               </Typography>
 
-                <div
+                <Typography
+                variant="h4"
                   style={{
                     color: 'orange',
                     margin: '3px 0px 3px 0px',
-                    fontSize: '30px',
                     fontWeight: '600',
                   }}
                 >
                   {hard_hat}
-                </div>
-                {/*<div
-                style={{
-                  color: 'orange',
-                  margin: '3px 0px 3px 0px',
-                  fontSize: '30px',
-                  fontWeight: '600',
-                }}
-              >
-                16.66 % <FaArrowUp />
-              </div>*/}
+                </Typography>
               </div>
               <div style={{ float: floatPic, width: '30%' }}>
                 <img
@@ -279,8 +252,6 @@ export default function Risk(props) {
               <div
                 style={{
                   float: 'left',
-                  fontSize: '24px',
-                  fontWeight: '500',
                   width: '70%',
                 }}
               >
@@ -291,26 +262,17 @@ export default function Risk(props) {
                   PPE Compliance - High Viz Vest (%)
               </Typography>
 
-                <div
+                <Typography
+                variant="h4"
                   style={{
                     color: 'orange',
                     margin: '3px 0px 3px 0px',
-                    fontSize: '30px',
                     fontWeight: '600',
                   }}
                 >
                   {vis_vest}
-                </div>
-                {/*<div
-                style={{
-                  color: 'orange',
-                  margin: '3px 0px 3px 0px',
-                  fontSize: '30px',
-                  fontWeight: '600',
-                }}
-              >
-                16.66 % <FaArrowUp />
-              </div>*/}
+                </Typography>
+                
               </div>
               <div style={{ float: floatPic, width: '30%' }}>
                 <img
@@ -328,8 +290,6 @@ export default function Risk(props) {
               <div
                 style={{
                   float: 'left',
-                  fontSize: '24px',
-                  fontWeight: '500',
                   width: '70%',
                 }}
               >
@@ -340,7 +300,8 @@ export default function Risk(props) {
                   Crowding Violations
               </Typography>
 
-                <div
+                <Typography
+                variant="h4"
                   style={{
                     color: 'orange',
                     margin: '3px 0px 3px 0px',
@@ -349,17 +310,8 @@ export default function Risk(props) {
                   }}
                 >
                   {social_distancing}
-                </div>
-                {/*<div
-                style={{
-                  color: 'orange',
-                  margin: '3px 0px 3px 0px',
-                  fontSize: '30px',
-                  fontWeight: '600',
-                }}
-              >
-                0 % <FaArrowUp />
-              </div>*/}
+                </Typography>
+
               </div>
               <div style={{ float: floatPic, width: '30%' }}>
                 <img
@@ -377,8 +329,7 @@ export default function Risk(props) {
               <div
                 style={{
                   float: 'left',
-                  fontSize: '24px',
-                  fontWeight: '500',
+              
                   width: '70%',
                 }}
               >
@@ -388,7 +339,8 @@ export default function Risk(props) {
                 >
                   Occupancy Maximum
               </Typography>
-                <div
+                <Typography
+                variant="h4"
                   style={{
                     color: 'orange',
                     margin: '3px 0px 3px 0px',
@@ -397,17 +349,8 @@ export default function Risk(props) {
                   }}
                 >
                   {occ}
-                </div>
-                {/*<div
-                style={{
-                  color: 'orange',
-                  margin: '3px 0px 3px 0px',
-                  fontSize: '30px',
-                  fontWeight: '600',
-                }}
-              >
-                15.38 % <FaArrowUp />
-              </div>*/}
+                </Typography>
+                
               </div>
               <div style={{ float: floatPic, width: '30%' }}>
                 <img
@@ -451,6 +394,18 @@ export default function Risk(props) {
           </Grid>
         </Grid>
       </div>}
+      <Typography
+        variant="h4"
+          style={{
+            marginTop: '50px',
+            fontFamily: 'Quicksand , sans-serif',
+          }}
+        >
+          Safety Metrics By Date
+      </Typography>
+      {hard_hat!==null && <HardHatGraph cID={cID} sDate={sDate} eDate={eDate} />}
+      {mask!==null && <MaskGraph cID={cID} sDate={sDate} eDate={eDate} />}
+      {vis_vest!==null && <VestGraph cID={cID} sDate={sDate} eDate={eDate} />}
     </div>
   );
 }

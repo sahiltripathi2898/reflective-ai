@@ -18,6 +18,7 @@ import Protected from './ProtectedRoute';
 const useStyles = makeStyles({
   container: {
     display: 'flex',
+    backgroundColor: '#f6f9ff'
   },
 });
 

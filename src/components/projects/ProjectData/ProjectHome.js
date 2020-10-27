@@ -71,7 +71,7 @@ export default function ProjectHome() {
     return (
       <div>
         <div style={{ marginTop: '85px', marginLeft: '20px' }}>
-          <Typography variant="h4" style={{ fontWeight: '600' }}>
+          <Typography variant="h5" style={{ fontWeight: '600' }}>
             {project_name}
           </Typography>
           <Typography variant="h6">
@@ -94,7 +94,7 @@ export default function ProjectHome() {
     return (
       <div>
         <div style={{ marginTop: '85px', marginLeft: '20px' }}>
-          <Typography variant="h4" style={{ fontWeight: '600' }}>
+          <Typography variant="h5" style={{ fontWeight: '600' }}>
             {project_name}
           </Typography>
           <Typography variant="h6">
@@ -116,7 +116,7 @@ export default function ProjectHome() {
     return (
       <div>
         <div style={{ marginTop: '85px', marginLeft: '20px' }}>
-          <Typography variant="h4" style={{ fontWeight: '600' }}>
+          <Typography variant="h5" style={{ fontWeight: '600' }}>
             {project_name}
           </Typography>
           <Typography variant="h6">

@@ -17,7 +17,7 @@ import axios from 'axios'
 
 
 import Overview from './overview'
-import Risk from './risk2'
+import Risk from './risk'
 import Visual from './visual'
 
 const useStyles = makeStyles((theme) => ({
@@ -97,7 +97,7 @@ export default function MaterialUIPickers(props) {
                 data
             )
             .then((res) => {
-                console.log(res.data)
+                //console.log(res.data)
                 setCameras(res.data.cameras);
                 setsDate(new Date(res.data.cameras[0].start_date))
                 if (res.data.cameras[0].start_date === null)

@@ -126,7 +126,7 @@ export default function Risk(props) {
                         marginBottom: '20px',
                         marginTop: '20px',
                         fontFamily: 'Quicksand , sans-serif',
-                        fontSize: '36px',
+                        fontSize: '30px',
                     }}
                 >
                     Safety Metrics
@@ -154,6 +154,7 @@ export default function Risk(props) {
                                     style={{
                                         color: 'orange',
                                         margin: '3px 0px 3px 0px',
+
                                         fontWeight: '600',
                                     }}
                                 >

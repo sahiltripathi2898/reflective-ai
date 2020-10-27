@@ -42,7 +42,6 @@ const drawerWidth = 260;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    backgroundColor: 'whitesmoke',
   },
   listItemText: {
     fontSize: '18px', //Insert your required size
