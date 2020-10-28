@@ -9,6 +9,9 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 
+import Spinner from '../../spinner'
+
+
 //Resposive text
 import {
   createMuiTheme,
@@ -54,6 +57,19 @@ export default function Visual(props) {
   /*   console.log(cID)
     console.log(sDate)
     console.log(eDate) */
+
+  const [loading,setLoading] =useState(true)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false)
+     }, 1500);
+ 
+    return () => {
+      setLoading(true)
+      clearTimeout(timeout)};
+   },[cID, sDate, eDate]);
+
 
   const [disable, setDisable] = useState(true)
   useEffect(() => {
@@ -111,6 +127,9 @@ export default function Visual(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  if(loading)
+    return <Spinner/>
 
   return (
     <div>

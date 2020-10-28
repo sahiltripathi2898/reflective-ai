@@ -12,7 +12,7 @@ import axios from 'axios'
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    marginTop: '40px',
+    marginTop: '20px',
     marginLeft: '20px',
     paddingLeft: '0px'
   },
@@ -69,7 +69,7 @@ export default function ProjectHome() {
 
   if (buttonId === '1') {
     return (
-      <div>
+      <div style={{width:'100%'}}>
         <div style={{ marginTop: '85px', marginLeft: '20px' }}>
           <Typography variant="h5" style={{ fontWeight: '600' }}>
             {project_name}
@@ -84,7 +84,6 @@ export default function ProjectHome() {
             <Button onClick={secondBtn} style={{ backgroundColor: btnB }}>Incident Visuals</Button>
             <Button onClick={thirdBtn} style={{ backgroundColor: btnC }}>Project Team</Button>
           </ButtonGroup>
-
         </Container>
         <Dates bID={buttonId} />
       </div>
@@ -92,7 +91,7 @@ export default function ProjectHome() {
   }
   else if (buttonId === '2') {
     return (
-      <div>
+      <div style={{width:'100%'}}>
         <div style={{ marginTop: '85px', marginLeft: '20px' }}>
           <Typography variant="h5" style={{ fontWeight: '600' }}>
             {project_name}
@@ -114,7 +113,7 @@ export default function ProjectHome() {
   }
   else if (buttonId === '3') {
     return (
-      <div>
+      <div style={{width:'100%'}}>
         <div style={{ marginTop: '85px', marginLeft: '20px' }}>
           <Typography variant="h5" style={{ fontWeight: '600' }}>
             {project_name}

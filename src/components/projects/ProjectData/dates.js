@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         padding: '20px',
-        marginTop: '50px',
+        marginTop: '20px',
     },
     dates: {
         flexGrow: 1

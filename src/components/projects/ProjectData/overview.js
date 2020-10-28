@@ -10,6 +10,9 @@ import Paper from '@material-ui/core/Paper';
 import { Typography, Divider, Grid } from '@material-ui/core'
 import axios from 'axios'
 
+import Spinner from '../../spinner'
+
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -36,6 +39,18 @@ const useStyles = makeStyles({
 
 export default function Overview() {
   const classes = useStyles();
+
+  const [loading,setLoading] =useState(true)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false)
+     }, 1000);
+ 
+    return () => {
+      setLoading(true)
+      clearTimeout(timeout)};
+   },[]);
 
   const [team, setTeam] = useState([])
 
@@ -82,6 +97,8 @@ export default function Overview() {
 
 
 
+   if(loading)
+    return <Spinner/>
 
   return (
     <Grid container style={{ padding: '0px' }} >

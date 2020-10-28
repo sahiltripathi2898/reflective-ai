@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import video1 from './assets/video.mp4';
-
+import Spinner from '../../spinner'
 
 //Resposive text
 import Typography from '@material-ui/core/Typography';
@@ -28,7 +28,7 @@ import VestGraph from './graphs/vest'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    marginTop: '50px'
+    marginTop: '20px'
   },
   paper: {
     color: 'black',
@@ -40,9 +40,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Risk(props) {
   const { cID, sDate, eDate } = props
-  //console.log(cID)
-  //console.log(sDate)
-  //console.log(eDate) 
+
+  const [loading,setLoading] =useState(true)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false)
+     }, 1200);
+ 
+    return () => {
+      setLoading(true)
+      clearTimeout(timeout)};
+   },[cID, sDate, eDate]);
+
+
   const [disable, setDisable] = useState(true)
   useEffect(() => {
     var year = sDate.getFullYear();
@@ -63,7 +74,7 @@ export default function Risk(props) {
 
   const matches = useMediaQuery('(min-width:700px)');
   const floatPic = matches ? 'right' : 'right';
-  const paperHeight = matches ? '220px' : '250px';
+  const paperHeight = matches ? '180px' : '250px';
 
   // Metric 
   const [metric, setMetric] = useState([]);
@@ -115,6 +126,8 @@ export default function Risk(props) {
     occ = metric.occupancy_max
   }
 
+  if(loading)
+    return <Spinner/>
   return (
     <div className={classes.root}>
       {disable === true && <div>
@@ -164,8 +177,8 @@ export default function Risk(props) {
                 <img
                   alt="risk-images"
                   src={maskimg}
-                  width="90px"
-                  height="90px"
+                  width="70px"
+                  height="70px"
                   style={{ float: floatPic }}
                 />
               </div>
@@ -203,8 +216,8 @@ export default function Risk(props) {
                 <img
                   alt="risk-images"
                   src={phyimg}
-                  width="90px"
-                  height="90px"
+                  width="70px"
+                  height="70px"
                   style={{ float: floatPic }}
                 />
               </div>
@@ -240,8 +253,8 @@ export default function Risk(props) {
                 <img
                   alt="risk-images"
                   src={hatimg}
-                  width="90px"
-                  height="90px"
+                  width="70px"
+                  height="70px"
                   style={{ float: floatPic }}
                 />
               </div>
@@ -278,8 +291,8 @@ export default function Risk(props) {
                 <img
                   alt="risk-images"
                   src={vestimg}
-                  width="90px"
-                  height="90px"
+                  width="70px"
+                  height="70px"
                   style={{ float: floatPic }}
                 />
               </div>
@@ -317,8 +330,8 @@ export default function Risk(props) {
                 <img
                   alt="risk-images"
                   src={crowdimg}
-                  width="90px"
-                  height="90px"
+                  width="70px"
+                  height="70px"
                   style={{ float: floatPic }}
                 />
               </div>
@@ -356,8 +369,8 @@ export default function Risk(props) {
                 <img
                   alt="risk-images"
                   src={occupancyimg}
-                  width="90px"
-                  height="90px"
+                  width="70px"
+                  height="70px"
                   style={{ float: floatPic }}
                 />
               </div>
@@ -397,7 +410,7 @@ export default function Risk(props) {
       <Typography
         variant="h4"
           style={{
-            marginTop: '50px',
+            marginTop: '20px',
             fontFamily: 'Quicksand , sans-serif',
           }}
         >

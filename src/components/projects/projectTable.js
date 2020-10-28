@@ -14,6 +14,8 @@ import { withRouter } from 'react-router-dom';
 
 import ProjectData from './ProjectData/ProjectHome'
 
+import Spinner from '../spinner'
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -42,6 +44,16 @@ const Projects = (props) => {
   const classes = useStyles();
   const { history } = props;
 
+  const [loading,setLoading] =useState(true)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false)
+     }, 1000);
+ 
+    return () => clearTimeout(timeout);
+   },[]);
+
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
@@ -65,6 +77,10 @@ const Projects = (props) => {
     localStorage.setItem('companyID', companyID)
     history.push('/project')
   }
+
+  if(loading)
+    return <Spinner/>
+
   return (
     <Container style={{ marginTop: '70px', padding: '30px' }} maxWidth="md">
       <Typography
