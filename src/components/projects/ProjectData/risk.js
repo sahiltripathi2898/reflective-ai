@@ -5,7 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-import video1 from './assets/video.mp4';
 import Spinner from '../../spinner';
 
 //Resposive text
@@ -48,7 +47,7 @@ export default function Risk(props) {
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setLoading(false);
-		}, 1200);
+		}, 2200);
 
 		return () => {
 			setLoading(true);
@@ -87,7 +86,7 @@ export default function Risk(props) {
 			start_date: startDate,
 			end_date: endDate,
 		};
-		//console.log(data)
+		//console.log(data);
 		axios
 			.post(
 				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/camera/metrics',
@@ -125,6 +124,38 @@ export default function Risk(props) {
 	if (metric !== undefined) {
 		occ = metric.occupancy_max;
 	}
+
+	//Hotspot
+	const [hotspot, setHotspot] = useState(
+		'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com:8030/heat_image/26250_base.jpg'
+	);
+
+	const [baseImg, setbaseImg] = useState('');
+	const [hotImg, sethotImg] = useState('');
+	const [imgSrc, setimgSrc] = useState('');
+
+	useEffect(() => {
+		const data = {
+			project_id: Number(localStorage.getItem('projectID')),
+			jwt_token: localStorage.getItem('jwt_token'),
+			camera_id: cID,
+			start_date: startDate,
+			end_date: endDate,
+		};
+		//console.log(data);
+		axios
+			.post(
+				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/hotspot/image',
+				data
+			)
+			.then((res) => {
+				console.log(res.data);
+				setbaseImg(res.data.base_image);
+				sethotImg(res.data.hot_image);
+				setimgSrc(res.data.base_image);
+			})
+			.catch((err) => console.log(err));
+	}, [cID, sDate, eDate]);
 
 	if (loading) return <Spinner />;
 	return (
@@ -430,7 +461,7 @@ export default function Risk(props) {
 									style={{ height: '730px', marginBottom: '50px' }}
 									elevation={10}
 								>
-									<iframe
+									{/* <iframe
 										width="100%"
 										height="680px"
 										src={video1}
@@ -443,7 +474,20 @@ export default function Risk(props) {
 											display: 'inline-block',
 											margin: '0 auto',
 										}}
-									></iframe>
+									></iframe> */}
+									<img
+										src={
+											'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/image' +
+											imgSrc
+										}
+										width="100%"
+										height="680px"
+										onMouseEnter={() => {
+											setimgSrc(hotImg);
+											console.log(imgSrc);
+										}}
+										onMouseLeave={() => setimgSrc(baseImg)}
+									></img>
 								</Paper>
 							)}
 						</Grid>

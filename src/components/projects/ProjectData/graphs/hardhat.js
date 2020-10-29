@@ -6,6 +6,7 @@ import axios from 'axios';
 
 function HardHatGraph2(props) {
 	const { cID, sDate, eDate } = props;
+
 	const [options, setOptions] = useState({
 		chart: {
 			type: 'bar',

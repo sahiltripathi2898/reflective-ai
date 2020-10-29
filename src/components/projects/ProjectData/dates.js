@@ -54,6 +54,13 @@ export default function MaterialUIPickers(props) {
 	const [sDate, setsDate] = useState(new Date());
 	const [eDate, seteDate] = useState(new Date());
 
+	const [startMax, setstartMax] = useState();
+	const [startMin, setstartMin] = useState();
+	const [endMax, setendMax] = useState();
+	const [endMin, setendMin] = useState();
+
+	const [cameraID, setcameraID] = useState(1);
+
 	const [age, setAge] = React.useState('');
 	const handleStartDateChange = (date) => {
 		setsDate(date);
@@ -95,15 +102,33 @@ export default function MaterialUIPickers(props) {
 				data
 			)
 			.then((res) => {
-				//console.log(res.data)
+				console.log(res.data);
 				setCameras(res.data.cameras);
-				setsDate(new Date(res.data.cameras[0].start_date));
+
 				if (res.data.cameras[0].start_date === null) setdisableDate(true);
+
+				onClickHandler(
+					-1,
+					res.data.cameras[0].end_date,
+					res.data.cameras[0].start_date
+				);
+
+				/* // setting the 7 day difference
+
+				var diff = (eDate.getTime() - sDate.getTime()) / (1000 * 3600 * 24);
+
+				if (diff > 7) {
+					var newDate = new Date(res.data.cameras[0].end_date);
+					newDate.setDate(newDate.getDate() - 7);
+					setsDate(newDate);
+				}
+				if (diff <= 7) {
+					setsDate(new Date(res.data.cameras[0].start_date));
+				} */
 			})
 			.catch((err) => console.log(err));
 	}, []);
 
-	const [cameraID, setcameraID] = useState(1);
 	//const [help, sethelp] = useState(true)
 
 	const [visible, setVisible] = useState(true);
@@ -112,6 +137,66 @@ export default function MaterialUIPickers(props) {
 		if (bID === '3') setVisible(false);
 		else setVisible(true);
 	}, [bID]);
+
+	function onClickHandler(index, end, start) {
+		setcameraID(index + 2);
+		if (end !== null) {
+			seteDate(new Date(end));
+		}
+		if (end === null) {
+			seteDate(new Date());
+		}
+		if (start !== null) {
+			setsDate(new Date(start));
+			setdisableDate(false);
+		}
+		if (start === null) {
+			setdisableDate(true);
+		}
+
+		// end date null
+		if (end !== null) {
+			var currend = new Date(end);
+			var currstart = new Date(start);
+			var diff = (currend.getTime() - currstart.getTime()) / (1000 * 3600 * 24);
+			console.log(diff);
+
+			if (diff > 7) {
+				var curr = new Date(end);
+				curr.setDate(curr.getDate() - 7);
+				setsDate(curr);
+			}
+			if (diff <= 7) {
+				setsDate(currstart);
+			}
+
+			setendMax(currend);
+			setendMin(currstart);
+
+			setstartMax(currend);
+			setstartMin(currstart);
+		}
+
+		if (end === null) {
+			var currend = new Date();
+			var currstart = new Date(start);
+			var diff = (currend.getTime() - currstart.getTime()) / (1000 * 3600 * 24);
+
+			if (diff > 7) {
+				var curr = new Date();
+				curr.setDate(curr.getDate() - 7);
+				setsDate(curr);
+			}
+			if (diff <= 7) {
+				setsDate(currstart);
+			}
+			setendMax(currend);
+			setendMin(currstart);
+
+			setstartMax(currend);
+			setstartMin(currstart);
+		}
+	}
 
 	const classes = useStyles();
 	return (
@@ -135,11 +220,10 @@ export default function MaterialUIPickers(props) {
 												onChange={handleChange}
 												value={age}
 												displayEmpty
-												open={open}
 											>
 												<MenuItem
 													value=""
-													onClick={() => {
+													/* onClick={() => {
 														//sethelp(false)
 														setcameraID(1);
 														if (cameras[0].start_date !== null) {
@@ -148,7 +232,14 @@ export default function MaterialUIPickers(props) {
 														} else if (cameras[0].start_date === null) {
 															setdisableDate(true);
 														}
-													}}
+													}} */
+													onClick={() =>
+														onClickHandler(
+															-1,
+															cameras[0].end_date,
+															cameras[0].start_date
+														)
+													}
 												>
 													Camera 1
 												</MenuItem>
@@ -156,16 +247,13 @@ export default function MaterialUIPickers(props) {
 													<MenuItem
 														value={camera.camera_id}
 														key={index + 1}
-														onClick={() => {
-															//sethelp(false)
-															setcameraID(index + 2);
-															if (camera.start_date !== null) {
-																setsDate(new Date(camera.start_date));
-																setdisableDate(false);
-															} else if (camera.start_date === null) {
-																setdisableDate(true);
-															}
-														}}
+														onClick={() =>
+															onClickHandler(
+																index,
+																camera.end_date,
+																camera.start_date
+															)
+														}
 													>
 														Camera {camera.camera_id}
 													</MenuItem>
@@ -189,9 +277,9 @@ export default function MaterialUIPickers(props) {
 													'aria-label': 'change date',
 												}}
 												variant="outlined"
-												placeholder="10/08/2020"
 												disabled={disableDate}
-												maxDate={new Date()}
+												minDate={startMin}
+												maxDate={startMax}
 											/>
 										</MuiPickersUtilsProvider>
 									</Grid>
@@ -210,10 +298,9 @@ export default function MaterialUIPickers(props) {
 													'aria-label': 'change date',
 												}}
 												variant="outlined"
-												placeholder="10/15/2020"
-												maxDate={new Date()}
-												minDate={sDate}
 												disabled={disableDate}
+												minDate={endMin}
+												maxDate={endMax}
 											/>
 										</MuiPickersUtilsProvider>
 									</Grid>
