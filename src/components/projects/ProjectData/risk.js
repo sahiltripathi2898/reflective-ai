@@ -47,7 +47,7 @@ export default function Risk(props) {
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setLoading(false);
-		}, 2200);
+		}, 2500);
 
 		return () => {
 			setLoading(true);
@@ -93,7 +93,7 @@ export default function Risk(props) {
 				data
 			)
 			.then((res) => {
-				//console.log(res.data)
+				//console.log(res.data);
 				setMetric(res.data);
 			})
 			.catch((err) => console.log(err));
@@ -108,6 +108,10 @@ export default function Risk(props) {
 	var social_distancing = 0;
 	if (metric !== undefined) {
 		social_distancing = metric.ppe_compliance_sd;
+	}
+	var crowding = 0;
+	if (metric !== undefined) {
+		crowding = metric.crowding_violations;
 	}
 
 	var hard_hat = 0;
@@ -149,7 +153,7 @@ export default function Risk(props) {
 				data
 			)
 			.then((res) => {
-				console.log(res.data);
+				//console.log(res.data);
 				setbaseImg(res.data.base_image);
 				sethotImg(res.data.hot_image);
 				setimgSrc(res.data.base_image);
@@ -353,7 +357,7 @@ export default function Risk(props) {
 								</Paper>
 							</Grid>
 						)}
-						{social_distancing !== null && (
+						{crowding !== null && (
 							<Grid item lg={6} xs={12} md={6}>
 								<Paper
 									className={classes.paper}
@@ -382,7 +386,7 @@ export default function Risk(props) {
 												fontWeight: '600',
 											}}
 										>
-											{social_distancing}
+											{crowding}
 										</Typography>
 									</div>
 									<div style={{ float: floatPic, width: '30%' }}>
@@ -441,11 +445,40 @@ export default function Risk(props) {
 								</Paper>
 							</Grid>
 						)}
+
+						<Grid item xs={12}>
+							{disable === false && (
+								<Typography
+									variant="h4"
+									style={{
+										marginTop: '20px',
+										fontFamily: 'Quicksand , sans-serif',
+									}}
+								>
+									Safety Metrics By Date
+								</Typography>
+							)}
+							{hard_hat !== null && (
+								<HardHatGraph cID={cID} sDate={sDate} eDate={eDate} />
+							)}
+							{mask !== null && (
+								<MaskGraph cID={cID} sDate={sDate} eDate={eDate} />
+							)}
+							{vis_vest !== null && (
+								<VestGraph cID={cID} sDate={sDate} eDate={eDate} />
+							)}
+							{social_distancing !== null && (
+								<PhyGraph cID={cID} sDate={sDate} eDate={eDate} />
+							)}
+							{occ !== null && (
+								<OccGraph cID={cID} sDate={sDate} eDate={eDate} />
+							)}
+						</Grid>
 						{social_distancing !== null && (
 							<Grid item xs={12}>
 								<div
 									style={{
-										marginTop: '50px',
+										marginTop: '30px',
 										fontFamily: 'Quicksand , sans-serif',
 										fontSize: '36px',
 									}}
@@ -461,30 +494,15 @@ export default function Risk(props) {
 									style={{ height: '730px', marginBottom: '50px' }}
 									elevation={10}
 								>
-									{/* <iframe
-										width="100%"
-										height="680px"
-										src={video1}
-										frameborder="0"
-										controls
-										allowfullscreen
-										title="video"
-										style={{
-											borderRadius: '5px',
-											display: 'inline-block',
-											margin: '0 auto',
-										}}
-									></iframe> */}
 									<img
 										src={
 											'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/image' +
 											imgSrc
 										}
 										width="100%"
-										height="680px"
+										height="100%"
 										onMouseEnter={() => {
 											setimgSrc(hotImg);
-											console.log(imgSrc);
 										}}
 										onMouseLeave={() => setimgSrc(baseImg)}
 									></img>
@@ -494,26 +512,6 @@ export default function Risk(props) {
 					</Grid>
 				</div>
 			)}
-			{disable === false && (
-				<Typography
-					variant="h4"
-					style={{
-						marginTop: '20px',
-						fontFamily: 'Quicksand , sans-serif',
-					}}
-				>
-					Safety Metrics By Date
-				</Typography>
-			)}
-			{hard_hat !== null && (
-				<HardHatGraph cID={cID} sDate={sDate} eDate={eDate} />
-			)}
-			{mask !== null && <MaskGraph cID={cID} sDate={sDate} eDate={eDate} />}
-			{vis_vest !== null && <VestGraph cID={cID} sDate={sDate} eDate={eDate} />}
-			{social_distancing !== null && (
-				<PhyGraph cID={cID} sDate={sDate} eDate={eDate} />
-			)}
-			{occ !== null && <OccGraph cID={cID} sDate={sDate} eDate={eDate} />}
 		</div>
 	);
 }

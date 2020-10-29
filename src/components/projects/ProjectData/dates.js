@@ -159,7 +159,6 @@ export default function MaterialUIPickers(props) {
 			var currend = new Date(end);
 			var currstart = new Date(start);
 			var diff = (currend.getTime() - currstart.getTime()) / (1000 * 3600 * 24);
-			console.log(diff);
 
 			if (diff > 7) {
 				var curr = new Date(end);
