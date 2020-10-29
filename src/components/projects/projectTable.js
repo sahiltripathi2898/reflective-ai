@@ -12,7 +12,7 @@ import { Typography } from '@material-ui/core';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
-import ProjectData from './ProjectData/ProjectHome'
+//import ProjectData from './ProjectData/ProjectHome'
 
 import Spinner from '../spinner'
 

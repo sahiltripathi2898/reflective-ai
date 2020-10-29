@@ -104,7 +104,7 @@ function MaskGraph(props) {
 		//console.log(data)
 		axios
 			.post(
-				' http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/timeseries/mask',
+				' http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/timeseries/max',
 				data
 			)
 			.then((res) => {
@@ -120,7 +120,7 @@ function MaskGraph(props) {
 				variant="h5"
 				style={{ marginTop: '20px', fontWeight: '600', marginBottom: '20px' }}
 			>
-				PPE Compliance - Face Mask
+				Occupancy Maximum
 			</Typography>
 			<Paper
 				elevation={6}

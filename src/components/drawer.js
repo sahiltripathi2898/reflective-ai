@@ -245,39 +245,6 @@ const MiniDrawer = (props) => {
           >
             <MenuIcon />
           </IconButton>
-
-          {/*<Badge
-            badgeContent={4}
-            color="secondary"
-            style={{ marginRight: buttonMarginRight }}
-          >
-            <Button
-              variant="contained"
-              style={{
-                fontSize: buttonFont,
-                fontWeight: '600',
-              }}
-              color="primary"
-            >
-              Past Due
-            </Button>
-          </Badge>
-          <Badge
-            badgeContent={2}
-            color="secondary"
-            style={{ marginRight: buttonMarginRight }}
-          >
-            <Button
-              variant="contained"
-              style={{
-                fontSize: buttonFont,
-                fontWeight: '600',
-              }}
-              color="primary"
-            >
-              Open Issues
-            </Button>{' '}
-            </Badge>*/}
           <div
             style={{
               right: '0',
@@ -286,16 +253,6 @@ const MiniDrawer = (props) => {
               visibility: nameVisible,
             }}
           >
-            {/*<div
-              style={{
-                fontSize: nameFont,
-                fontWeight: '500',
-                fontFamily: 'serif',
-                letterSpacing: '1px',
-              }}
-            >
-              Sahil Tripathi
-            </div>*/}
             <div>
               <Button
                 aria-controls="simple-menu"
@@ -370,7 +327,7 @@ const MiniDrawer = (props) => {
         </Toolbar>
       </AppBar>
       <Drawer
-        open="true"
+        open={open}
         variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
@@ -384,20 +341,8 @@ const MiniDrawer = (props) => {
         }}
       >
         <div className={classes.toolbar}>
-          {/*<div
-            style={{
-              fontSize: '26px',
-              fontWeight: '600',
-              letterSpacing: '1px',
-              fontFamily: 'serif',
-              color: 'white',
-            }}
-          >
-            Reflective AI
-          </div>*/}
           <img src={Logo} alt="logo" width="190px" height="60px"></img>
           <ArrowBackIosIcon
-            color="white"
             onClick={handleDrawerClose}
             style={{ fontSize: '22px', cursor: 'pointer', marginLeft: '14px', marginTop: '12px' }}
           >

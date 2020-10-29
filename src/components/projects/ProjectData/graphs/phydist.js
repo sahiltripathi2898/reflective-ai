@@ -53,10 +53,6 @@ function MaskGraph(props) {
 	]);
 
 	useEffect(() => {
-		/*         console.log(cID)
-        console.log(sDate)
-        console.log(eDate) */
-
 		var day0 = new Date(sDate);
 		day0 = day0.toString().substring(0, 15);
 
@@ -104,7 +100,7 @@ function MaskGraph(props) {
 		//console.log(data)
 		axios
 			.post(
-				' http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/timeseries/mask',
+				' http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/timeseries/sd',
 				data
 			)
 			.then((res) => {
@@ -120,7 +116,7 @@ function MaskGraph(props) {
 				variant="h5"
 				style={{ marginTop: '20px', fontWeight: '600', marginBottom: '20px' }}
 			>
-				PPE Compliance - Face Mask
+				Physical Distancing violations
 			</Typography>
 			<Paper
 				elevation={6}
