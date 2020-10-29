@@ -47,7 +47,7 @@ function MaskGraph(props) {
 	});
 	const [series, setSeries] = useState([
 		{
-			name: 'Face Mask',
+			name: 'Occupancy Maximum',
 			data: [3, 6, 6, 6, 2, 4, 3],
 		},
 	]);
