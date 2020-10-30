@@ -466,7 +466,7 @@ export default function Risk(props) {
 								<div
 									style={{
 										height: '9px',
-										width: '380px',
+										width: '360px',
 										backgroundColor: '#179CD5',
 										borderRadius: '10px',
 										marginBottom: '40px',

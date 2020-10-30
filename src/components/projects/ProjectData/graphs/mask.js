@@ -117,12 +117,12 @@ function MaskGraph(props) {
 	return (
 		<div id="chart" style={{ marginTop: '50px' }}>
 			<Typography
-				variant="h5"
+				variant="h6"
 				style={{
 					marginTop: '20px',
 					fontWeight: '600',
 					marginBottom: '20px',
-					fontSize: '22px',
+					/* fontSize: '22px', */
 				}}
 			>
 				PPE Compliance - Face Mask

@@ -119,7 +119,6 @@ function HardHatGraph2(props) {
 					marginTop: '20px',
 					fontWeight: '600',
 					marginBottom: '20px',
-					fontSize: '22px',
 				}}
 			>
 				PPE Compliance - Hard Hat

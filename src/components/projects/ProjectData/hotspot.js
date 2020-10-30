@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Paper } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 
 function Hotspot(props) {
 	const { cID, sDate, eDate } = props;
@@ -36,17 +36,17 @@ function Hotspot(props) {
 	}, [cID, sDate, eDate]);
 	return (
 		<div>
-			<div
+			<Typography
+				variant="h4"
 				style={{
+					marginBottom: '5px',
 					marginTop: '30px',
 					fontFamily: 'Roboto , sans-serif',
 					fontWeight: '600',
-					fontSize: '36px',
-					marginBottom: '5px',
 				}}
 			>
 				Hotspot Analysis
-			</div>
+			</Typography>
 			<div
 				style={{
 					height: '9px',
