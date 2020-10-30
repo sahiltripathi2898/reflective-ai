@@ -1,0 +1,80 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Paper } from '@material-ui/core';
+
+function Hotspot(props) {
+	const { cID, sDate, eDate } = props;
+
+	const [baseImg, setbaseImg] = useState('');
+	const [hotImg, sethotImg] = useState('');
+	const [imgSrc, setimgSrc] = useState('');
+
+	var startDate = sDate.toISOString().slice(0, 10) + ' 00:00:00';
+	var endDate = eDate.toISOString().slice(0, 10) + ' 23:00:00';
+
+	useEffect(() => {
+		const data = {
+			project_id: Number(localStorage.getItem('projectID')),
+			jwt_token: localStorage.getItem('jwt_token'),
+			camera_id: cID,
+			start_date: startDate,
+			end_date: endDate,
+		};
+		//console.log(data);
+		axios
+			.post(
+				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/hotspot/image',
+				data
+			)
+			.then((res) => {
+				//console.log(res.data);
+				setbaseImg(res.data.base_image);
+				sethotImg(res.data.hot_image);
+				setimgSrc(res.data.base_image);
+			})
+			.catch((err) => console.log(err));
+	}, [cID, sDate, eDate]);
+	return (
+		<div>
+			<div
+				style={{
+					marginTop: '30px',
+					fontFamily: 'Roboto , sans-serif',
+					fontWeight: '600',
+					fontSize: '36px',
+					marginBottom: '5px',
+				}}
+			>
+				Hotspot Analysis
+			</div>
+			<div
+				style={{
+					height: '9px',
+					width: '320px',
+					backgroundColor: '#179CD5',
+					borderRadius: '10px',
+					marginBottom: '25px',
+				}}
+			></div>
+			<Paper
+				style={{ height: '730px', marginBottom: '50px', padding: '20px' }}
+				elevation={10}
+			>
+				<img
+					src={
+						'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/image' +
+						imgSrc
+					}
+					width="100%"
+					height="100%"
+					onMouseEnter={() => {
+						setimgSrc(hotImg);
+					}}
+					onMouseLeave={() => setimgSrc(baseImg)}
+				></img>
+			</Paper>
+		</div>
+	);
+}
+
+export default Hotspot;

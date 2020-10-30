@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: '20px',
 		marginLeft: '20px',
 		paddingLeft: '0px',
+		paddingRight: '0px',
+		maxWidth: '800px',
 	},
 }));
 

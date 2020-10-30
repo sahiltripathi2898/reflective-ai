@@ -114,8 +114,13 @@ function HardHatGraph2(props) {
 	return (
 		<div id="chart" style={{ marginTop: '25px' }}>
 			<Typography
-				variant="h5"
-				style={{ marginTop: '20px', fontWeight: '600', marginBottom: '20px' }}
+				variant="h6"
+				style={{
+					marginTop: '20px',
+					fontWeight: '600',
+					marginBottom: '20px',
+					fontSize: '22px',
+				}}
 			>
 				PPE Compliance - Hard Hat
 			</Typography>

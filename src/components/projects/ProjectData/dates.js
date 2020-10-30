@@ -162,7 +162,7 @@ export default function MaterialUIPickers(props) {
 
 			if (diff > 7) {
 				var curr = new Date(end);
-				curr.setDate(curr.getDate() - 7);
+				curr.setDate(curr.getDate() - 6);
 				setsDate(curr);
 			}
 			if (diff <= 7) {
@@ -183,7 +183,7 @@ export default function MaterialUIPickers(props) {
 
 			if (diff > 7) {
 				var curr = new Date();
-				curr.setDate(curr.getDate() - 7);
+				curr.setDate(curr.getDate() - 6);
 				setsDate(curr);
 			}
 			if (diff <= 7) {

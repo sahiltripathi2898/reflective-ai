@@ -75,7 +75,7 @@ const Projects = (props) => {
 	function callProjectDetails(projectID, companyID) {
 		localStorage.setItem('projectID', projectID);
 		localStorage.setItem('companyID', companyID);
-		history.push('/project');
+		history.push('/home/project');
 	}
 
 	if (loading) return <Spinner />;

@@ -111,10 +111,15 @@ function MaskGraph(props) {
 	}, [cID, sDate, eDate]);
 
 	return (
-		<div id="chart" style={{ marginTop: '25px' }}>
+		<div id="chart" style={{ marginTop: '50px' }}>
 			<Typography
 				variant="h5"
-				style={{ marginTop: '20px', fontWeight: '600', marginBottom: '20px' }}
+				style={{
+					marginTop: '20px',
+					fontWeight: '600',
+					marginBottom: '20px',
+					fontSize: '22px',
+				}}
 			>
 				Physical Distancing violations
 			</Typography>

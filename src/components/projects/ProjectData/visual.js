@@ -70,15 +70,6 @@ export default function Visual(props) {
 		};
 	}, [cID, sDate, eDate]);
 
-	const [disable, setDisable] = useState(true);
-	useEffect(() => {
-		var year = sDate.getFullYear();
-		//console.log(year)
-		if (year === 1970) setDisable(true);
-		else setDisable(false);
-		//console.log(disable)
-	}, [sDate]);
-
 	var startDate = sDate.toISOString().slice(0, 10) + ' 00:00:00';
 	var endDate = eDate.toISOString().slice(0, 10) + ' 23:00:00';
 
@@ -127,29 +118,45 @@ export default function Visual(props) {
 
 	return (
 		<div>
-			{disable === true && (
+			{hats.length === 0 &&
+			phys.length === 0 &&
+			masks.length === 0 &&
+			vests.length === 0 ? (
 				<div>
 					<Typography
 						variant="h4"
-						style={{ textAlign: 'center', marginTop: '50px' }}
+						style={{
+							textAlign: 'center',
+							marginTop: '50px',
+							fontWeight: '600',
+						}}
 					>
-						Camera has not started streaming yet .
+						No Observation
 					</Typography>
 				</div>
-			)}
-			{disable === false && (
+			) : (
 				<Grid container style={{ marginBottom: '50px', marginTop: '15px' }}>
 					<ThemeProvider theme={theme}>
 						<div>
 							<div
 								style={{
-									marginBottom: '20px',
-									fontFamily: 'Quicksand , sans-serif',
+									marginBottom: '5px',
+									fontFamily: 'Roboto , sans-serif',
+									fontWeight: '600',
 									fontSize: '36px',
 								}}
 							>
 								Incident Visuals
 							</div>
+							<div
+								style={{
+									height: '9px',
+									width: '310px',
+									backgroundColor: '#179CD5',
+									borderRadius: '10px',
+									marginBottom: '25px',
+								}}
+							></div>
 							<Grid container spacing={3}>
 								{phys.length > 0 && (
 									<Grid item xs={12}>

@@ -10,70 +10,70 @@ import ProfileSetting from './components/profile/Settings';
 import SignIn from './Login/SignIn';
 import Register from './Login/Register';
 import ProjectTable from './components/projects/projectTable';
-import ResetPassword from './Login/Reset'
-import Project from './components/projects/ProjectData/ProjectHome'
+import ResetPassword from './Login/Reset';
+import Project from './components/projects/ProjectData/ProjectHome';
 
 import Protected from './ProtectedRoute';
 
 const useStyles = makeStyles({
-  container: {
-    display: 'flex',
-    backgroundColor: '#f6f9ff'
-  },
+	container: {
+		display: 'flex',
+		backgroundColor: '#f6f9ff',
+	},
 });
 
 function App() {
-  const classes = useStyles();
-  return (
-    <div className={classes.container}>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/login">
-            <SignIn />
-          </Route>
-          <Route exact path="/register">
-            <Register />
-          </Route>
-          <Route exact path="/reset">
-            <ResetPassword />
-          </Route>
-          <Route exact path="/">
-            <Protected cmp={<Drawer />} />
-          </Route>
-          <Route exact path="/project">
-            <Protected cmp={<Drawer />} />
-          </Route>
-          <Route exact path="/integration">
-            <Protected cmp={<Drawer />} />
-          </Route>
-          <Route exact path="/integration/client">
-            <Protected cmp={<Drawer />} />
-          </Route>
-          <Route exact path="/profile-setting">
-            <Protected cmp={<Drawer />} />
-          </Route>
-        </Switch>
+	const classes = useStyles();
+	return (
+		<div className={classes.container}>
+			<BrowserRouter>
+				<Switch>
+					<Route exact path="/">
+						<SignIn />
+					</Route>
+					<Route exact path="/register">
+						<Register />
+					</Route>
+					<Route exact path="/reset">
+						<ResetPassword />
+					</Route>
+					<Route exact path="/home">
+						<Protected cmp={<Drawer />} />
+					</Route>
+					<Route exact path="/home/project">
+						<Protected cmp={<Drawer />} />
+					</Route>
+					<Route exact path="/integration">
+						<Protected cmp={<Drawer />} />
+					</Route>
+					<Route exact path="/integration/client">
+						<Protected cmp={<Drawer />} />
+					</Route>
+					<Route exact path="/profile-setting">
+						<Protected cmp={<Drawer />} />
+					</Route>
+				</Switch>
 
-        <Switch>
-          <Route exact path="/">
-            <ProjectTable />
-          </Route>
-          <Route exact path="/project">
-            <Project />
-          </Route>
-          <Route exact path="/integration">
-            <Integration />
-          </Route>
-          <Route exact path="/integration/client">
-            <ClientInteg />
-          </Route>
-          <Route exact path="/profile-setting">
-            <ProfileSetting />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    </div>
-  );
+				<Switch>
+					<Route exact path="/home">
+						<ProjectTable />
+					</Route>
+					<Route exact path="/home/project">
+						<Project />
+					</Route>
+					<Route exact path="/integration">
+						<Integration />
+					</Route>
+					<Route exact path="/integration/client">
+						<ClientInteg />
+					</Route>
+					<Route exact path="/profile-setting">
+						<ProfileSetting />
+					</Route>
+				</Switch>
+			</BrowserRouter>
+		</div>
+	);
 }
 
 export default App;

@@ -11,7 +11,6 @@ import Spinner from '../../spinner';
 import Typography from '@material-ui/core/Typography';
 
 //images
-
 import crowdimg from './assets/crowd.jpg';
 import occupancyimg from './assets/occupancy.jpg';
 import maskimg from './assets/mask.jpg';
@@ -25,6 +24,9 @@ import MaskGraph from './graphs/mask';
 import VestGraph from './graphs/vest';
 import PhyGraph from './graphs/phydist';
 import OccGraph from './graphs/occmax';
+
+// Hotspot
+import HotspotAnalysis from './hotspot';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -47,22 +49,13 @@ export default function Risk(props) {
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setLoading(false);
-		}, 2500);
+		}, 3400);
 
 		return () => {
 			setLoading(true);
 			clearTimeout(timeout);
 		};
 	}, [cID, sDate, eDate]);
-
-	const [disable, setDisable] = useState(true);
-	useEffect(() => {
-		var year = sDate.getFullYear();
-		//console.log(year)
-		if (year === 1970) setDisable(true);
-		else setDisable(false);
-		//console.log(disable)
-	}, [sDate]);
 
 	var startDate = sDate.toISOString().slice(0, 10) + ' 00:00:00';
 	var endDate = eDate.toISOString().slice(0, 10) + ' 23:00:00';
@@ -77,6 +70,12 @@ export default function Risk(props) {
 
 	// Metric
 	const [metric, setMetric] = useState([]);
+	const [mask, setmask] = useState('0');
+	const [social_distancing, setsocial_distancing] = useState('0');
+	const [crowding, setcrowding] = useState('0');
+	const [hard_hat, sethard_hat] = useState('0');
+	const [vis_vest, setvis_vest] = useState('0');
+	const [occ, setocc] = useState('0');
 
 	useEffect(() => {
 		const data = {
@@ -86,20 +85,26 @@ export default function Risk(props) {
 			start_date: startDate,
 			end_date: endDate,
 		};
-		//console.log(data);
+		console.log(data);
 		axios
 			.post(
 				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/camera/metrics',
 				data
 			)
 			.then((res) => {
-				//console.log(res.data);
+				console.log(res.data);
 				setMetric(res.data);
+				setmask(res.data.ppe_compliance_mask);
+				setsocial_distancing(res.data.ppe_compliance_sd);
+				setcrowding(res.data.crowding_violations);
+				sethard_hat(res.data.ppe_compliance_hardhat);
+				setvis_vest(res.data.ppe_compliance_viz_vest);
+				setocc(res.data.occupancy_max);
 			})
 			.catch((err) => console.log(err));
 	}, [cID, sDate, eDate]);
 
-	//console.log(metric)
+	/* 	//console.log(metric)
 	var mask = 0;
 	if (metric !== undefined) {
 		mask = metric.ppe_compliance_mask;
@@ -127,389 +132,369 @@ export default function Risk(props) {
 	var occ = 0;
 	if (metric !== undefined) {
 		occ = metric.occupancy_max;
-	}
+	} */
 
-	//Hotspot
-	const [hotspot, setHotspot] = useState(
-		'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com:8030/heat_image/26250_base.jpg'
-	);
-
-	const [baseImg, setbaseImg] = useState('');
-	const [hotImg, sethotImg] = useState('');
-	const [imgSrc, setimgSrc] = useState('');
-
+	/* const [disable, setDisable] = useState(true);
 	useEffect(() => {
-		const data = {
-			project_id: Number(localStorage.getItem('projectID')),
-			jwt_token: localStorage.getItem('jwt_token'),
-			camera_id: cID,
-			start_date: startDate,
-			end_date: endDate,
-		};
-		//console.log(data);
-		axios
-			.post(
-				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/hotspot/image',
-				data
-			)
-			.then((res) => {
-				//console.log(res.data);
-				setbaseImg(res.data.base_image);
-				sethotImg(res.data.hot_image);
-				setimgSrc(res.data.base_image);
-			})
-			.catch((err) => console.log(err));
-	}, [cID, sDate, eDate]);
+		if (
+			mask !== null ||
+			social_distancing !== null ||
+			crowding !== null ||
+			hard_hat !== null ||
+			vis_vest !== null ||
+			occ !== null
+		)
+			setDisable(false);
+		else setDisable(true);
+	}, [cID, sDate, eDate]); */
 
 	if (loading) return <Spinner />;
 	return (
 		<div className={classes.root}>
-			{disable === true && (
-				<div>
-					<Typography variant="h4" style={{ textAlign: 'center' }}>
-						Camera has not started streaming yet .
-					</Typography>
-				</div>
-			)}
-			{disable === false && (
+			{mask === null &&
+			social_distancing === null &&
+			crowding === null &&
+			hard_hat === null &&
+			vis_vest === null &&
+			occ === null ? (
 				<div>
 					<Typography
 						variant="h4"
-						style={{
-							marginBottom: '20px',
-							marginTop: '20px',
-							fontFamily: 'Quicksand , sans-serif',
-						}}
+						style={{ textAlign: 'center', fontWeight: '600' }}
 					>
-						Safety Metrics
+						No Observation
 					</Typography>
-					<Grid container spacing={3}>
-						{mask !== null && (
-							<Grid item lg={6} xs={12} md={6}>
-								<Paper
-									className={classes.paper}
-									style={{ height: paperHeight }}
-									elevation={10}
-								>
-									<div
-										style={{
-											float: 'left',
-											width: '70%',
-										}}
+				</div>
+			) : (
+				<div>
+					<div>
+						<Typography
+							variant="h4"
+							style={{
+								marginBottom: '5px',
+								marginTop: '20px',
+								fontFamily: 'Roboto , sans-serif',
+								fontWeight: '600',
+							}}
+						>
+							Safety Metrics
+						</Typography>
+						<div
+							style={{
+								height: '9px',
+								width: '250px',
+								backgroundColor: '#179CD5',
+								borderRadius: '10px',
+								marginBottom: '25px',
+							}}
+						></div>
+						<Grid container spacing={3}>
+							{mask !== null && (
+								<Grid item lg={6} xs={12} md={6}>
+									<Paper
+										className={classes.paper}
+										style={{ height: paperHeight }}
+										elevation={10}
 									>
-										<Typography
-											variant="h5"
-											style={{ fontFamily: 'Roboto , sans-serif' }}
-										>
-											{' '}
-											PPE Compliance - Face Mask (%)
-										</Typography>
-										<Typography
-											variant="h4"
+										<div
 											style={{
-												color: 'orange',
-												margin: '3px 0px 3px 0px',
-												fontWeight: '600',
+												float: 'left',
+												width: '70%',
 											}}
 										>
-											{mask}
-										</Typography>
-									</div>
-									<div style={{ float: floatPic, width: '30%', right: '0' }}>
-										<img
-											alt="risk-images"
-											src={maskimg}
-											width="70px"
-											height="70px"
-											style={{ float: floatPic }}
-										/>
-									</div>
-								</Paper>
-							</Grid>
-						)}
-						{social_distancing !== null && (
-							<Grid item lg={6} xs={12} md={6}>
-								<Paper
-									className={classes.paper}
-									style={{ height: paperHeight }}
-									elevation={10}
-								>
-									<div
-										style={{
-											float: 'left',
-
-											width: '70%',
-										}}
+											<Typography
+												variant="h5"
+												style={{ fontFamily: 'Roboto , sans-serif' }}
+											>
+												{' '}
+												PPE Compliance - Face Mask (%)
+											</Typography>
+											<Typography
+												variant="h4"
+												style={{
+													color: 'orange',
+													margin: '3px 0px 3px 0px',
+													fontWeight: '600',
+												}}
+											>
+												{mask}
+											</Typography>
+										</div>
+										<div style={{ float: floatPic, width: '30%', right: '0' }}>
+											<img
+												alt="risk-images"
+												src={maskimg}
+												width="70px"
+												height="70px"
+												style={{ float: floatPic }}
+											/>
+										</div>
+									</Paper>
+								</Grid>
+							)}
+							{social_distancing !== null && (
+								<Grid item lg={6} xs={12} md={6}>
+									<Paper
+										className={classes.paper}
+										style={{ height: paperHeight }}
+										elevation={10}
 									>
-										<Typography
-											variant="h5"
-											style={{ fontFamily: 'Roboto , sans-serif' }}
-										>
-											Physical Distancing Violations
-										</Typography>
-
-										<Typography
-											variant="h4"
+										<div
 											style={{
-												color: 'orange',
-												margin: '3px 0px 3px 0px',
-												fontWeight: '600',
+												float: 'left',
+
+												width: '70%',
 											}}
 										>
-											{social_distancing}
-										</Typography>
-									</div>
-									<div style={{ float: floatPic, width: '30%' }}>
-										<img
-											alt="risk-images"
-											src={phyimg}
-											width="70px"
-											height="70px"
-											style={{ float: floatPic }}
-										/>
-									</div>
-								</Paper>
-							</Grid>
-						)}
-						{hard_hat !== null && (
-							<Grid item lg={6} xs={12} md={6}>
-								<Paper
-									className={classes.paper}
-									style={{ height: paperHeight }}
-									elevation={10}
-								>
-									<div
-										style={{
-											float: 'left',
-											width: '70%',
-										}}
-									>
-										<Typography
-											variant="h5"
-											style={{ fontFamily: 'Roboto , sans-serif' }}
-										>
-											PPE Compliance - Hard Hat (%)
-										</Typography>
+											<Typography
+												variant="h5"
+												style={{ fontFamily: 'Roboto , sans-serif' }}
+											>
+												Physical Distancing Violations
+											</Typography>
 
-										<Typography
-											variant="h4"
+											<Typography
+												variant="h4"
+												style={{
+													color: 'orange',
+													margin: '3px 0px 3px 0px',
+													fontWeight: '600',
+												}}
+											>
+												{social_distancing}
+											</Typography>
+										</div>
+										<div style={{ float: floatPic, width: '30%' }}>
+											<img
+												alt="risk-images"
+												src={phyimg}
+												width="70px"
+												height="70px"
+												style={{ float: floatPic }}
+											/>
+										</div>
+									</Paper>
+								</Grid>
+							)}
+							{hard_hat !== null && (
+								<Grid item lg={6} xs={12} md={6}>
+									<Paper
+										className={classes.paper}
+										style={{ height: paperHeight }}
+										elevation={10}
+									>
+										<div
 											style={{
-												color: 'orange',
-												margin: '3px 0px 3px 0px',
-												fontWeight: '600',
+												float: 'left',
+												width: '70%',
 											}}
 										>
-											{hard_hat}
-										</Typography>
-									</div>
-									<div style={{ float: floatPic, width: '30%' }}>
-										<img
-											alt="risk-images"
-											src={hatimg}
-											width="70px"
-											height="70px"
-											style={{ float: floatPic }}
-										/>
-									</div>
-								</Paper>
-							</Grid>
-						)}
-						{vis_vest !== null && (
-							<Grid item lg={6} xs={12} md={6}>
-								<Paper
-									className={classes.paper}
-									style={{ height: paperHeight }}
-									elevation={10}
-								>
-									<div
-										style={{
-											float: 'left',
-											width: '70%',
-										}}
-									>
-										<Typography
-											variant="h5"
-											style={{ fontFamily: 'Roboto , sans-serif' }}
-										>
-											PPE Compliance - High Viz Vest (%)
-										</Typography>
+											<Typography
+												variant="h5"
+												style={{ fontFamily: 'Roboto , sans-serif' }}
+											>
+												PPE Compliance - Hard Hat (%)
+											</Typography>
 
-										<Typography
-											variant="h4"
+											<Typography
+												variant="h4"
+												style={{
+													color: 'orange',
+													margin: '3px 0px 3px 0px',
+													fontWeight: '600',
+												}}
+											>
+												{hard_hat}
+											</Typography>
+										</div>
+										<div style={{ float: floatPic, width: '30%' }}>
+											<img
+												alt="risk-images"
+												src={hatimg}
+												width="70px"
+												height="70px"
+												style={{ float: floatPic }}
+											/>
+										</div>
+									</Paper>
+								</Grid>
+							)}
+							{vis_vest !== null && (
+								<Grid item lg={6} xs={12} md={6}>
+									<Paper
+										className={classes.paper}
+										style={{ height: paperHeight }}
+										elevation={10}
+									>
+										<div
 											style={{
-												color: 'orange',
-												margin: '3px 0px 3px 0px',
-												fontWeight: '600',
+												float: 'left',
+												width: '70%',
 											}}
 										>
-											{vis_vest}
-										</Typography>
-									</div>
-									<div style={{ float: floatPic, width: '30%' }}>
-										<img
-											alt="risk-images"
-											src={vestimg}
-											width="70px"
-											height="70px"
-											style={{ float: floatPic }}
-										/>
-									</div>
-								</Paper>
-							</Grid>
-						)}
-						{crowding !== null && (
-							<Grid item lg={6} xs={12} md={6}>
-								<Paper
-									className={classes.paper}
-									style={{ height: paperHeight }}
-									elevation={10}
-								>
-									<div
-										style={{
-											float: 'left',
-											width: '70%',
-										}}
-									>
-										<Typography
-											variant="h5"
-											style={{ fontFamily: 'Roboto , sans-serif' }}
-										>
-											Crowding Violations
-										</Typography>
+											<Typography
+												variant="h5"
+												style={{ fontFamily: 'Roboto , sans-serif' }}
+											>
+												PPE Compliance - High Viz Vest (%)
+											</Typography>
 
-										<Typography
-											variant="h4"
+											<Typography
+												variant="h4"
+												style={{
+													color: 'orange',
+													margin: '3px 0px 3px 0px',
+													fontWeight: '600',
+												}}
+											>
+												{vis_vest}
+											</Typography>
+										</div>
+										<div style={{ float: floatPic, width: '30%' }}>
+											<img
+												alt="risk-images"
+												src={vestimg}
+												width="70px"
+												height="70px"
+												style={{ float: floatPic }}
+											/>
+										</div>
+									</Paper>
+								</Grid>
+							)}
+							{crowding !== null && (
+								<Grid item lg={6} xs={12} md={6}>
+									<Paper
+										className={classes.paper}
+										style={{ height: paperHeight }}
+										elevation={10}
+									>
+										<div
 											style={{
-												color: 'orange',
-												margin: '3px 0px 3px 0px',
-												fontSize: '30px',
-												fontWeight: '600',
+												float: 'left',
+												width: '70%',
 											}}
 										>
-											{crowding}
-										</Typography>
-									</div>
-									<div style={{ float: floatPic, width: '30%' }}>
-										<img
-											alt="risk-images"
-											src={crowdimg}
-											width="70px"
-											height="70px"
-											style={{ float: floatPic }}
-										/>
-									</div>
-								</Paper>
-							</Grid>
-						)}
-						{occ !== null && (
-							<Grid item lg={6} xs={12} md={6}>
-								<Paper
-									className={classes.paper}
-									style={{ height: paperHeight }}
-									elevation={10}
-								>
-									<div
-										style={{
-											float: 'left',
+											<Typography
+												variant="h5"
+												style={{ fontFamily: 'Roboto , sans-serif' }}
+											>
+												Crowding Violations
+											</Typography>
 
-											width: '70%',
-										}}
+											<Typography
+												variant="h4"
+												style={{
+													color: 'orange',
+													margin: '3px 0px 3px 0px',
+													fontSize: '30px',
+													fontWeight: '600',
+												}}
+											>
+												{crowding}
+											</Typography>
+										</div>
+										<div style={{ float: floatPic, width: '30%' }}>
+											<img
+												alt="risk-images"
+												src={crowdimg}
+												width="70px"
+												height="70px"
+												style={{ float: floatPic }}
+											/>
+										</div>
+									</Paper>
+								</Grid>
+							)}
+							{occ !== null && (
+								<Grid item lg={6} xs={12} md={6}>
+									<Paper
+										className={classes.paper}
+										style={{ height: paperHeight }}
+										elevation={10}
 									>
-										<Typography
-											variant="h5"
-											style={{ fontFamily: 'Roboto , sans-serif' }}
-										>
-											Occupancy Maximum
-										</Typography>
-										<Typography
-											variant="h4"
+										<div
 											style={{
-												color: 'orange',
-												margin: '3px 0px 3px 0px',
-												fontSize: '30px',
-												fontWeight: '600',
+												float: 'left',
+
+												width: '70%',
 											}}
 										>
-											{occ}
-										</Typography>
-									</div>
-									<div style={{ float: floatPic, width: '30%' }}>
-										<img
-											alt="risk-images"
-											src={occupancyimg}
-											width="70px"
-											height="70px"
-											style={{ float: floatPic }}
-										/>
-									</div>
-								</Paper>
-							</Grid>
-						)}
+											<Typography
+												variant="h5"
+												style={{ fontFamily: 'Roboto , sans-serif' }}
+											>
+												Occupancy Maximum
+											</Typography>
+											<Typography
+												variant="h4"
+												style={{
+													color: 'orange',
+													margin: '3px 0px 3px 0px',
+													fontSize: '30px',
+													fontWeight: '600',
+												}}
+											>
+												{occ}
+											</Typography>
+										</div>
+										<div style={{ float: floatPic, width: '30%' }}>
+											<img
+												alt="risk-images"
+												src={occupancyimg}
+												width="70px"
+												height="70px"
+												style={{ float: floatPic }}
+											/>
+										</div>
+									</Paper>
+								</Grid>
+							)}
 
-						<Grid item xs={12}>
-							{disable === false && (
+							<Grid item xs={12}>
 								<Typography
 									variant="h4"
 									style={{
-										marginTop: '20px',
-										fontFamily: 'Quicksand , sans-serif',
+										marginTop: '30px',
+										marginBottom: '5px',
+										fontFamily: 'Roboto , sans-serif',
+										fontWeight: '600',
 									}}
 								>
 									Safety Metrics By Date
 								</Typography>
-							)}
-							{hard_hat !== null && (
-								<HardHatGraph cID={cID} sDate={sDate} eDate={eDate} />
-							)}
-							{mask !== null && (
-								<MaskGraph cID={cID} sDate={sDate} eDate={eDate} />
-							)}
-							{vis_vest !== null && (
-								<VestGraph cID={cID} sDate={sDate} eDate={eDate} />
-							)}
-							{social_distancing !== null && (
-								<PhyGraph cID={cID} sDate={sDate} eDate={eDate} />
-							)}
-							{occ !== null && (
-								<OccGraph cID={cID} sDate={sDate} eDate={eDate} />
-							)}
-						</Grid>
-						{social_distancing !== null && (
-							<Grid item xs={12}>
 								<div
 									style={{
-										marginTop: '30px',
-										fontFamily: 'Quicksand , sans-serif',
-										fontSize: '36px',
+										height: '9px',
+										width: '380px',
+										backgroundColor: '#179CD5',
+										borderRadius: '10px',
+										marginBottom: '40px',
 									}}
-								>
-									Hotspot Analysis
-								</div>
+								></div>
+								{hard_hat !== null && (
+									<HardHatGraph cID={cID} sDate={sDate} eDate={eDate} />
+								)}
+								{mask !== null && (
+									<MaskGraph cID={cID} sDate={sDate} eDate={eDate} />
+								)}
+								{vis_vest !== null && (
+									<VestGraph cID={cID} sDate={sDate} eDate={eDate} />
+								)}
+								{social_distancing !== null && (
+									<PhyGraph cID={cID} sDate={sDate} eDate={eDate} />
+								)}
+								{occ !== null && (
+									<OccGraph cID={cID} sDate={sDate} eDate={eDate} />
+								)}
 							</Grid>
-						)}
-						<Grid item xs={12}>
-							{social_distancing !== null && (
-								<Paper
-									className={classes.paper}
-									style={{ height: '730px', marginBottom: '50px' }}
-									elevation={10}
-								>
-									<img
-										src={
-											'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/image' +
-											imgSrc
-										}
-										width="100%"
-										height="100%"
-										onMouseEnter={() => {
-											setimgSrc(hotImg);
-										}}
-										onMouseLeave={() => setimgSrc(baseImg)}
-									></img>
-								</Paper>
-							)}
+							<Grid item xs={12}>
+								{social_distancing !== null && (
+									<HotspotAnalysis cID={cID} sDate={sDate} eDate={eDate} />
+								)}
+							</Grid>
 						</Grid>
-					</Grid>
+					</div>
 				</div>
 			)}
 		</div>
