@@ -3,9 +3,11 @@ import ReactApexChart from 'react-apexcharts';
 import Container from '@material-ui/core/Container';
 import { Paper, Typography } from '@material-ui/core';
 import axios from 'axios';
+import Spinner from '../../../spinner';
 
 function HardHatGraph2(props) {
 	const { cID, sDate, eDate } = props;
+	const [loading, setLoading] = useState(true);
 
 	const [options, setOptions] = useState({
 		chart: {
@@ -107,10 +109,12 @@ function HardHatGraph2(props) {
 			.then((res) => {
 				//console.log(res.data)
 				setSeries([{ ...series, data: res.data.values }]);
+				setLoading(false);
 			})
 			.catch((err) => console.log(err));
 	}, [cID, sDate, eDate]);
 
+	if (loading) return <Spinner />;
 	return (
 		<div id="chart" style={{ marginTop: '25px' }}>
 			<Typography

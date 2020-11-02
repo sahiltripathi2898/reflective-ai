@@ -59,7 +59,7 @@ export default function Visual(props) {
 
 	const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
+	/* 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setLoading(false);
 		}, 1500);
@@ -68,6 +68,10 @@ export default function Visual(props) {
 			setLoading(true);
 			clearTimeout(timeout);
 		};
+	}, [cID, sDate, eDate]); */
+
+	useEffect(() => {
+		setLoading(true);
 	}, [cID, sDate, eDate]);
 
 	var startDate = sDate.toISOString().slice(0, 10) + ' 00:00:00';
@@ -100,6 +104,7 @@ export default function Visual(props) {
 				setMask(res.data.mask);
 				setVest(res.data.viz_vest);
 				//setVisual(res.data);
+				setLoading(false);
 			})
 			.catch((err) => console.log(err));
 	}, [cID, sDate, eDate]);

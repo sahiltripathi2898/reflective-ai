@@ -46,13 +46,13 @@ const Projects = (props) => {
 
 	const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
+	/* 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setLoading(false);
 		}, 1000);
 
 		return () => clearTimeout(timeout);
-	}, []);
+	}, []); */
 
 	const [rows, setRows] = useState([]);
 
@@ -68,6 +68,7 @@ const Projects = (props) => {
 			.then((res) => {
 				//console.log(res.data)
 				setRows(res.data.projects);
+				setLoading(false);
 			})
 			.catch((err) => console.log(err));
 	}, []);

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Paper, Typography } from '@material-ui/core';
+import Spinner from '../../spinner';
 
 function Hotspot(props) {
 	const { cID, sDate, eDate } = props;
+
+	const [loading, setLoading] = useState(true);
 
 	const [baseImg, setbaseImg] = useState('');
 	const [hotImg, sethotImg] = useState('');
@@ -31,9 +34,12 @@ function Hotspot(props) {
 				setbaseImg(res.data.base_image);
 				sethotImg(res.data.hot_image);
 				setimgSrc(res.data.base_image);
+				setLoading(false);
 			})
 			.catch((err) => console.log(err));
 	}, [cID, sDate, eDate]);
+
+	if (loading) return <Spinner />;
 	return (
 		<div>
 			<Typography

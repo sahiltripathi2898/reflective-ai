@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import Dates from './dates';
+import Dates from '../dates';
 
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';

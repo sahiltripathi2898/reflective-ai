@@ -41,7 +41,7 @@ export default function Overview() {
 
 	const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
+	/* 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setLoading(false);
 		}, 1000);
@@ -50,7 +50,7 @@ export default function Overview() {
 			setLoading(true);
 			clearTimeout(timeout);
 		};
-	}, []);
+	}, []); */
 
 	const [team, setTeam] = useState([]);
 
@@ -69,6 +69,7 @@ export default function Overview() {
 				//console.log(res.data)
 				setTeam(res.data.team);
 				//setRows(res.data.projects);
+				setLoading(false);
 			})
 			.catch((err) => console.log(err));
 	}, []);

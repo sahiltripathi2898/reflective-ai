@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 // File Imports
-import Drawer from './components/drawer';
+import Drawer from './components/drawer/drawer';
 import Integration from './components/integrations/Integration';
 import ClientInteg from './components/integrations/client-integ/ClientInte';
 import ProfileSetting from './components/profile/Settings';
@@ -11,7 +11,7 @@ import SignIn from './Login/SignIn';
 import Register from './Login/Register';
 import ProjectTable from './components/projects/projectTable';
 import ResetPassword from './Login/Reset';
-import Project from './components/projects/ProjectData/ProjectHome';
+import Project from './components/projects/ProjectData/Tabs';
 
 import Protected from './ProtectedRoute';
 

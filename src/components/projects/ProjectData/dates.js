@@ -1,5 +1,5 @@
 import 'date-fns';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,6 +18,8 @@ import axios from 'axios';
 import Overview from './overview';
 import Risk from './risk';
 import Visual from './visual';
+
+const Team = lazy(() => import('./overview'));
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -45,10 +47,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MaterialUIPickers(props) {
 	const { bID } = props;
-
-	// The first commit of Material-UI
-	/*  const [selectedDate, setSelectedDate] = React.useState(new Date());
-     const [selectedDate, setSelectedDate] = React.useState(new Date()); */
 
 	// Dates
 	const [sDate, setsDate] = useState(new Date());
@@ -311,7 +309,11 @@ export default function MaterialUIPickers(props) {
 				<Grid item xs={12}>
 					{bID === '1' && <Risk cID={cameraID} sDate={sDate} eDate={eDate} />}
 					{bID === '2' && <Visual cID={cameraID} sDate={sDate} eDate={eDate} />}
-					{bID === '3' && <Overview />}
+					{bID === '3' && (
+						<Suspense fallback={<div>Loading ...</div>}>
+							<Team />
+						</Suspense>
+					)}
 				</Grid>
 			</Grid>
 		</div>

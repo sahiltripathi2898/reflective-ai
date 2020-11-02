@@ -46,7 +46,7 @@ export default function Risk(props) {
 
 	const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
+	/* 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setLoading(false);
 		}, 3400);
@@ -55,9 +55,8 @@ export default function Risk(props) {
 			setLoading(true);
 			clearTimeout(timeout);
 		};
-	}, [cID, sDate, eDate]);
-
-	var startDate = sDate.toISOString().slice(0, 10) + ' 00:00:00';
+	}, [cID, sDate, eDate]); */ var startDate =
+		sDate.toISOString().slice(0, 10) + ' 00:00:00';
 	var endDate = eDate.toISOString().slice(0, 10) + ' 23:00:00';
 
 	/*   console.log(startDate)
@@ -85,14 +84,14 @@ export default function Risk(props) {
 			start_date: startDate,
 			end_date: endDate,
 		};
-		console.log(data);
+		//console.log(data);
 		axios
 			.post(
 				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/camera/metrics',
 				data
 			)
 			.then((res) => {
-				console.log(res.data);
+				//console.log(res.data);
 				setMetric(res.data);
 				setmask(res.data.ppe_compliance_mask);
 				setsocial_distancing(res.data.ppe_compliance_sd);
@@ -100,8 +99,13 @@ export default function Risk(props) {
 				sethard_hat(res.data.ppe_compliance_hardhat);
 				setvis_vest(res.data.ppe_compliance_viz_vest);
 				setocc(res.data.occupancy_max);
+				setLoading(false);
 			})
 			.catch((err) => console.log(err));
+	}, [cID, sDate, eDate]);
+
+	useEffect(() => {
+		setLoading(true);
 	}, [cID, sDate, eDate]);
 
 	/* 	//console.log(metric)

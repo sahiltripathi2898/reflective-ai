@@ -35,7 +35,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
-import Logo from './assets/fullLogo.png';
+import Logo from '../assets/fullLogo.png';
 
 const drawerWidth = 250;
 
