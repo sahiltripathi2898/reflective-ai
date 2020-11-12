@@ -66,7 +66,7 @@ export default function Overview() {
 				data
 			)
 			.then((res) => {
-				//console.log(res.data)
+				console.log(res.data);
 				setTeam(res.data.team);
 				//setRows(res.data.projects);
 				setLoading(false);
@@ -132,7 +132,7 @@ export default function Overview() {
 										{member[4]}
 									</StyledTableCell>
 									<StyledTableCell align="left">
-										{member[0] + member[1]}
+										{member[0] + ' ' + member[1]}
 									</StyledTableCell>
 									<StyledTableCell align="left">{member[2]}</StyledTableCell>
 									<StyledTableCell align="left">{member[3]}</StyledTableCell>

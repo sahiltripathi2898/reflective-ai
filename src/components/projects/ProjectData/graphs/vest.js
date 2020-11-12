@@ -40,6 +40,7 @@ function HardHatGraph2(props) {
 			opacity: 1,
 		},
 		tooltip: {
+			enabled: false,
 			y: {
 				formatter: function (val) {
 					return val;

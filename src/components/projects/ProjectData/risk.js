@@ -84,14 +84,14 @@ export default function Risk(props) {
 			start_date: startDate,
 			end_date: endDate,
 		};
-		//console.log(data);
+		console.log(data);
 		axios
 			.post(
 				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/camera/metrics',
 				data
 			)
 			.then((res) => {
-				//console.log(res.data);
+				console.log(res.data);
 				setMetric(res.data);
 				setmask(res.data.ppe_compliance_mask);
 				setsocial_distancing(res.data.ppe_compliance_sd);
@@ -454,44 +454,51 @@ export default function Risk(props) {
 									</Paper>
 								</Grid>
 							)}
-
-							<Grid item xs={12}>
-								<Typography
-									variant="h4"
-									style={{
-										marginTop: '30px',
-										marginBottom: '5px',
-										fontFamily: 'Roboto , sans-serif',
-										fontWeight: '600',
-									}}
-								>
-									Safety Metrics By Date
-								</Typography>
-								<div
-									style={{
-										height: '9px',
-										width: '360px',
-										backgroundColor: '#179CD5',
-										borderRadius: '10px',
-										marginBottom: '40px',
-									}}
-								></div>
-								{hard_hat !== null && (
-									<HardHatGraph cID={cID} sDate={sDate} eDate={eDate} />
-								)}
-								{mask !== null && (
-									<MaskGraph cID={cID} sDate={sDate} eDate={eDate} />
-								)}
-								{vis_vest !== null && (
-									<VestGraph cID={cID} sDate={sDate} eDate={eDate} />
-								)}
-								{social_distancing !== null && (
-									<PhyGraph cID={cID} sDate={sDate} eDate={eDate} />
-								)}
-								{occ !== null && (
-									<OccGraph cID={cID} sDate={sDate} eDate={eDate} />
-								)}
-							</Grid>
+							{mask === null &&
+							social_distancing === null &&
+							hard_hat === null &&
+							vis_vest === null &&
+							occ === null ? (
+								<div></div>
+							) : (
+								<Grid item xs={12}>
+									<Typography
+										variant="h4"
+										style={{
+											marginTop: '30px',
+											marginBottom: '5px',
+											fontFamily: 'Roboto , sans-serif',
+											fontWeight: '600',
+										}}
+									>
+										Safety Metrics By Date
+									</Typography>
+									<div
+										style={{
+											height: '9px',
+											width: '360px',
+											backgroundColor: '#179CD5',
+											borderRadius: '10px',
+											marginBottom: '40px',
+										}}
+									></div>
+									{hard_hat !== null && (
+										<HardHatGraph cID={cID} sDate={sDate} eDate={eDate} />
+									)}
+									{mask !== null && (
+										<MaskGraph cID={cID} sDate={sDate} eDate={eDate} />
+									)}
+									{vis_vest !== null && (
+										<VestGraph cID={cID} sDate={sDate} eDate={eDate} />
+									)}
+									{social_distancing !== null && (
+										<PhyGraph cID={cID} sDate={sDate} eDate={eDate} />
+									)}
+									{occ !== null && (
+										<OccGraph cID={cID} sDate={sDate} eDate={eDate} />
+									)}
+								</Grid>
+							)}
 							<Grid item xs={12}>
 								{social_distancing !== null && (
 									<HotspotAnalysis cID={cID} sDate={sDate} eDate={eDate} />
