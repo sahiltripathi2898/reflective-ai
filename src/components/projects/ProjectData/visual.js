@@ -152,6 +152,22 @@ export default function Visual(props) {
 			.catch((err) => console.log(err));
 	}, [cID, sDate, eDate]);
 
+	/* 	useEffect(() => {
+		if (phys.length > 0) {
+			console.log('1');
+			firstBtn();
+		} else if (masks.length > 0) {
+			console.log('2');
+			secondBtn();
+		} else if (hats.length > 0) {
+			console.log('3');
+			thirdBtn();
+		} else if (vests.length > 0) {
+			console.log('4');
+			fourthBtn();
+		}
+	}, [cID, sDate, eDate]); */
+
 	const [open, setOpen] = React.useState(false);
 	const [modalVideo, setModalVideo] = useState('');
 	const handleOpen = () => {

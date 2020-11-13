@@ -84,14 +84,14 @@ export default function Risk(props) {
 			start_date: startDate,
 			end_date: endDate,
 		};
-		console.log(data);
+		//console.log(data);
 		axios
 			.post(
 				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/camera/metrics',
 				data
 			)
 			.then((res) => {
-				console.log(res.data);
+				//console.log(res.data);
 				setMetric(res.data);
 				setmask(res.data.ppe_compliance_mask);
 				setsocial_distancing(res.data.ppe_compliance_sd);

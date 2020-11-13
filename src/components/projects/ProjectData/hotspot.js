@@ -63,7 +63,7 @@ function Hotspot(props) {
 				}}
 			></div>
 			<Paper
-				style={{ height: '730px', marginBottom: '50px', padding: '20px' }}
+				style={{ height: '52vw', marginBottom: '50px', padding: '20px' }}
 				elevation={10}
 			>
 				<img
