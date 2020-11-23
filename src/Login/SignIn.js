@@ -70,9 +70,9 @@ export default function SignIn() {
 				}
 			)
 			.then((res) => {
-				console.log(res);
+				//console.log(res);
 				if (res.data.status === 'success') {
-					console.log(res.data);
+					//console.log(res.data);
 					localStorage.setItem('jwt_token', res.data.token);
 					history.push('/home');
 				} else {

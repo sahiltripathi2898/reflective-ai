@@ -103,6 +103,7 @@ function MaskGraph(props) {
 			jwt_token: localStorage.getItem('jwt_token'),
 			camera_id: cID,
 			start_date: sDate.toISOString().slice(0, 10) + ' 00:00:00',
+			company_id: Number(localStorage.getItem('company_id')),
 		};
 		//console.log(data)
 		axios

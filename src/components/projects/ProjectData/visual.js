@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Visual(props) {
 	const classes = useStyles();
 	const [buttonId, setbuttonId] = useState('1');
-	const [btnA, setbtnA] = useState('#4cebeb');
+	/* 	const [btnA, setbtnA] = useState('#4cebeb');
 	const [btnB, setbtnB] = useState('#2c387e');
 	const [btnC, setbtnC] = useState('#2c387e');
 	const [btnD, setbtnD] = useState('#2c387e');
@@ -93,7 +93,7 @@ export default function Visual(props) {
 		setbtnB('#2c387e');
 		setbtnA('#2c387e');
 		setbtnD('#4cebeb');
-	}
+	} */
 
 	const { cID, sDate, eDate } = props;
 	/*   console.log(cID)
@@ -133,15 +133,16 @@ export default function Visual(props) {
 			camera_id: cID,
 			start_date: startDate,
 			end_date: endDate,
+			company_id: Number(localStorage.getItem('company_id')),
 		};
-		//console.log(data)
+		console.log(data);
 		axios
 			.post(
 				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/camera/videos',
 				data
 			)
 			.then((res) => {
-				//console.log(res.data)
+				console.log(res.data);
 				setHat(res.data.hard_hat);
 				setPhy(res.data.physical_distancing);
 				setMask(res.data.mask);
@@ -222,7 +223,7 @@ export default function Visual(props) {
 								}}
 							></div>
 						</Grid>
-						<Grid item lg={7} xs={12}>
+						{/* <Grid item lg={7} xs={12}>
 							<Container className={classes.bg}>
 								<ButtonGroup
 									variant="contained"
@@ -264,7 +265,7 @@ export default function Visual(props) {
 									)}
 								</ButtonGroup>
 							</Container>
-						</Grid>
+						</Grid> */}
 						<Grid container spacing={3}>
 							{phys.length > 0 && buttonId == '1' && (
 								<div style={{ paddingLeft: '20px' }}>
@@ -277,18 +278,19 @@ export default function Visual(props) {
 										</Typography>
 									</Grid>
 									<Grid container spacing={2}>
-										{phys.map((phy) => (
+										{phys.map((phy, index) => (
 											<Grid
 												item
 												lg={4}
 												sm={6}
 												style={{ textAlign: 'center', marginTop: '20px' }}
+												key={index}
 											>
 												<Paper className={classes.paper} elevation={5}>
 													<video
 														width="98%"
 														height="235"
-														controls="true"
+														controls={true}
 														poster={
 															'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
 															phy.thumbnail_path
@@ -318,7 +320,7 @@ export default function Visual(props) {
 									</Grid>
 								</div>
 							)}
-							{masks.length > 0 && buttonId == '2' && (
+							{masks.length > 0 && buttonId == '1' && (
 								<div style={{ paddingLeft: '20px', paddingRight: '10px' }}>
 									<Grid item xs={12}>
 										<Typography
@@ -329,18 +331,19 @@ export default function Visual(props) {
 										</Typography>
 									</Grid>
 									<Grid container spacing={2}>
-										{masks.map((mask) => (
+										{masks.map((mask, index) => (
 											<Grid
 												item
 												lg={4}
 												sm={6}
 												style={{ textAlign: 'center', marginTop: '20px' }}
+												key={index}
 											>
 												<Paper className={classes.paper} elevation={5}>
 													<video
 														width="98%"
 														height="235"
-														controls="true"
+														controls={true}
 														poster={
 															'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
 															mask.thumbnail_path
@@ -370,7 +373,7 @@ export default function Visual(props) {
 									</Grid>
 								</div>
 							)}
-							{hats.length > 0 && buttonId == '3' && (
+							{hats.length > 0 && buttonId == '1' && (
 								<div style={{ paddingLeft: '20px' }}>
 									<Grid item xs={12}>
 										<Typography
@@ -381,18 +384,19 @@ export default function Visual(props) {
 										</Typography>
 									</Grid>
 									<Grid container spacing={2}>
-										{hats.map((hat) => (
+										{hats.map((hat, index) => (
 											<Grid
 												item
 												lg={4}
 												sm={6}
 												style={{ textAlign: 'center', marginTop: '20px' }}
+												key={index}
 											>
 												<Paper className={classes.paper} elevation={5}>
 													<video
 														width="98%"
 														height="235"
-														controls="true"
+														controls={true}
 														poster={
 															'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
 															hat.thumbnail_path
@@ -422,7 +426,7 @@ export default function Visual(props) {
 									</Grid>
 								</div>
 							)}
-							{vests.length > 0 && buttonId == '4' && (
+							{vests.length > 0 && buttonId == '1' && (
 								<div style={{ paddingLeft: '20px' }}>
 									<Grid item xs={12}>
 										<Typography
@@ -433,18 +437,19 @@ export default function Visual(props) {
 										</Typography>
 									</Grid>
 									<Grid container spacing={2}>
-										{vests.map((vest) => (
+										{vests.map((vest, index) => (
 											<Grid
 												item
 												lg={4}
 												sm={6}
 												style={{ textAlign: 'center', marginTop: '20px' }}
+												key={index}
 											>
 												<Paper className={classes.paper} elevation={5}>
 													<video
 														width="98%"
 														height="235"
-														controls="true"
+														controls={true}
 														poster={
 															'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
 															vest.thumbnail_path
@@ -493,7 +498,7 @@ export default function Visual(props) {
 								<video
 									width="100%"
 									height="90%"
-									controls="true"
+									controls={true}
 									style={{ marginTop: '30px', outline: 'none' }}
 								>
 									<source src={modalVideo} />

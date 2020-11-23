@@ -66,16 +66,15 @@ const Projects = (props) => {
 				data
 			)
 			.then((res) => {
-				//console.log(res.data)
+				//console.log(res.data);
 				setRows(res.data.projects);
 				setLoading(false);
 			})
 			.catch((err) => console.log(err));
 	}, []);
 
-	function callProjectDetails(projectID, companyID) {
+	function callProjectDetails(projectID) {
 		localStorage.setItem('projectID', projectID);
-		localStorage.setItem('companyID', companyID);
 		history.push('/home/project');
 	}
 
@@ -112,7 +111,7 @@ const Projects = (props) => {
 								key={row.project_name}
 								style={{ cursor: 'pointer' }}
 								onClick={() => {
-									callProjectDetails(row.project_id, row.company_id);
+									callProjectDetails(row.project_id);
 								}}
 							>
 								<StyledTableCell component="th" scope="row">

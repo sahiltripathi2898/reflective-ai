@@ -83,6 +83,7 @@ export default function Risk(props) {
 			camera_id: cID,
 			start_date: startDate,
 			end_date: endDate,
+			company_id: Number(localStorage.getItem('company_id')),
 		};
 		//console.log(data);
 		axios
