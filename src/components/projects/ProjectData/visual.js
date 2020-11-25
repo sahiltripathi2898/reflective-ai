@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import { Divider, Button, ButtonGroup, Container } from '@material-ui/core';
+//import { Divider, Button, ButtonGroup, Container } from '@material-ui/core';
 import axios from 'axios';
 
 import Modal from '@material-ui/core/Modal';
@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: '10px',
 	},
 	bg: {
-		display: 'flex',
 		marginTop: '20px',
 		paddingLeft: '0px',
 		paddingRight: '0px',
@@ -267,7 +266,7 @@ export default function Visual(props) {
 							</Container>
 						</Grid> */}
 						<Grid container spacing={3}>
-							{phys.length > 0 && buttonId == '1' && (
+							{phys.length > 0 && buttonId === '1' && (
 								<div style={{ paddingLeft: '20px' }}>
 									<Grid item xs={12}>
 										<Typography
@@ -320,7 +319,7 @@ export default function Visual(props) {
 									</Grid>
 								</div>
 							)}
-							{masks.length > 0 && buttonId == '1' && (
+							{masks.length > 0 && buttonId === '1' && (
 								<div style={{ paddingLeft: '20px', paddingRight: '10px' }}>
 									<Grid item xs={12}>
 										<Typography
@@ -373,7 +372,7 @@ export default function Visual(props) {
 									</Grid>
 								</div>
 							)}
-							{hats.length > 0 && buttonId == '1' && (
+							{hats.length > 0 && buttonId === '1' && (
 								<div style={{ paddingLeft: '20px' }}>
 									<Grid item xs={12}>
 										<Typography
@@ -426,7 +425,7 @@ export default function Visual(props) {
 									</Grid>
 								</div>
 							)}
-							{vests.length > 0 && buttonId == '1' && (
+							{vests.length > 0 && buttonId === '1' && (
 								<div style={{ paddingLeft: '20px' }}>
 									<Grid item xs={12}>
 										<Typography

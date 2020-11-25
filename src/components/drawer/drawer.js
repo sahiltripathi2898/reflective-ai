@@ -210,8 +210,12 @@ const MiniDrawer = (props) => {
 				data
 			)
 			.then((res) => {
-				//console.log(res.data);
-				localStorage.setItem('company_id', res.data.company_id);
+				console.log(res);
+				if (res.data.status_code === 401) {
+					window.alert('Token has expired ! Please login in again');
+					history.push('/');
+				}
+				//localStorage.setItem('company_id', res.data.company_id);
 				if (res.data.first_name !== null) setFirst(res.data.first_name);
 				if (res.data.last_name !== null) setLast(res.data.last_name);
 			})

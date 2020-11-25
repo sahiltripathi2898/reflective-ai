@@ -70,13 +70,18 @@ export default function SignIn() {
 				}
 			)
 			.then((res) => {
-				//console.log(res);
+				console.log(res);
 				if (res.data.status === 'success') {
 					//console.log(res.data);
 					localStorage.setItem('jwt_token', res.data.token);
+					localStorage.setItem('company_id', res.data.company_id);
 					history.push('/home');
 				} else {
-					window.alert('Invalid Credentials');
+					if (res.data.status_code === 401) {
+						window.alert('Wrong Password');
+					} else {
+						window.alert(`User Doesn't Exist`);
+					}
 				}
 			})
 			.catch((err) => {

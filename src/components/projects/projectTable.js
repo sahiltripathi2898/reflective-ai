@@ -46,27 +46,25 @@ const Projects = (props) => {
 
 	const [loading, setLoading] = useState(true);
 
-	/* 	useEffect(() => {
-		const timeout = setTimeout(() => {
-			setLoading(false);
-		}, 1000);
-
-		return () => clearTimeout(timeout);
-	}, []); */
-
 	const [rows, setRows] = useState([]);
 
 	useEffect(() => {
 		const data = {
 			jwt_token: localStorage.getItem('jwt_token'),
+			company_id: Number(localStorage.getItem('company_id')),
 		};
+		console.log(data);
 		axios
 			.post(
 				' http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/projects/me',
 				data
 			)
 			.then((res) => {
-				//console.log(res.data);
+				if (res.data.status_code === 401) {
+					window.alert('Token has expired ! Please login in again');
+					history.push('/');
+				}
+				//console.log(res);
 				setRows(res.data.projects);
 				setLoading(false);
 			})
@@ -89,6 +87,7 @@ const Projects = (props) => {
 					marginBottom: '30px',
 					fontWeight: '600',
 					letterSpacing: '1px',
+					fontFamily: 'sans-serif',
 				}}
 			>
 				Project List

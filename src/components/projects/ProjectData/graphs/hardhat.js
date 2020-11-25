@@ -108,7 +108,7 @@ function HardHatGraph2(props) {
 				data
 			)
 			.then((res) => {
-				//console.log(res.data)
+				console.log(res.data);
 				setSeries([{ ...series, data: res.data.values }]);
 				setLoading(false);
 			})

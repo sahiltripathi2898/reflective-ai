@@ -57,9 +57,10 @@ export default function Overview() {
 	useEffect(() => {
 		const data = {
 			jwt_token: localStorage.getItem('jwt_token'),
-			company_id: localStorage.getItem('companyID'),
+			company_id: localStorage.getItem('company_id'),
 			project_id: localStorage.getItem('projectID'),
 		};
+		console.log(data);
 		axios
 			.post(
 				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/project/team',

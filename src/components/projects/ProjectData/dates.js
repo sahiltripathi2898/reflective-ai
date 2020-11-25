@@ -14,7 +14,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import axios from 'axios';
 //import FormHelperText from '@material-ui/core/FormHelperText';
-
+import Spinner from '../../spinner';
 import Overview from './overview';
 import Risk from './risk';
 import Visual from './visual';
@@ -47,6 +47,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MaterialUIPickers(props) {
 	const { bID } = props;
+
+	//Loading
+	const [loading, setLoading] = useState(true);
+
+	/* 	useEffect(() => {
+		const timeout = setTimeout(() => {
+			setLoading(false);
+		}, 800);
+
+		return () => {
+			setLoading(true);
+			clearTimeout(timeout);
+		};
+	}, []); */
 
 	// Dates
 	const [sDate, setsDate] = useState(new Date());
@@ -93,6 +107,7 @@ export default function MaterialUIPickers(props) {
 		const data = {
 			project_id: localStorage.getItem('projectID'),
 			jwt_token: localStorage.getItem('jwt_token'),
+			company_id: Number(localStorage.getItem('company_id')),
 		};
 		axios
 			.post(
@@ -110,6 +125,7 @@ export default function MaterialUIPickers(props) {
 					res.data.cameras[0].end_date,
 					res.data.cameras[0].start_date
 				);
+				setLoading(false);
 
 				/* // setting the 7 day difference
 
@@ -196,6 +212,9 @@ export default function MaterialUIPickers(props) {
 	}
 
 	const classes = useStyles();
+
+	if (loading) return <Spinner />;
+
 	return (
 		<div className={classes.root}>
 			<Grid container spacing={3}>

@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Typography } from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
 
 import axios from 'axios';
 
@@ -20,8 +21,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ProjectHome() {
+const ProjectHome = (props) => {
 	const classes = useStyles();
+	const { history } = props;
 
 	const [buttonId, setbuttonId] = useState('1');
 	const [btnA, setbtnA] = useState('#4cebeb');
@@ -35,10 +37,22 @@ export default function ProjectHome() {
 
 	const [loading, setLoading] = useState(true);
 
+	/* 	useEffect(() => {
+		const timeout = setTimeout(() => {
+			setLoading(false);
+		}, 2000);
+
+		return () => {
+			setLoading(true);
+			clearTimeout(timeout);
+		};
+	}, []); */
+
 	useEffect(() => {
 		const data = {
 			jwt_token: localStorage.getItem('jwt_token'),
 			project_id: localStorage.getItem('projectID'),
+			company_id: Number(localStorage.getItem('company_id')),
 		};
 		axios
 			.post(
@@ -46,6 +60,11 @@ export default function ProjectHome() {
 				data
 			)
 			.then((res) => {
+				console.log(res);
+				if (res.data.status_code === 401) {
+					window.alert('Token has expired ! Please login in again');
+					history.push('/');
+				}
 				setName(res.data.project.project_name);
 				setAddress(res.data.project.address);
 				setLoading(false);
@@ -101,4 +120,6 @@ export default function ProjectHome() {
 			<Dates bID={buttonId} />
 		</div>
 	);
-}
+};
+
+export default withRouter(ProjectHome);
