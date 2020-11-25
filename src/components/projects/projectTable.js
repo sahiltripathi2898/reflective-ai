@@ -80,52 +80,71 @@ const Projects = (props) => {
 
 	return (
 		<Container style={{ marginTop: '70px', padding: '30px' }} maxWidth="md">
-			<Typography
-				variant="h2"
-				style={{
-					textAlign: 'center',
-					marginBottom: '30px',
-					fontWeight: '600',
-					letterSpacing: '1px',
-					fontFamily: 'sans-serif',
-				}}
-			>
-				Project List
-			</Typography>
-			<TableContainer component={Paper}>
-				<Table className={classes.table} aria-label="customized table">
-					<TableHead>
-						<TableRow>
-							<StyledTableCell>Project Name</StyledTableCell>
-							<StyledTableCell align="left">Status</StyledTableCell>
-							<StyledTableCell align="left">Address</StyledTableCell>
-							<StyledTableCell align="left">State</StyledTableCell>
-							<StyledTableCell align="left">City</StyledTableCell>
-							<StyledTableCell align="left">Zip</StyledTableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{rows.map((row) => (
-							<StyledTableRow
-								key={row.project_name}
-								style={{ cursor: 'pointer' }}
-								onClick={() => {
-									callProjectDetails(row.project_id);
-								}}
-							>
-								<StyledTableCell component="th" scope="row">
-									{row.project_name}
-								</StyledTableCell>
-								<StyledTableCell align="left">{row.status}</StyledTableCell>
-								<StyledTableCell align="left">{row.address}</StyledTableCell>
-								<StyledTableCell align="left">{row.city}</StyledTableCell>
-								<StyledTableCell align="left">{row.state}</StyledTableCell>
-								<StyledTableCell align="left">{row.zip}</StyledTableCell>
-							</StyledTableRow>
-						))}
-					</TableBody>
-				</Table>
-			</TableContainer>
+			{rows.length === 0 ? (
+				<Typography
+					variant="h3"
+					style={{
+						textAlign: 'center',
+						marginBottom: '30px',
+						fontWeight: '600',
+						letterSpacing: '1px',
+						fontFamily: 'sans-serif',
+					}}
+				>
+					No Projects
+				</Typography>
+			) : (
+				<div>
+					<Typography
+						variant="h2"
+						style={{
+							textAlign: 'center',
+							marginBottom: '30px',
+							fontWeight: '600',
+							letterSpacing: '1px',
+							fontFamily: 'sans-serif',
+						}}
+					>
+						Project List
+					</Typography>
+					<TableContainer component={Paper}>
+						<Table className={classes.table} aria-label="customized table">
+							<TableHead>
+								<TableRow>
+									<StyledTableCell>Project Name</StyledTableCell>
+									<StyledTableCell align="left">Status</StyledTableCell>
+									<StyledTableCell align="left">Address</StyledTableCell>
+									<StyledTableCell align="left">State</StyledTableCell>
+									<StyledTableCell align="left">City</StyledTableCell>
+									<StyledTableCell align="left">Zip</StyledTableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{rows.map((row) => (
+									<StyledTableRow
+										key={row.project_name}
+										style={{ cursor: 'pointer' }}
+										onClick={() => {
+											callProjectDetails(row.project_id);
+										}}
+									>
+										<StyledTableCell component="th" scope="row">
+											{row.project_name}
+										</StyledTableCell>
+										<StyledTableCell align="left">{row.status}</StyledTableCell>
+										<StyledTableCell align="left">
+											{row.address}
+										</StyledTableCell>
+										<StyledTableCell align="left">{row.city}</StyledTableCell>
+										<StyledTableCell align="left">{row.state}</StyledTableCell>
+										<StyledTableCell align="left">{row.zip}</StyledTableCell>
+									</StyledTableRow>
+								))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+				</div>
+			)}
 		</Container>
 	);
 };

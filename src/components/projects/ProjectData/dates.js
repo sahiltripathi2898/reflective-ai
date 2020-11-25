@@ -118,13 +118,15 @@ export default function MaterialUIPickers(props) {
 				console.log(res.data);
 				setCameras(res.data.cameras);
 
-				if (res.data.cameras[0].start_date === null) setdisableDate(true);
+				if (res.data.cameras.length !== 0) {
+					if (res.data.cameras[0].start_date === null) setdisableDate(true);
 
-				onClickHandler(
-					-1,
-					res.data.cameras[0].end_date,
-					res.data.cameras[0].start_date
-				);
+					onClickHandler(
+						-1,
+						res.data.cameras[0].end_date,
+						res.data.cameras[0].start_date
+					);
+				}
 				setLoading(false);
 
 				/* // setting the 7 day difference
@@ -217,29 +219,41 @@ export default function MaterialUIPickers(props) {
 
 	return (
 		<div className={classes.root}>
-			<Grid container spacing={3}>
-				{visible === true && (
-					<Grid item xs={12}>
-						<Paper className={classes.paper} elevation={5}>
-							<div className={classes.dates}>
-								<Grid container spacing={3}>
-									<Grid item lg={4} md={6} xs={12}>
-										<FormControl className={classes.formControl}>
-											<InputLabel shrink id="demo-controlled-open-select-label">
-												Select Camera{' '}
-											</InputLabel>
-											<Select
-												labelId="demo-controlled-open-select-label"
-												id="demo-controlled-open-select"
-												onClose={handleClose}
-												onOpen={handleOpen}
-												onChange={handleChange}
-												value={age}
-												displayEmpty
-											>
-												<MenuItem
-													value=""
-													/* onClick={() => {
+			{cameras.length === 0 ? (
+				<Typography
+					variant="h4"
+					style={{ textAlign: 'center', fontWeight: '600', marginTop: '50px' }}
+				>
+					No Cameras
+				</Typography>
+			) : (
+				<Grid container spacing={3}>
+					{visible === true && (
+						<Grid item xs={12}>
+							<Paper className={classes.paper} elevation={5}>
+								<div className={classes.dates}>
+									<Grid container spacing={3}>
+										<Grid item lg={4} md={6} xs={12}>
+											<FormControl className={classes.formControl}>
+												<InputLabel
+													shrink
+													id="demo-controlled-open-select-label"
+												>
+													Select Camera{' '}
+												</InputLabel>
+												<Select
+													labelId="demo-controlled-open-select-label"
+													id="demo-controlled-open-select"
+													onClose={handleClose}
+													onOpen={handleOpen}
+													onChange={handleChange}
+													value={age}
+													displayEmpty
+													disabled={cameras.length === 0 ? true : false}
+												>
+													<MenuItem
+														value=""
+														/* onClick={() => {
 														//sethelp(false)
 														setcameraID(1);
 														if (cameras[0].start_date !== null) {
@@ -249,92 +263,95 @@ export default function MaterialUIPickers(props) {
 															setdisableDate(true);
 														}
 													}} */
-													onClick={() =>
-														onClickHandler(
-															-1,
-															cameras[0].end_date,
-															cameras[0].start_date
-														)
-													}
-												>
-													Camera 1
-												</MenuItem>
-												{cameras.slice(1).map((camera, index) => (
-													<MenuItem
-														value={camera.camera_id}
-														key={index + 1}
 														onClick={() =>
 															onClickHandler(
-																index,
-																camera.end_date,
-																camera.start_date
+																-1,
+																cameras[0].end_date,
+																cameras[0].start_date
 															)
 														}
 													>
-														Camera {camera.camera_id}
+														Camera 1
 													</MenuItem>
-												))}
-											</Select>
-											{/*  {help && <FormHelperText>Default Camera 1</FormHelperText>} */}
-										</FormControl>
+													{cameras.slice(1).map((camera, index) => (
+														<MenuItem
+															value={camera.camera_id}
+															key={index + 1}
+															onClick={() =>
+																onClickHandler(
+																	index,
+																	camera.end_date,
+																	camera.start_date
+																)
+															}
+														>
+															Camera {camera.camera_id}
+														</MenuItem>
+													))}
+												</Select>
+												{/*  {help && <FormHelperText>Default Camera 1</FormHelperText>} */}
+											</FormControl>
+										</Grid>
+										<Grid item lg={4} md={6} xs={12}>
+											<Typography variant="h6" style={{ color: 'black' }}>
+												From Date:
+											</Typography>
+											<MuiPickersUtilsProvider utils={DateFnsUtils}>
+												<KeyboardDatePicker
+													margin="normal"
+													id="date-picker-dialog"
+													format="MM/dd/yyyy"
+													onChange={handleStartDateChange}
+													value={sDate}
+													KeyboardButtonProps={{
+														'aria-label': 'change date',
+													}}
+													variant="outlined"
+													disabled={disableDate}
+													minDate={startMin}
+													maxDate={startMax}
+												/>
+											</MuiPickersUtilsProvider>
+										</Grid>
+										<Grid item lg={4} md={6} xs={12}>
+											<Typography variant="h6" style={{ color: 'black' }}>
+												To Date:
+											</Typography>
+											<MuiPickersUtilsProvider utils={DateFnsUtils}>
+												<KeyboardDatePicker
+													margin="normal"
+													id="date-picker-dialog"
+													format="MM/dd/yyyy"
+													onChange={handleEndDateChange}
+													value={eDate}
+													KeyboardButtonProps={{
+														'aria-label': 'change date',
+													}}
+													variant="outlined"
+													disabled={disableDate}
+													minDate={endMin}
+													maxDate={endMax}
+												/>
+											</MuiPickersUtilsProvider>
+										</Grid>
 									</Grid>
-									<Grid item lg={4} md={6} xs={12}>
-										<Typography variant="h6" style={{ color: 'black' }}>
-											From Date:
-										</Typography>
-										<MuiPickersUtilsProvider utils={DateFnsUtils}>
-											<KeyboardDatePicker
-												margin="normal"
-												id="date-picker-dialog"
-												format="MM/dd/yyyy"
-												onChange={handleStartDateChange}
-												value={sDate}
-												KeyboardButtonProps={{
-													'aria-label': 'change date',
-												}}
-												variant="outlined"
-												disabled={disableDate}
-												minDate={startMin}
-												maxDate={startMax}
-											/>
-										</MuiPickersUtilsProvider>
-									</Grid>
-									<Grid item lg={4} md={6} xs={12}>
-										<Typography variant="h6" style={{ color: 'black' }}>
-											To Date:
-										</Typography>
-										<MuiPickersUtilsProvider utils={DateFnsUtils}>
-											<KeyboardDatePicker
-												margin="normal"
-												id="date-picker-dialog"
-												format="MM/dd/yyyy"
-												onChange={handleEndDateChange}
-												value={eDate}
-												KeyboardButtonProps={{
-													'aria-label': 'change date',
-												}}
-												variant="outlined"
-												disabled={disableDate}
-												minDate={endMin}
-												maxDate={endMax}
-											/>
-										</MuiPickersUtilsProvider>
-									</Grid>
-								</Grid>
-							</div>
-						</Paper>
-					</Grid>
-				)}
-				<Grid item xs={12}>
-					{bID === '1' && <Risk cID={cameraID} sDate={sDate} eDate={eDate} />}
-					{bID === '2' && <Visual cID={cameraID} sDate={sDate} eDate={eDate} />}
-					{bID === '3' && (
-						<Suspense fallback={<div>Loading ...</div>}>
-							<Team />
-						</Suspense>
+								</div>
+							</Paper>
+						</Grid>
 					)}
+					<Grid item xs={12}>
+						{bID === '1' && <Risk cID={cameraID} sDate={sDate} eDate={eDate} />}
+						{bID === '2' && (
+							<Visual cID={cameraID} sDate={sDate} eDate={eDate} />
+						)}
+						{bID === '3' && (
+							<Suspense fallback={<div>Loading ...</div>}>
+								<Team />
+							</Suspense>
+						)}
+					</Grid>
 				</Grid>
-			</Grid>
+			)}
 		</div>
 	);
 }
