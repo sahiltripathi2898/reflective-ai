@@ -24,6 +24,7 @@ import MaskGraph from './graphs/mask';
 import VestGraph from './graphs/vest';
 import PhyGraph from './graphs/phydist';
 import OccGraph from './graphs/occmax';
+import { withRouter } from 'react-router-dom';
 
 // Hotspot
 import HotspotAnalysis from './hotspot';
@@ -41,8 +42,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Risk(props) {
-	const { cID, sDate, eDate } = props;
+const Risk = (props) => {
+	const { cID, sDate, eDate, history } = props;
 
 	const [loading, setLoading] = useState(true);
 
@@ -93,6 +94,10 @@ export default function Risk(props) {
 			)
 			.then((res) => {
 				//console.log(res.data);
+				if (res.data.status_code === 401) {
+					window.alert('Token has expired ! Please login in again');
+					history.push('/');
+				}
 				setMetric(res.data);
 				setmask(res.data.ppe_compliance_mask);
 				setsocial_distancing(res.data.ppe_compliance_sd);
@@ -511,4 +516,5 @@ export default function Risk(props) {
 			)}
 		</div>
 	);
-}
+};
+export default withRouter(Risk);

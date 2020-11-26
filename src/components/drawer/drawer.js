@@ -155,6 +155,16 @@ const StyledMenuItem = withStyles((theme) => ({
 const MiniDrawer = (props) => {
 	//Routing
 	const { history } = props;
+	/* 	useEffect(() => {
+		const timeout = setTimeout(() => {
+			window.alert('Session Timed Out ! Please Login Again');
+			history.push('/');
+		}, 3600000);
+
+		return () => {
+			clearTimeout(timeout);
+		};
+	}, []); */
 
 	//Using Styles
 	const classes = useStyles();

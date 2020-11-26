@@ -10,6 +10,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 
 import Spinner from '../../spinner';
+import { withRouter } from 'react-router-dom';
 
 //Resposive text
 import {
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Visual(props) {
+const Visual = (props) => {
 	const classes = useStyles();
 	const [buttonId, setbuttonId] = useState('1');
 	/* 	const [btnA, setbtnA] = useState('#4cebeb');
@@ -94,7 +95,7 @@ export default function Visual(props) {
 		setbtnD('#4cebeb');
 	} */
 
-	const { cID, sDate, eDate } = props;
+	const { cID, sDate, eDate, history } = props;
 	/*   console.log(cID)
     console.log(sDate)
     console.log(eDate) */
@@ -134,14 +135,18 @@ export default function Visual(props) {
 			end_date: endDate,
 			company_id: Number(localStorage.getItem('company_id')),
 		};
-		console.log(data);
+		//console.log(data);
 		axios
 			.post(
 				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/camera/videos',
 				data
 			)
 			.then((res) => {
-				console.log(res.data);
+				if (res.data.status_code === 401) {
+					window.alert('Token has expired ! Please login in again');
+					history.push('/');
+				}
+				//console.log(res.data);
 				setHat(res.data.hard_hat);
 				setPhy(res.data.physical_distancing);
 				setMask(res.data.mask);
@@ -509,4 +514,6 @@ export default function Visual(props) {
 			)}
 		</div>
 	);
-}
+};
+
+export default withRouter(Visual);

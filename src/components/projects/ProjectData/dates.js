@@ -115,7 +115,7 @@ export default function MaterialUIPickers(props) {
 				data
 			)
 			.then((res) => {
-				console.log(res.data);
+				//console.log(res.data);
 				setCameras(res.data.cameras);
 
 				if (res.data.cameras.length !== 0) {

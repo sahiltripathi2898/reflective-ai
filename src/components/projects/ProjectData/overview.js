@@ -12,6 +12,8 @@ import axios from 'axios';
 
 import Spinner from '../../spinner';
 
+import { withRouter } from 'react-router-dom';
+
 const StyledTableCell = withStyles((theme) => ({
 	head: {
 		backgroundColor: theme.palette.common.black,
@@ -36,7 +38,8 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function Overview() {
+const Overview = (props) => {
+	const { history } = props;
 	const classes = useStyles();
 
 	const [loading, setLoading] = useState(true);
@@ -60,14 +63,18 @@ export default function Overview() {
 			company_id: localStorage.getItem('company_id'),
 			project_id: localStorage.getItem('projectID'),
 		};
-		console.log(data);
+		//console.log(data);
 		axios
 			.post(
 				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/project/team',
 				data
 			)
 			.then((res) => {
-				console.log(res.data);
+				if (res.data.status_code === 401) {
+					window.alert('Token has expired ! Please login in again');
+					history.push('/');
+				}
+				//console.log(res.data);
 				setTeam(res.data.team);
 				//setRows(res.data.projects);
 				setLoading(false);
@@ -182,4 +189,6 @@ export default function Overview() {
 			</Grid>
 		</Grid>
 	);
-}
+};
+
+export default withRouter(Overview);

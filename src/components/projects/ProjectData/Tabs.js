@@ -60,7 +60,7 @@ const ProjectHome = (props) => {
 				data
 			)
 			.then((res) => {
-				console.log(res);
+				//console.log(res);
 				if (res.data.status_code === 401) {
 					window.alert('Token has expired ! Please login in again');
 					history.push('/');
@@ -90,6 +90,7 @@ const ProjectHome = (props) => {
 		setbtnB('#4ccceb');
 		setbtnA('#4ccceb');
 	}
+
 	if (loading) return <Spinner />;
 
 	return (
