@@ -95,7 +95,7 @@ const Risk = (props) => {
 			.then((res) => {
 				//console.log(res.data);
 				if (res.data.status_code === 401) {
-					window.alert('Token has expired ! Please login in again');
+					window.alert('Session Timed Out ! Please login in again');
 					history.push('/');
 				}
 				setMetric(res.data);

@@ -93,7 +93,7 @@ const Settings = (props) => {
 			)
 			.then((res) => {
 				if (res.data.status_code === 401) {
-					window.alert('Token has expired ! Please login in again');
+					window.alert('Session Timed Out ! Please login in again');
 					history.push('/');
 				}
 				console.log(res.data);
@@ -106,7 +106,7 @@ const Settings = (props) => {
 				setCity(res.data.city);
 				setJob(res.data.job_title);
 				setPhone(res.data.cell_phone);
-				setCompany(res.data.company);
+				setCompany(res.data.company_name);
 			})
 			.catch((err) => console.log(err));
 	}, []);

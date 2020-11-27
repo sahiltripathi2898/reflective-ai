@@ -48,22 +48,22 @@ export default function SignIn() {
 
 	const handleFinalSubmit = (e) => {
 		const data = {
-			email_address: email,
+			email_id: email,
 		};
 		e.preventDefault();
 
 		axios
 			.post(
-				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/login',
+				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/forget',
 				data
 			)
 			.then((res) => {
 				console.log(res.data);
-				if (res.data.message === 'Success') {
-					window.alert('Link has been sent to your Email ID');
-					history.push('/login');
+				if (res.data.status === 'success') {
+					window.alert('Reset Link has been sent to your Email ID');
+					history.push('/');
 				} else {
-					window.alert('Invalid Credentials');
+					window.alert('Some error occured');
 				}
 			})
 			.catch((err) => {

@@ -62,7 +62,7 @@ const ProjectHome = (props) => {
 			.then((res) => {
 				//console.log(res);
 				if (res.data.status_code === 401) {
-					window.alert('Token has expired ! Please login in again');
+					window.alert('Session Timed Out ! Please login in again');
 					history.push('/');
 				}
 				setName(res.data.project.project_name);

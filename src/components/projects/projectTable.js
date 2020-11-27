@@ -53,7 +53,7 @@ const Projects = (props) => {
 			jwt_token: localStorage.getItem('jwt_token'),
 			company_id: Number(localStorage.getItem('company_id')),
 		};
-		console.log(data);
+		//console.log(data);
 		axios
 			.post(
 				' http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/projects/me',
@@ -61,7 +61,7 @@ const Projects = (props) => {
 			)
 			.then((res) => {
 				if (res.data.status_code === 401) {
-					window.alert('Token has expired ! Please login in again');
+					window.alert('Session Timed Out ! Please login in again');
 					history.push('/');
 				}
 				//console.log(res);

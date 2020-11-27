@@ -71,7 +71,7 @@ const Overview = (props) => {
 			)
 			.then((res) => {
 				if (res.data.status_code === 401) {
-					window.alert('Token has expired ! Please login in again');
+					window.alert('Session Timed Out ! Please login in again');
 					history.push('/');
 				}
 				//console.log(res.data);

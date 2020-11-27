@@ -220,9 +220,9 @@ const MiniDrawer = (props) => {
 				data
 			)
 			.then((res) => {
-				console.log(res);
+				//console.log(res);
 				if (res.data.status_code === 401) {
-					window.alert('Token has expired ! Please login in again');
+					window.alert('Session Timed Out ! Please login in again');
 					history.push('/');
 				}
 				//localStorage.setItem('company_id', res.data.company_id);

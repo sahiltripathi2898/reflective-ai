@@ -61,32 +61,44 @@ export default function SignIn() {
 		const headers = {
 			'Content-Type': 'application/json',
 		};
-		axios
-			.post(
-				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/login',
-				user,
-				{
-					headers: headers,
-				}
-			)
-			.then((res) => {
-				console.log(res);
-				if (res.data.status === 'success') {
-					//console.log(res.data);
-					localStorage.setItem('jwt_token', res.data.token);
-					localStorage.setItem('company_id', res.data.company_id);
-					history.push('/home');
-				} else {
-					if (res.data.status_code === 401) {
-						window.alert('Wrong Password');
-					} else {
-						window.alert(`User Doesn't Exist`);
+
+		var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+		if (!email.match(mailformat) && email !== '') {
+			window.alert('Please Enter a valid Email ID');
+		} else if (email === '' && password === '') {
+			window.alert('Please Enter Email ID and Password');
+		} else if (email === '') {
+			window.alert('Please Enter Email ID');
+		} else if (password === '') {
+			window.alert('Please Enter Password');
+		} else {
+			axios
+				.post(
+					'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/login',
+					user,
+					{
+						headers: headers,
 					}
-				}
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+				)
+				.then((res) => {
+					//console.log(res);
+					if (res.data.status === 'success') {
+						//console.log(res.data);
+						localStorage.setItem('jwt_token', res.data.token);
+						localStorage.setItem('company_id', res.data.company_id);
+						history.push('/home');
+					} else {
+						if (res.data.status_code === 401) {
+							window.alert('Wrong Password');
+						} else {
+							window.alert(`User Doesn't Exist`);
+						}
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
 	};
 
 	return (
