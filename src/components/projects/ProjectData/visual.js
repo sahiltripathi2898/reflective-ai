@@ -137,10 +137,7 @@ const Visual = (props) => {
 		};
 		//console.log(data);
 		axios
-			.post(
-				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/camera/videos',
-				data
-			)
+			.post('https://api.reflective.ai/camera/videos', data)
 			.then((res) => {
 				if (res.data.status_code === 401) {
 					window.alert('Session Timed Out ! Please login in again');
@@ -296,13 +293,13 @@ const Visual = (props) => {
 														height="235"
 														controls={true}
 														poster={
-															'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
+															'https://api.reflective.ai/media' +
 															phy.thumbnail_path
 														}
 														onClick={() => {
 															handleOpen();
 															setModalVideo(
-																'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
+																'https://api.reflective.ai/media' +
 																	phy.data_path
 															);
 														}}
@@ -310,7 +307,7 @@ const Visual = (props) => {
 													>
 														<source
 															src={
-																'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
+																'https://api.reflective.ai/media' +
 																phy.data_path
 															}
 														/>
@@ -349,13 +346,13 @@ const Visual = (props) => {
 														height="235"
 														controls={true}
 														poster={
-															'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
+															'https://api.reflective.ai/media' +
 															mask.thumbnail_path
 														}
 														onClick={() => {
 															handleOpen();
 															setModalVideo(
-																'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
+																'https://api.reflective.ai/media' +
 																	mask.data_path
 															);
 														}}
@@ -363,7 +360,7 @@ const Visual = (props) => {
 													>
 														<source
 															src={
-																'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
+																'https://api.reflective.ai/media' +
 																mask.data_path
 															}
 														/>
@@ -402,13 +399,13 @@ const Visual = (props) => {
 														height="235"
 														controls={true}
 														poster={
-															'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
+															'https://api.reflective.ai/media' +
 															hat.thumbnail_path
 														}
 														onClick={() => {
 															handleOpen();
 															setModalVideo(
-																'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
+																'https://api.reflective.ai/media' +
 																	hat.data_path
 															);
 														}}
@@ -416,7 +413,7 @@ const Visual = (props) => {
 													>
 														<source
 															src={
-																'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
+																'https://api.reflective.ai/media' +
 																hat.data_path
 															}
 														/>
@@ -455,13 +452,13 @@ const Visual = (props) => {
 														height="235"
 														controls={true}
 														poster={
-															'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
+															'https://api.reflective.ai/media' +
 															vest.thumbnail_path
 														}
 														onClick={() => {
 															handleOpen();
 															setModalVideo(
-																'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
+																'https://api.reflective.ai/media' +
 																	vest.data_path
 															);
 														}}
@@ -469,7 +466,7 @@ const Visual = (props) => {
 													>
 														<source
 															src={
-																'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/media' +
+																'https://api.reflective.ai/media' +
 																vest.data_path
 															}
 														/>

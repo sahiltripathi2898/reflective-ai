@@ -215,10 +215,7 @@ const MiniDrawer = (props) => {
 			jwt_token: localStorage.getItem('jwt_token'),
 		};
 		axios
-			.post(
-				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/user/me',
-				data
-			)
+			.post('https://api.reflective.ai/user/me', data)
 			.then((res) => {
 				//console.log(res);
 				if (res.data.status_code === 401) {

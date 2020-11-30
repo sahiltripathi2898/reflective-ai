@@ -26,10 +26,7 @@ function Hotspot(props) {
 		};
 		//console.log(data);
 		axios
-			.post(
-				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/hotspot/image',
-				data
-			)
+			.post('https://api.reflective.ai/hotspot/image', data)
 			.then((res) => {
 				//console.log(res.data);
 				setbaseImg(res.data.base_image);
@@ -68,10 +65,7 @@ function Hotspot(props) {
 				elevation={10}
 			>
 				<img
-					src={
-						'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/image' +
-						imgSrc
-					}
+					src={'https://api.reflective.ai/image' + imgSrc}
 					width="100%"
 					height="100%"
 					onMouseEnter={() => {

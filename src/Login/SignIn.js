@@ -73,13 +73,9 @@ export default function SignIn() {
 			window.alert('Please Enter Password');
 		} else {
 			axios
-				.post(
-					'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/login',
-					user,
-					{
-						headers: headers,
-					}
-				)
+				.post('https://api.reflective.ai/login', user, {
+					headers: headers,
+				})
 				.then((res) => {
 					//console.log(res);
 					if (res.data.status === 'success') {

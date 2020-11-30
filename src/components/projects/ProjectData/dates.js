@@ -110,10 +110,7 @@ export default function MaterialUIPickers(props) {
 			company_id: Number(localStorage.getItem('company_id')),
 		};
 		axios
-			.post(
-				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/project/cameras',
-				data
-			)
+			.post('https://api.reflective.ai/project/cameras', data)
 			.then((res) => {
 				//console.log(res.data);
 				setCameras(res.data.cameras);

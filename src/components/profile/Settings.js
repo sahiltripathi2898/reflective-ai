@@ -87,10 +87,7 @@ const Settings = (props) => {
 			jwt_token: localStorage.getItem('jwt_token'),
 		};
 		axios
-			.post(
-				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/user/me',
-				data
-			)
+			.post('https://api.reflective.ai/user/me', data)
 			.then((res) => {
 				if (res.data.status_code === 401) {
 					window.alert('Session Timed Out ! Please login in again');
@@ -119,10 +116,7 @@ const Settings = (props) => {
 		};
 		console.log(userUpdated);
 		axios
-			.post(
-				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/user/me/update',
-				userUpdated
-			)
+			.post('https://api.reflective.ai/user/me/update', userUpdated)
 			.then((res) => {
 				console.log(res.data);
 				window.alert('Profile Updated');

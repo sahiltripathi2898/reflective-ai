@@ -53,10 +53,7 @@ export default function SignIn() {
 		e.preventDefault();
 
 		axios
-			.post(
-				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/forget',
-				data
-			)
+			.post('https://api.reflective.ai/forget', data)
 			.then((res) => {
 				console.log(res.data);
 				if (res.data.status === 'success') {

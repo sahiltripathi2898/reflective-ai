@@ -103,10 +103,7 @@ function HardHatGraph2(props) {
 		};
 		//console.log(data)
 		axios
-			.post(
-				' http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/timeseries/hat',
-				data
-			)
+			.post('https://api.reflective.ai/timeseries/hat', data)
 			.then((res) => {
 				console.log(res.data);
 				setSeries([{ ...series, data: res.data.values }]);

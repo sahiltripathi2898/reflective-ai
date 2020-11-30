@@ -55,10 +55,7 @@ const ProjectHome = (props) => {
 			company_id: Number(localStorage.getItem('company_id')),
 		};
 		axios
-			.post(
-				' http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/project/details',
-				data
-			)
+			.post('https://api.reflective.ai/project/details', data)
 			.then((res) => {
 				//console.log(res);
 				if (res.data.status_code === 401) {

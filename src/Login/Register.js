@@ -70,10 +70,7 @@ export default function SignUp() {
 			window.alert('Please Enter your Company Name');
 		} else {
 			axios
-				.post(
-					'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/contact',
-					user
-				)
+				.post('https://api.reflective.ai/contact', user)
 				.then((res) => {
 					console.log(res.data);
 					setvisform('hidden');

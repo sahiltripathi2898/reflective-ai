@@ -103,10 +103,7 @@ function MaskGraph(props) {
 		};
 		//console.log(data)
 		axios
-			.post(
-				' http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/timeseries/sd',
-				data
-			)
+			.post('https://api.reflective.ai/timeseries/sd', data)
 			.then((res) => {
 				//console.log(res.data)
 				setSeries([{ ...series, data: res.data.values }]);

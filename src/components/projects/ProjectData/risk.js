@@ -88,10 +88,7 @@ const Risk = (props) => {
 		};
 		//console.log(data);
 		axios
-			.post(
-				'http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/camera/metrics',
-				data
-			)
+			.post('https://api.reflective.ai/camera/metrics', data)
 			.then((res) => {
 				//console.log(res.data);
 				if (res.data.status_code === 401) {

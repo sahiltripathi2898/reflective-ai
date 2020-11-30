@@ -55,10 +55,7 @@ const Projects = (props) => {
 		};
 		//console.log(data);
 		axios
-			.post(
-				' http://ec2-52-53-227-112.us-west-1.compute.amazonaws.com/projects/me',
-				data
-			)
+			.post(' https://api.reflective.ai/projects/me', data)
 			.then((res) => {
 				if (res.data.status_code === 401) {
 					window.alert('Session Timed Out ! Please login in again');
