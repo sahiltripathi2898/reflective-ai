@@ -102,14 +102,31 @@ function MaskGraph(props) {
 			company_id: Number(localStorage.getItem('company_id')),
 		};
 		//console.log(data)
-		axios
-			.post('https://api.reflective.ai/timeseries/sd', data)
-			.then((res) => {
-				//console.log(res.data)
-				setSeries([{ ...series, data: res.data.values }]);
-				setLoading(false);
-			})
-			.catch((err) => console.log(err));
+		var str =
+			'physicalgraph' +
+			'project' +
+			Number(localStorage.getItem('projectID')) +
+			'camera' +
+			cID +
+			'company' +
+			Number(localStorage.getItem('company_id')) +
+			sDate.toISOString().slice(0, 10) +
+			' 00:00:00';
+		if (localStorage.getItem(str) !== null) {
+			const curr = JSON.parse(localStorage.getItem(str));
+			setSeries([{ ...series, data: curr.values }]);
+			setLoading(false);
+		} else {
+			axios
+				.post('https://api.reflective.ai/timeseries/sd', data)
+				.then((res) => {
+					//console.log(res.data)
+					localStorage.setItem(str, JSON.stringify(res.data));
+					setSeries([{ ...series, data: res.data.values }]);
+					setLoading(false);
+				})
+				.catch((err) => console.log(err));
+		}
 	}, [cID, sDate, eDate]);
 
 	if (loading) return <Spinner />;

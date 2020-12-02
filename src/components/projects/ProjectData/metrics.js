@@ -77,6 +77,12 @@ const Risk = (props) => {
 	const [vis_vest, setvis_vest] = useState('0');
 	const [occ, setocc] = useState('0');
 
+	const [curr, setCurr] = useState({});
+
+	useEffect(() => {
+		setLoading(true);
+	}, [cID, sDate, eDate]);
+
 	useEffect(() => {
 		const data = {
 			project_id: Number(localStorage.getItem('projectID')),
@@ -87,73 +93,39 @@ const Risk = (props) => {
 			company_id: Number(localStorage.getItem('company_id')),
 		};
 		//console.log(data);
-		axios
-			.post('https://api.reflective.ai/camera/metrics', data)
-			.then((res) => {
-				//console.log(res.data);
-				if (res.data.status_code === 401) {
-					window.alert('Session Timed Out ! Please login in again');
-					history.push('/');
-				}
-				setMetric(res.data);
-				setmask(res.data.ppe_compliance_mask);
-				setsocial_distancing(res.data.ppe_compliance_sd);
-				setcrowding(res.data.crowding_violations);
-				sethard_hat(res.data.ppe_compliance_hardhat);
-				setvis_vest(res.data.ppe_compliance_viz_vest);
-				setocc(res.data.occupancy_max);
-				setLoading(false);
-			})
-			.catch((err) => console.log(err));
+		var str = cID + startDate + endDate;
+		if (localStorage.getItem(str) !== null) {
+			const curr = JSON.parse(localStorage.getItem(str));
+			console.log(curr);
+			setmask(curr.ppe_compliance_mask);
+			setsocial_distancing(curr.ppe_compliance_sd);
+			setcrowding(curr.crowding_violations);
+			sethard_hat(curr.ppe_compliance_hardhat);
+			setvis_vest(curr.ppe_compliance_viz_vest);
+			setocc(curr.occupancy_max);
+			setLoading(false);
+		} else {
+			axios
+				.post('https://api.reflective.ai/camera/metrics', data)
+				.then((res) => {
+					//console.log(res.data);
+					localStorage.setItem(str, JSON.stringify(res.data));
+					if (res.data.status_code === 401) {
+						window.alert('Session Timed Out ! Please login in again');
+						history.push('/');
+					}
+					setMetric(res.data);
+					setmask(res.data.ppe_compliance_mask);
+					setsocial_distancing(res.data.ppe_compliance_sd);
+					setcrowding(res.data.crowding_violations);
+					sethard_hat(res.data.ppe_compliance_hardhat);
+					setvis_vest(res.data.ppe_compliance_viz_vest);
+					setocc(res.data.occupancy_max);
+					setLoading(false);
+				})
+				.catch((err) => console.log(err));
+		}
 	}, [cID, sDate, eDate]);
-
-	useEffect(() => {
-		setLoading(true);
-	}, [cID, sDate, eDate]);
-
-	/* 	//console.log(metric)
-	var mask = 0;
-	if (metric !== undefined) {
-		mask = metric.ppe_compliance_mask;
-	}
-
-	var social_distancing = 0;
-	if (metric !== undefined) {
-		social_distancing = metric.ppe_compliance_sd;
-	}
-	var crowding = 0;
-	if (metric !== undefined) {
-		crowding = metric.crowding_violations;
-	}
-
-	var hard_hat = 0;
-	if (metric !== undefined) {
-		hard_hat = metric.ppe_compliance_hardhat;
-	}
-
-	var vis_vest = 0;
-	if (metric !== undefined) {
-		vis_vest = metric.ppe_compliance_viz_vest;
-	}
-
-	var occ = 0;
-	if (metric !== undefined) {
-		occ = metric.occupancy_max;
-	} */
-
-	/* const [disable, setDisable] = useState(true);
-	useEffect(() => {
-		if (
-			mask !== null ||
-			social_distancing !== null ||
-			crowding !== null ||
-			hard_hat !== null ||
-			vis_vest !== null ||
-			occ !== null
-		)
-			setDisable(false);
-		else setDisable(true);
-	}, [cID, sDate, eDate]); */
 
 	if (loading) return <Spinner />;
 	return (

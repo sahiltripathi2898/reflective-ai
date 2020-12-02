@@ -54,18 +54,27 @@ const Projects = (props) => {
 			company_id: Number(localStorage.getItem('company_id')),
 		};
 		//console.log(data);
-		axios
-			.post(' https://api.reflective.ai/projects/me', data)
-			.then((res) => {
-				if (res.data.status_code === 401) {
-					window.alert('Session Timed Out ! Please login in again');
-					history.push('/');
-				}
-				//console.log(res);
-				setRows(res.data.projects);
-				setLoading(false);
-			})
-			.catch((err) => console.log(err));
+		var str =
+			'projectsList' + 'company' + Number(localStorage.getItem('company_id'));
+		if (localStorage.getItem(str) !== null) {
+			const curr = JSON.parse(localStorage.getItem(str));
+			setRows(curr.projects);
+			setLoading(false);
+		} else {
+			axios
+				.post(' https://api.reflective.ai/projects/me', data)
+				.then((res) => {
+					if (res.data.status_code === 401) {
+						window.alert('Session Timed Out ! Please login in again');
+						history.push('/');
+					}
+					//console.log(res);
+					localStorage.setItem(str, JSON.stringify(res.data));
+					setRows(res.data.projects);
+					setLoading(false);
+				})
+				.catch((err) => console.log(err));
+		}
 	}, []);
 
 	function callProjectDetails(projectID) {

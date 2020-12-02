@@ -64,19 +64,31 @@ const Overview = (props) => {
 			project_id: localStorage.getItem('projectID'),
 		};
 		//console.log(data);
-		axios
-			.post('https://api.reflective.ai/project/team', data)
-			.then((res) => {
-				if (res.data.status_code === 401) {
-					window.alert('Session Timed Out ! Please login in again');
-					history.push('/');
-				}
-				//console.log(res.data);
-				setTeam(res.data.team);
-				//setRows(res.data.projects);
-				setLoading(false);
-			})
-			.catch((err) => console.log(err));
+		var str =
+			'company' +
+			localStorage.getItem('company_id') +
+			'project' +
+			localStorage.getItem('projectID');
+		if (localStorage.getItem(str) !== null) {
+			const curr = JSON.parse(localStorage.getItem(str));
+			setTeam(curr.team);
+			setLoading(false);
+		} else {
+			axios
+				.post('https://api.reflective.ai/project/team', data)
+				.then((res) => {
+					if (res.data.status_code === 401) {
+						window.alert('Session Timed Out ! Please login in again');
+						history.push('/');
+					}
+					localStorage.setItem(str, JSON.stringify(res.data));
+					//console.log(res.data);
+					setTeam(res.data.team);
+					//setRows(res.data.projects);
+					setLoading(false);
+				})
+				.catch((err) => console.log(err));
+		}
 	}, []);
 
 	/*  const [projects, setProjects] = useState([])

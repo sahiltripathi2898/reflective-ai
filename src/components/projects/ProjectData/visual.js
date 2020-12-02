@@ -136,22 +136,42 @@ const Visual = (props) => {
 			company_id: Number(localStorage.getItem('company_id')),
 		};
 		//console.log(data);
-		axios
-			.post('https://api.reflective.ai/camera/videos', data)
-			.then((res) => {
-				if (res.data.status_code === 401) {
-					window.alert('Session Timed Out ! Please login in again');
-					history.push('/');
-				}
-				//console.log(res.data);
-				setHat(res.data.hard_hat);
-				setPhy(res.data.physical_distancing);
-				setMask(res.data.mask);
-				setVest(res.data.viz_vest);
-				//setVisual(res.data);
-				setLoading(false);
-			})
-			.catch((err) => console.log(err));
+		var str =
+			'visuals' +
+			'project' +
+			Number(localStorage.getItem('projectID')) +
+			'camera' +
+			cID +
+			'company' +
+			Number(localStorage.getItem('company_id')) +
+			startDate +
+			endDate;
+		if (localStorage.getItem(str) !== null) {
+			const curr = JSON.parse(localStorage.getItem(str));
+			setHat(curr.hard_hat);
+			setPhy(curr.physical_distancing);
+			setMask(curr.mask);
+			setVest(curr.viz_vest);
+			setLoading(false);
+		} else {
+			axios
+				.post('https://api.reflective.ai/camera/videos', data)
+				.then((res) => {
+					if (res.data.status_code === 401) {
+						window.alert('Session Timed Out ! Please login in again');
+						history.push('/');
+					}
+					localStorage.setItem(str, JSON.stringify(res.data));
+					//console.log(res.data);
+					setHat(res.data.hard_hat);
+					setPhy(res.data.physical_distancing);
+					setMask(res.data.mask);
+					setVest(res.data.viz_vest);
+					//setVisual(res.data);
+					setLoading(false);
+				})
+				.catch((err) => console.log(err));
+		}
 	}, [cID, sDate, eDate]);
 
 	/* 	useEffect(() => {

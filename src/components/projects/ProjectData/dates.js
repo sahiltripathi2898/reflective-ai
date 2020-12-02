@@ -15,11 +15,9 @@ import Select from '@material-ui/core/Select';
 import axios from 'axios';
 //import FormHelperText from '@material-ui/core/FormHelperText';
 import Spinner from '../../spinner';
-import Overview from './overview';
-import Risk from './risk';
+import Team from './team';
+import Metrics from './metrics';
 import Visual from './visual';
-
-const Team = lazy(() => import('./overview'));
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -337,15 +335,13 @@ export default function MaterialUIPickers(props) {
 						</Grid>
 					)}
 					<Grid item xs={12}>
-						{bID === '1' && <Risk cID={cameraID} sDate={sDate} eDate={eDate} />}
+						{bID === '1' && (
+							<Metrics cID={cameraID} sDate={sDate} eDate={eDate} />
+						)}
 						{bID === '2' && (
 							<Visual cID={cameraID} sDate={sDate} eDate={eDate} />
 						)}
-						{bID === '3' && (
-							<Suspense fallback={<div>Loading ...</div>}>
-								<Team />
-							</Suspense>
-						)}
+						{bID === '3' && <Team />}
 					</Grid>
 				</Grid>
 			)}

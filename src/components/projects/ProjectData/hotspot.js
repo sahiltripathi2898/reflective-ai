@@ -25,16 +25,35 @@ function Hotspot(props) {
 			company_id: Number(localStorage.getItem('company_id')),
 		};
 		//console.log(data);
-		axios
-			.post('https://api.reflective.ai/hotspot/image', data)
-			.then((res) => {
-				//console.log(res.data);
-				setbaseImg(res.data.base_image);
-				sethotImg(res.data.hot_image);
-				setimgSrc(res.data.base_image);
-				setLoading(false);
-			})
-			.catch((err) => console.log(err));
+		var str =
+			'hotspot' +
+			'project' +
+			Number(localStorage.getItem('projectID')) +
+			'camera' +
+			cID +
+			'company' +
+			Number(localStorage.getItem('company_id')) +
+			startDate +
+			endDate;
+		if (localStorage.getItem(str) !== null) {
+			const curr = JSON.parse(localStorage.getItem(str));
+			setbaseImg(curr.base_image);
+			sethotImg(curr.hot_image);
+			setimgSrc(curr.base_image);
+			setLoading(false);
+		} else {
+			axios
+				.post('https://api.reflective.ai/hotspot/image', data)
+				.then((res) => {
+					//console.log(res.data);
+					localStorage.setItem(str, JSON.stringify(res.data));
+					setbaseImg(res.data.base_image);
+					sethotImg(res.data.hot_image);
+					setimgSrc(res.data.base_image);
+					setLoading(false);
+				})
+				.catch((err) => console.log(err));
+		}
 	}, [cID, sDate, eDate]);
 
 	if (loading) return <Spinner />;
