@@ -244,7 +244,7 @@ const Canvas = (props) => {
 					variant="contained"
 					color="primary"
 					onClick={createRect}
-					style={{ marginLeft: '355px', marginTop: '5px' }}
+					style={{ marginLeft: '170px', marginTop: '5px' }}
 				>
 					Generate a rectangle
 				</Button>{' '}

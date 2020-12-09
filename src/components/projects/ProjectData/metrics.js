@@ -17,6 +17,7 @@ import maskimg from './assets/mask.jpg';
 import phyimg from './assets/phy.jpg';
 import hatimg from './assets/hat.jpg';
 import vestimg from './assets/vest.jpg';
+import statusimg from './assets/status.jpg';
 
 //Graph
 import HardHatGraph from './graphs/hardhat';
@@ -167,29 +168,49 @@ const Risk = (props) => {
 								marginBottom: '25px',
 							}}
 						></div>
-						<Paper
-							className={classes.paper}
-							style={{ height: paperHeight, width: '49%' }}
-							elevation={10}
-						>
-							<Typography
-								variant="h5"
-								style={{ fontFamily: 'Roboto , sans-serif' }}
-							>
-								{' '}
-								Project Status
-							</Typography>
-							<Typography
-								variant="h4"
-								style={{
-									color: '#36c95e',
-									margin: '5px 0px 3px 0px',
-									fontWeight: '600',
-								}}
-							>
-								Low Risk
-							</Typography>
-						</Paper>
+						<Grid container spacing={3}>
+							<Grid item lg={6} xs={12} md={6}>
+								<Paper
+									className={classes.paper}
+									style={{ height: paperHeight }}
+									elevation={10}
+								>
+									<div
+										style={{
+											float: 'left',
+											width: '70%',
+										}}
+									>
+										<Typography
+											variant="h5"
+											style={{ fontFamily: 'Roboto , sans-serif' }}
+										>
+											{' '}
+											Project Status
+										</Typography>
+										<Typography
+											variant="h4"
+											style={{
+												color: '#36c95e',
+												margin: '3px 0px 3px 0px',
+												fontWeight: '600',
+											}}
+										>
+											Low Risk
+										</Typography>
+									</div>
+									<div style={{ float: floatPic, width: '30%', right: '0' }}>
+										<img
+											alt="risk-images"
+											src={statusimg}
+											width="70px"
+											height="70px"
+											style={{ float: floatPic }}
+										/>
+									</div>
+								</Paper>
+							</Grid>
+						</Grid>
 					</div>
 					<div>
 						<Typography
