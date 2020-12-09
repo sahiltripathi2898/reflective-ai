@@ -1,81 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import Konva from 'konva';
+import { Stage, Layer, Line, Circle, Transformer, Image } from 'react-konva';
 import { Button, Typography } from '@material-ui/core';
-import {
-	Stage,
-	Layer,
-	Rect,
-	Text,
-	Circle,
-	Line,
-	Transformer,
-	Image,
-} from 'react-konva';
-
-const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
-	const shapeRef = React.useRef();
-	const trRef = React.useRef();
-
-	React.useEffect(() => {
-		if (isSelected) {
-			// we need to attach transformer manually
-			trRef.current.nodes([shapeRef.current]);
-			trRef.current.getLayer().batchDraw();
-		}
-	}, [isSelected]);
-
-	return (
-		<React.Fragment>
-			<Rect
-				onClick={onSelect}
-				onTap={onSelect}
-				ref={shapeRef}
-				{...shapeProps}
-				draggable
-				onDragEnd={(e) => {
-					onChange({
-						...shapeProps,
-						x: e.target.x(),
-						y: e.target.y(),
-					});
-				}}
-				onTransformEnd={(e) => {
-					// transformer is changing scale of the node
-					// and NOT its width or height
-					// but in the store we have only width and height
-					// to match the data better we will reset scale on transform end
-					const node = shapeRef.current;
-					const scaleX = node.scaleX();
-					const scaleY = node.scaleY();
-
-					// we will reset it back
-					node.scaleX(1);
-					node.scaleY(1);
-					onChange({
-						...shapeProps,
-						x: node.x(),
-						y: node.y(),
-						// set minimal value
-						width: Math.max(5, node.width() * scaleX),
-						height: Math.max(node.height() * scaleY),
-					});
-				}}
-			/>
-			{isSelected && (
-				<Transformer
-					ref={trRef}
-					boundBoxFunc={(oldBox, newBox) => {
-						// limit resize
-						if (newBox.width < 5 || newBox.height < 5) {
-							return oldBox;
-						}
-						return newBox;
-					}}
-				/>
-			)}
-		</React.Fragment>
-	);
-};
+import { withRouter } from 'react-router-dom';
+import _ from 'lodash';
 
 class URLImage extends React.Component {
 	state = {
@@ -125,60 +53,100 @@ class URLImage extends React.Component {
 }
 
 const Canvas = (props) => {
-	const { history } = props;
+	const trRef = React.useRef();
+	const polyRef = React.useRef();
+	const circleRef = React.useRef();
 
-	const [rectangles, setRectangles] = React.useState([
-		/* 		{
-			x: 10,
-			y: 10,
-			width: 100,
-			height: 100,
-			id: 'rect1',
-			stroke: 'red',
-		},
-		{
-			x: 70,
-			y: 100,
-			width: 100,
-			height: 100,
-			id: 'rect1',
-			stroke: 'red',
-        }, */
-	]);
-	const [selectedId, selectShape] = React.useState(null);
+	const [points, setPoints] = useState([]);
+	const [selected, setSelected] = useState(false);
 
 	useEffect(() => {
-		console.log(rectangles);
-	}, [rectangles]);
-
-	const checkDeselect = (e) => {
-		// deselect when clicked on empty area
-		const clickedOnEmpty = e.target === e.target.getStage();
-		if (clickedOnEmpty) {
-			selectShape(null);
+		if (selected) {
+			//trRef.current.nodes([polyRef.current]);
+			//trRef.current.getLayer().batchDraw();
 		}
-	};
+
+		if (polyRef.current) {
+			polyRef.current.zIndex(0);
+		}
+
+		if (circleRef.current) {
+			circleRef.current.zIndex(1);
+		}
+	}, [selected]);
+
+	function handleMouseDown(e) {
+		const clickedOnPoly = e.target instanceof Konva.Line;
+		if (clickedOnPoly) {
+			setSelected(true);
+		}
+
+		if (e.target === e.target.getStage()) {
+			setSelected(false);
+		}
+	}
+
+	function handleCircleDrag(e, circleX, circleY) {
+		const newPoints = [...points];
+
+		// Changing the points state with new points while dragging the circle
+		for (let i = 0; i < points.length; i++) {
+			if (points[i] === circleX && points[i + 1] === circleY) {
+				newPoints[i] = e.target.x();
+				newPoints[i + 1] = e.target.y();
+				break;
+			}
+		}
+
+		setPoints(newPoints);
+	}
+
+	function handlePolyDrag(e) {
+		const absolutePoints = [];
+
+		const points = polyRef.current.points();
+		const transform = polyRef.current.getAbsoluteTransform();
+
+		let i = 0;
+		while (i < points.length) {
+			const point = {
+				x: points[i],
+				y: points[i + 1],
+			};
+			absolutePoints.push(transform.point(point));
+			i = i + 2;
+		}
+
+		const newPoints = [];
+		for (let val of absolutePoints) {
+			newPoints.push(val.x);
+			newPoints.push(val.y);
+		}
+
+		setPoints(newPoints);
+		e.target.position({ x: 0, y: 0 });
+		e.target.scale({ x: 1, y: 1 });
+
+		return newPoints;
+	}
 
 	const stageRef = React.useRef(null);
 	const layerRef = React.useRef(null);
 	const [rectCount, setrectCount] = useState(0);
 	const [rectdelcount, setrectdelcount] = useState(0);
 
-	function createRect() {
-		let old = [...rectangles];
-		old[rectCount] = {
-			x: 10,
-			y: 10,
-			width: 100,
-			height: 100,
-			id: 'rect1',
-			stroke: 'red',
-		};
-		setRectangles(old);
-		setrectCount((old) => old + 1);
-	}
+	function createRect() {}
 
 	const [imgSrc, setimgSrc] = useState('');
+
+	function stageClick(e) {
+		var stage = e.target.getStage();
+		setPoints((old) => [
+			...old,
+			stage.getPointerPosition().x,
+			stage.getPointerPosition().y,
+		]);
+	}
 
 	function imageUpload(e) {
 		var file = document.getElementById('inputFileToLoad').files;
@@ -186,12 +154,17 @@ const Canvas = (props) => {
 	}
 
 	function clearStage() {
-		let old = [...rectangles];
-
-		old[rectdelcount] = {};
-		setRectangles(old);
-		setrectdelcount((old) => old + 1);
+		setPoints([]);
 	}
+	function undoStage() {
+		var old = [...points];
+		old.pop();
+		old.pop();
+		setPoints(old);
+	}
+	/* 	useEffect(() => {
+		console.log(points);
+	}, [points]); */
 
 	return (
 		<div style={{ margin: 'auto' }}>
@@ -199,37 +172,48 @@ const Canvas = (props) => {
 				variant="h5"
 				style={{ textAlign: 'center', margin: '10px', fontWeight: '600' }}
 			>
-				Drag and Resize Rectangle
+				Select Points to Draw a Polygon
 			</Typography>
 
 			<Stage
 				width={720}
 				height={420}
 				style={{ border: '4px solid black', borderRadius: '10px' }}
-				/* onClick={canvasClick} */
+				onClick={stageClick}
 				ref={stageRef}
-				onMouseDown={checkDeselect}
-				onTouchStart={checkDeselect}
+				onMouseDown={handleMouseDown}
 			>
 				<Layer>
 					<URLImage src={imgSrc} />
-					{rectangles.map((rect, i) => {
-						return (
-							<Rectangle
-								key={i}
-								shapeProps={rect}
-								isSelected={rect.id === selectedId}
-								onSelect={() => {
-									selectShape(rect.id);
-								}}
-								onChange={(newAttrs) => {
-									const rects = rectangles.slice();
-									rects[i] = newAttrs;
-									setRectangles(rects);
-								}}
-							/>
-						);
-					})}
+				</Layer>
+				<Layer>
+					{_.chunk(points, 2).map((coord, i) => (
+						<Circle
+							ref={circleRef}
+							x={coord[0]}
+							y={coord[1]}
+							key={i}
+							radius={9}
+							fill="blue"
+							rotateEnabled={false}
+							draggable
+							onDragMove={(e) => {
+								handleCircleDrag(e, coord[0], coord[1]);
+							}}
+						/>
+					))}
+
+					<Line
+						closed
+						draggable
+						ref={polyRef}
+						stroke="red"
+						strokeWidth={3}
+						points={points}
+						onDragEnd={handlePolyDrag}
+						onTransformEnd={handlePolyDrag}
+					/>
+					{/* {selected && <Transformer ref={trRef} rotateEnabled={false} />} */}
 				</Layer>
 			</Stage>
 			<div>
@@ -243,10 +227,10 @@ const Canvas = (props) => {
 				<Button
 					variant="contained"
 					color="primary"
-					onClick={createRect}
-					style={{ marginLeft: '170px', marginTop: '5px' }}
+					onClick={undoStage}
+					style={{ marginLeft: '305px', marginTop: '5px' }}
 				>
-					Generate a rectangle
+					Undo
 				</Button>{' '}
 				<Button
 					variant="contained"
@@ -263,101 +247,213 @@ const Canvas = (props) => {
 
 export default withRouter(Canvas);
 
-/* import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Button, Typography } from '@material-ui/core';
+// const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
+// 	const shapeRef = React.useRef();
+// 	const trRef = React.useRef();
 
-const Canvas = (props) => {
-	const { history } = props;
+// 	React.useEffect(() => {
+// 		if (isSelected) {
+// 			// we need to attach transformer manually
+// 			trRef.current.nodes([shapeRef.current]);
+// 			trRef.current.getLayer().batchDraw();
+// 		}
+// 	}, [isSelected]);
 
-	const [points, setPoints] = useState([]);
+// 	return (
+// 		<React.Fragment>
+// 			<Rect
+// 				onClick={onSelect}
+// 				onTap={onSelect}
+// 				ref={shapeRef}
+// 				{...shapeProps}
+// 				draggable
+// 				onDragEnd={(e) => {
+// 					onChange({
+// 						...shapeProps,
+// 						x: e.target.x(),
+// 						y: e.target.y(),
+// 					});
+// 				}}
+// 				onTransformEnd={(e) => {
+// 					// transformer is changing scale of the node
+// 					// and NOT its width or height
+// 					// but in the store we have only width and height
+// 					// to match the data better we will reset scale on transform end
+// 					const node = shapeRef.current;
+// 					const scaleX = node.scaleX();
+// 					const scaleY = node.scaleY();
 
-	function canvasClick(e) {
-		const canvas = document.getElementById('mycanvas');
-		const c = canvas.getContext('2d');
-		var rect = canvas.getBoundingClientRect();
-		// Make a dot
-		c.strokeStyle = 'orange';
-		c.beginPath();
-		//c.rect(e.clientX - rect.left, e.clientY - rect.top, 4, 4);
-		c.arc(e.clientX - rect.left, e.clientY - rect.top, 3, 0, 2 * Math.PI);
-		c.fill();
+// 					// we will reset it back
+// 					node.scaleX(1);
+// 					node.scaleY(1);
+// 					onChange({
+// 						...shapeProps,
+// 						x: node.x(),
+// 						y: node.y(),
+// 						// set minimal value
+// 						width: Math.max(5, node.width() * scaleX),
+// 						height: Math.max(node.height() * scaleY),
+// 					});
+// 				}}
+// 			/>
+// 			{isSelected && (
+// 				<Transformer
+// 					ref={trRef}
+// 					boundBoxFunc={(oldBox, newBox) => {
+// 						// limit resize
+// 						if (newBox.width < 5 || newBox.height < 5) {
+// 							return oldBox;
+// 						}
+// 						return newBox;
+// 					}}
+// 				/>
+// 			)}
+// 		</React.Fragment>
+// 	);
+// };
 
-		const point = {
-			x: e.clientX - rect.left,
-			y: e.clientY - rect.top,
-		};
-		setPoints([...points, point]);
-	}
+// const Canvas = (props) => {
+// 	const { history } = props;
 
-	function createPolygon() {
-		const canvas = document.getElementById('mycanvas');
-		const c = canvas.getContext('2d');
+// 	const [rectangles, setRectangles] = React.useState([
+// 		// {
+// 		// 	x: 10,
+// 		// 	y: 10,
+// 		// 	width: 100,
+// 		// 	height: 100,
+// 		// 	id: 'rect1',
+// 		// 	stroke: 'red',
+// 		// },
+// 		// {
+// 		// 	x: 70,
+// 		// 	y: 100,
+// 		// 	width: 100,
+// 		// 	height: 100,
+// 		// 	id: 'rect1',
+// 		// 	stroke: 'red',
+//         // },
+// 	]);
+// 	const [selectedId, selectShape] = React.useState(null);
 
-		c.lineWidth = 3;
-		c.strokeStyle = 'red';
-		for (var i = 0; i < points.length - 1; i++) {
-			c.moveTo(points[i].x, points[i].y);
-			c.lineTo(points[i + 1].x, points[i + 1].y);
-			c.stroke();
-		}
-		//Last Line
-		c.moveTo(points[i].x, points[i].y);
-		c.lineTo(points[0].x, points[0].y);
-		c.stroke();
-	}
+// 	useEffect(() => {
+// 		console.log(rectangles);
+// 	}, [rectangles]);
 
-	function clearCanvas() {
-		const canvas = document.getElementById('mycanvas');
-		const c = canvas.getContext('2d');
-		c.clearRect(0, 0, canvas.width, canvas.height);
-	}
+// 	const checkDeselect = (e) => {
+// 		// deselect when clicked on empty area
+// 		const clickedOnEmpty = e.target === e.target.getStage();
+// 		if (clickedOnEmpty) {
+// 			selectShape(null);
+// 		}
+// 	};
 
-	function imageUpload(e) {
-		setPoints([]);
-		const canvas = document.getElementById('mycanvas');
-		const c = canvas.getContext('2d');
-		var file = document.getElementById('inputFileToLoad').files;
-		var img = new Image();
-		img.src = URL.createObjectURL(file[0]);
-		img.onload = () => {
-			c.drawImage(img, 0, 0, 720, 420);
-		};
-	}
+// 	const stageRef = React.useRef(null);
+// 	const layerRef = React.useRef(null);
+// 	const [rectCount, setrectCount] = useState(0);
+// 	const [rectdelcount, setrectdelcount] = useState(0);
 
-	return (
-		<div>
-			<div>
-				<Typography
-					variant="h5"
-					style={{ textAlign: 'center', margin: '10px', fontWeight: '600' }}
-				>
-					Select points to make a polygon
-				</Typography>
-				<canvas
-					id="mycanvas"
-					width="720px"
-					height="420px"
-					style={{ border: '1px solid black' }}
-					onClick={canvasClick}
-				></canvas>
-			</div>
-			<div>
-				<input
-					type="file"
-					id="inputFileToLoad"
-					onChange={imageUpload}
-					multiple
-				/>
-				<Button variant="contained" color="primary" onClick={createPolygon}>
-					Create Polygon
-				</Button>{' '}
-				<Button variant="contained" color="primary" onClick={clearCanvas}>
-					Clear
-				</Button>
-			</div>
-		</div>
-	);
-};
+// 	function createRect() {
+// 		let old = [...rectangles];
+// 		old[rectCount] = {
+// 			x: 10,
+// 			y: 10,
+// 			width: 100,
+// 			height: 100,
+// 			id: 'rect1',
+// 			stroke: 'red',
+// 		};
+// 		setRectangles(old);
+// 		setrectCount((old) => old + 1);
+// 	}
 
-export default withRouter(Canvas); */
+// 	const [imgSrc, setimgSrc] = useState('');
+
+// 	function imageUpload(e) {
+// 		var file = document.getElementById('inputFileToLoad').files;
+// 		setimgSrc(URL.createObjectURL(file[0]));
+// 	}
+
+// 	function clearStage() {
+// 		let old = [...rectangles];
+
+// 		old[rectdelcount] = {
+// 			x: 0,
+// 			y: 0,
+// 			width: 0,
+// 			height: 0,
+// 			id: 'rect1',
+// 			stroke: 'red',
+// 		};
+// 		setRectangles(old);
+// 		setrectdelcount((old) => old + 1);
+// 	}
+
+// 	return (
+// 		<div style={{ margin: 'auto' }}>
+// 			<Typography
+// 				variant="h5"
+// 				style={{ textAlign: 'center', margin: '10px', fontWeight: '600' }}
+// 			>
+// 				Drag and Resize Rectangle
+// 			</Typography>
+
+// 			<Stage
+// 				width={720}
+// 				height={420}
+// 				style={{ border: '4px solid black', borderRadius: '10px' }}
+// 				// onClick={canvasClick}
+// 				ref={stageRef}
+// 				onMouseDown={checkDeselect}
+// 				onTouchStart={checkDeselect}
+// 			>
+// 				<Layer>
+//
+// 					{rectangles.map((rect, i) => {
+// 						return (
+// 							<Rectangle
+// 								key={i}
+// 								shapeProps={rect}
+// 								isSelected={rect.id === selectedId}
+// 								onSelect={() => {
+// 									selectShape(rect.id);
+// 								}}
+// 								onChange={(newAttrs) => {
+// 									const rects = rectangles.slice();
+// 									rects[i] = newAttrs;
+// 									setRectangles(rects);
+// 								}}
+// 							/>
+// 						);
+// 					})}
+// 				</Layer>
+// 			</Stage>
+// 			<div>
+// 				<input
+// 					type="file"
+// 					id="inputFileToLoad"
+// 					onChange={imageUpload}
+// 					multiple
+// 					style={{ marginLeft: '10px' }}
+// 				/>
+// 				<Button
+// 					variant="contained"
+// 					color="primary"
+// 					onClick={createRect}
+// 					style={{ marginLeft: '170px', marginTop: '5px' }}
+// 				>
+// 					Generate a rectangle
+// 				</Button>{' '}
+// 				<Button
+// 					variant="contained"
+// 					color="secondary"
+// 					onClick={clearStage}
+// 					style={{ marginTop: '5px' }}
+// 				>
+// 					Clear
+// 				</Button>
+// 			</div>
+// 		</div>
+// 	);
+// };
+
+// export default withRouter(Canvas);
