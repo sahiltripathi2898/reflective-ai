@@ -5,7 +5,7 @@ import Spinner from '../../spinner';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Typography } from '@material-ui/core';
+import { Container, Typography, Paper } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 
 import axios from 'axios';
@@ -92,11 +92,38 @@ const ProjectHome = (props) => {
 
 	return (
 		<div style={{ width: '100%' }}>
-			<div style={{ marginTop: '85px', marginLeft: '20px' }}>
-				<Typography variant="h5" style={{ fontWeight: '600' }}>
-					{project_name}
-				</Typography>
-				<Typography variant="h6">{project_address}</Typography>
+			<div style={{ marginTop: '85px', marginLeft: '20px', display: 'flex' }}>
+				<div>
+					<Typography variant="h5" style={{ fontWeight: '600' }}>
+						{project_name}
+					</Typography>
+					<Typography variant="h6">{project_address}</Typography>
+				</div>
+				<div>
+					<Paper
+						elevation={8}
+						style={{
+							height: '80px',
+							width: '200px',
+							marginLeft: '50px',
+							padding: '20px',
+							marginBottom: '30px',
+						}}
+					>
+						<Typography></Typography>
+						<Typography
+							variant="h5"
+							style={{
+								color: '#36c95e',
+								margin: '0px 0px 3px 0px',
+								fontWeight: '600',
+								textAlign: 'center',
+							}}
+						>
+							Low Risk
+						</Typography>
+					</Paper>
+				</div>
 			</div>
 			<Container className={classes.root}>
 				<ButtonGroup

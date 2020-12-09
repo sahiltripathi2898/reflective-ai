@@ -96,7 +96,7 @@ const Risk = (props) => {
 		var str = cID + startDate + endDate;
 		if (localStorage.getItem(str) !== null) {
 			const curr = JSON.parse(localStorage.getItem(str));
-			console.log(curr);
+			//console.log(curr);
 			setmask(curr.ppe_compliance_mask);
 			setsocial_distancing(curr.ppe_compliance_sd);
 			setcrowding(curr.crowding_violations);
@@ -108,7 +108,7 @@ const Risk = (props) => {
 			axios
 				.post('https://api.reflective.ai/camera/metrics', data)
 				.then((res) => {
-					//console.log(res.data);
+					console.log(res.data);
 					localStorage.setItem(str, JSON.stringify(res.data));
 					if (res.data.status_code === 401) {
 						window.alert('Session Timed Out ! Please login in again');
@@ -146,6 +146,51 @@ const Risk = (props) => {
 				</div>
 			) : (
 				<div>
+					<div>
+						<Typography
+							variant="h4"
+							style={{
+								marginBottom: '5px',
+								marginTop: '20px',
+								fontFamily: 'Roboto , sans-serif',
+								fontWeight: '600',
+							}}
+						>
+							Alerts
+						</Typography>
+						<div
+							style={{
+								height: '9px',
+								width: '150px',
+								backgroundColor: '#179CD5',
+								borderRadius: '10px',
+								marginBottom: '25px',
+							}}
+						></div>
+						<Paper
+							className={classes.paper}
+							style={{ height: paperHeight, width: '49%' }}
+							elevation={10}
+						>
+							<Typography
+								variant="h5"
+								style={{ fontFamily: 'Roboto , sans-serif' }}
+							>
+								{' '}
+								Project Status
+							</Typography>
+							<Typography
+								variant="h4"
+								style={{
+									color: '#36c95e',
+									margin: '5px 0px 3px 0px',
+									fontWeight: '600',
+								}}
+							>
+								Low Risk
+							</Typography>
+						</Paper>
+					</div>
 					<div>
 						<Typography
 							variant="h4"

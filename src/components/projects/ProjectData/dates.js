@@ -304,7 +304,7 @@ export default function MaterialUIPickers(props) {
 													variant="outlined"
 													disabled={disableDate}
 													minDate={startMin}
-													maxDate={startMax}
+													maxDate={eDate}
 												/>
 											</MuiPickersUtilsProvider>
 										</Grid>

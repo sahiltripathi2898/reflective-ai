@@ -16,6 +16,10 @@ function Hotspot(props) {
 	var endDate = eDate.toISOString().slice(0, 10) + ' 23:00:00';
 
 	useEffect(() => {
+		fetchData();
+	}, [cID, sDate, eDate]);
+
+	const fetchData = async () => {
 		const data = {
 			project_id: Number(localStorage.getItem('projectID')),
 			jwt_token: localStorage.getItem('jwt_token'),
@@ -42,7 +46,7 @@ function Hotspot(props) {
 			setimgSrc(curr.base_image);
 			setLoading(false);
 		} else {
-			axios
+			/*axios
 				.post('https://api.reflective.ai/hotspot/image', data)
 				.then((res) => {
 					//console.log(res.data);
@@ -52,9 +56,18 @@ function Hotspot(props) {
 					setimgSrc(res.data.base_image);
 					setLoading(false);
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => console.log(err)); */
+			const res = await axios.post(
+				'https://api.reflective.ai/hotspot/image',
+				data
+			);
+			localStorage.setItem(str, JSON.stringify(res.data));
+			setbaseImg(res.data.base_image);
+			sethotImg(res.data.hot_image);
+			setimgSrc(res.data.base_image);
+			setLoading(false);
 		}
-	}, [cID, sDate, eDate]);
+	};
 
 	if (loading) return <Spinner />;
 	return (
