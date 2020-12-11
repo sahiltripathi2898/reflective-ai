@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Konva from 'konva';
 import { Stage, Layer, Line, Circle, Transformer, Image } from 'react-konva';
-import { Button, Typography, Grid, Paper } from '@material-ui/core';
+import {
+	Button,
+	Typography,
+	Grid,
+	Paper,
+	List,
+	ListItemIcon,
+	ListItem,
+} from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
+import IconButton from '@material-ui/core/IconButton';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import ReplayIcon from '@material-ui/icons/Replay';
+import RestorePageIcon from '@material-ui/icons/RestorePage';
+import CancelIcon from '@material-ui/icons/Cancel';
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 
 class URLImage extends React.Component {
 	state = {
@@ -45,7 +59,7 @@ class URLImage extends React.Component {
 				ref={(node) => {
 					this.imageNode = node;
 				}}
-				width={699}
+				width={720}
 				height={420}
 			/>
 		);
@@ -168,14 +182,54 @@ const Canvas = (props) => {
 	}, [points]); */
 
 	return (
-		<Grid container spacing={3} style={{ marginBottom: '60px' }}>
-			<Grid item xs={1}>
+		<Grid container spacing={2} style={{ marginBottom: '60px' }}>
+			<Grid item>
 				<Paper
-					style={{ height: '424px', marginTop: '50px', borderRadius: '10px' }}
+					style={{
+						height: '424px',
+						marginTop: '50px',
+						borderRadius: '10px',
+						width: '60px',
+						padding: '0px',
+					}}
 					elevation={10}
-				></Paper>
+				>
+					<List>
+						<ListItem style={{ padding: '0px', marginTop: '10px' }}>
+							<ListItemIcon>
+								<input
+									style={{ display: 'none' }}
+									id="icon-button-file"
+									onChange={imageUpload}
+									multiple
+									type="file"
+									className="inputFileToLoad"
+								/>
+								<label htmlFor="icon-button-file">
+									<IconButton
+										color="primary"
+										aria-label="upload picture"
+										component="span"
+									>
+										<AddAPhotoIcon fontSize="large" />
+									</IconButton>
+								</label>
+							</ListItemIcon>
+						</ListItem>
+						<ListItem style={{ padding: '0px' }} onClick={undoStage}>
+							<IconButton>
+								<RestorePageIcon color="primary" fontSize="large" />
+							</IconButton>
+						</ListItem>
+						<ListItem style={{ padding: '0px' }} onClick={clearStage}>
+							<IconButton>
+								<CancelIcon color="primary" fontSize="large" />
+							</IconButton>
+						</ListItem>
+					</List>
+				</Paper>
 			</Grid>
-			<Grid item xs={7}>
+			<Grid item xl={7}>
 				<Typography
 					variant="h5"
 					style={{ textAlign: 'center', margin: '10px', fontWeight: '600' }}
@@ -204,8 +258,8 @@ const Canvas = (props) => {
 									x={coord[0]}
 									y={coord[1]}
 									key={i}
-									radius={9}
-									fill="blue"
+									radius={7}
+									fill="#3f50b5"
 									rotateEnabled={false}
 									draggable
 									onDragMove={(e) => {
@@ -218,7 +272,7 @@ const Canvas = (props) => {
 								closed
 								draggable
 								ref={polyRef}
-								stroke="red"
+								stroke="#ba000d"
 								strokeWidth={3}
 								points={points}
 								onDragEnd={handlePolyDrag}
@@ -236,40 +290,26 @@ const Canvas = (props) => {
 						multiple
 						style={{ marginLeft: '10px' }}
 					/> */}
-					<input
-						style={{ display: 'none' }}
-						id="contained-button-file"
-						onChange={imageUpload}
-						multiple
-						type="file"
-						className="inputFileToLoad"
-					/>
-					<label htmlFor="contained-button-file">
-						<Button
-							variant="contained"
-							color="secondary"
-							component="span"
-							style={{ marginLeft: '10px', marginTop: '5px' }}
-						>
-							Upload Image
-						</Button>
-					</label>
 					<Button
 						variant="contained"
 						color="primary"
-						onClick={undoStage}
-						style={{ marginLeft: '395px', marginTop: '5px', right: '0px' }}
+						//onClick={undoStage}
+						style={{
+							marginTop: '5px',
+							float: 'right',
+							marginRight: '10px',
+						}}
 					>
-						Undo
+						Create Alert
 					</Button>{' '}
-					<Button
+					{/* <Button
 						variant="contained"
 						color="primary"
 						onClick={clearStage}
 						style={{ marginTop: '5px' }}
 					>
 						Clear
-					</Button>
+					</Button> */}
 				</div>
 			</Grid>
 			<Grid item xs={4}>
@@ -279,14 +319,15 @@ const Canvas = (props) => {
 						marginTop: '50px',
 						borderRadius: '10px',
 						padding: '20px',
+						minWidth: '300px',
 					}}
 					elevation={10}
 				>
 					<Typography
-						variant="h6"
+						variant="h5"
 						style={{ fontWeight: '600', textAlign: 'center' }}
 					>
-						SD Mask PPE Options
+						Alert Visuals
 					</Typography>
 				</Paper>
 			</Grid>
