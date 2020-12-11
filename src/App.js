@@ -12,7 +12,6 @@ import Register from './Login/Register';
 import ProjectTable from './components/projects/projectTable';
 import ResetPassword from './Login/Reset';
 import Project from './components/projects/ProjectData/Tabs';
-import CanvasTest from './components/test/canvas';
 
 import Protected from './ProtectedRoute';
 
@@ -31,9 +30,6 @@ function App() {
 				<Switch>
 					<Route exact path="/">
 						<SignIn />
-					</Route>
-					<Route exact path="/test">
-						<CanvasTest />
 					</Route>
 					<Route exact path="/register">
 						<Register />

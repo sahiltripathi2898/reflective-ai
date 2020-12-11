@@ -29,6 +29,7 @@ const ProjectHome = (props) => {
 	const [btnA, setbtnA] = useState('#4cebeb');
 	const [btnB, setbtnB] = useState('#4ccceb');
 	const [btnC, setbtnC] = useState('#4ccceb');
+	const [btnD, setbtnD] = useState('#4ccceb');
 	// on click #4cebeb
 	// #4ccceb
 
@@ -74,16 +75,26 @@ const ProjectHome = (props) => {
 		setbtnA('#4cebeb');
 		setbtnB('#4ccceb');
 		setbtnC('#4ccceb');
+		setbtnD('#4ccceb');
 	}
 	function secondBtn() {
 		setbuttonId('2');
 		setbtnA('#4ccceb');
 		setbtnB('#4cebeb');
 		setbtnC('#4ccceb');
+		setbtnD('#4ccceb');
 	}
 	function thirdBtn() {
 		setbuttonId('3');
 		setbtnC('#4cebeb');
+		setbtnB('#4ccceb');
+		setbtnA('#4ccceb');
+		setbtnD('#4ccceb');
+	}
+	function fourthBtn() {
+		setbuttonId('4');
+		setbtnD('#4cebeb');
+		setbtnC('#4ccceb');
 		setbtnB('#4ccceb');
 		setbtnA('#4ccceb');
 	}
@@ -100,7 +111,7 @@ const ProjectHome = (props) => {
 					<Typography variant="h6">{project_address}</Typography>
 				</div>
 				<div>
-					<Paper
+					{/* <Paper
 						elevation={8}
 						style={{
 							height: '80px',
@@ -122,7 +133,7 @@ const ProjectHome = (props) => {
 						>
 							Low Risk
 						</Typography>
-					</Paper>
+					</Paper> */}
 				</div>
 			</div>
 			<Container className={classes.root}>
@@ -139,6 +150,9 @@ const ProjectHome = (props) => {
 					</Button>
 					<Button onClick={thirdBtn} style={{ backgroundColor: btnC }}>
 						Project Team
+					</Button>
+					<Button onClick={fourthBtn} style={{ backgroundColor: btnD }}>
+						Draw on Image
 					</Button>
 				</ButtonGroup>
 			</Container>

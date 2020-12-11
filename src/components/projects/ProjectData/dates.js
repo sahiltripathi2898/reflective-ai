@@ -18,6 +18,7 @@ import Spinner from '../../spinner';
 import Team from './team';
 import Metrics from './metrics';
 import Visual from './visual';
+import CanvasDraw from './canvas';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -145,7 +146,7 @@ export default function MaterialUIPickers(props) {
 	const [visible, setVisible] = useState(true);
 
 	useEffect(() => {
-		if (bID === '3') setVisible(false);
+		if (bID === '3' || bID === '4') setVisible(false);
 		else setVisible(true);
 	}, [bID]);
 
@@ -342,6 +343,7 @@ export default function MaterialUIPickers(props) {
 							<Visual cID={cameraID} sDate={sDate} eDate={eDate} />
 						)}
 						{bID === '3' && <Team />}
+						{bID === '4' && <CanvasDraw />}
 					</Grid>
 				</Grid>
 			)}

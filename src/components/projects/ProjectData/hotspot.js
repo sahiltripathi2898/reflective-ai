@@ -7,6 +7,8 @@ function Hotspot(props) {
 	const { cID, sDate, eDate } = props;
 
 	const [loading, setLoading] = useState(true);
+	const [imgSpinner, setimgSpinner] = useState(false);
+	const [hot, setHot] = useState(false);
 
 	const [baseImg, setbaseImg] = useState('');
 	const [hotImg, sethotImg] = useState('');
@@ -61,6 +63,7 @@ function Hotspot(props) {
 				'https://api.reflective.ai/hotspot/image',
 				data
 			);
+			console.log(res);
 			localStorage.setItem(str, JSON.stringify(res.data));
 			setbaseImg(res.data.base_image);
 			sethotImg(res.data.hot_image);
@@ -96,15 +99,33 @@ function Hotspot(props) {
 				style={{ height: '52vw', marginBottom: '50px', padding: '20px' }}
 				elevation={10}
 			>
-				<img
-					src={'https://api.reflective.ai/image' + imgSrc}
-					width="100%"
-					height="100%"
-					onMouseEnter={() => {
-						setimgSrc(hotImg);
-					}}
-					onMouseLeave={() => setimgSrc(baseImg)}
-				></img>
+				{hot === false && (
+					<img
+						src={'https://api.reflective.ai/image' + baseImg}
+						width="100%"
+						height="100%"
+						onMouseEnter={() => {
+							setimgSpinner(true);
+							setHot(true);
+						}}
+						//onMouseLeave={() => setimgSrc(baseImg)}
+						//onLoad={() => setLoading(false)}
+					></img>
+				)}
+				{/* {imgSpinner === true && <Spinner />} */}
+				{hot === true && (
+					<img
+						src={'https://api.reflective.ai/image' + hotImg}
+						width="100%"
+						height="100%"
+						// onMouseEnter={() => {
+						// 	setimgSrc(hotImg);
+						// 	//setLoading(true);
+						// }}
+						onMouseLeave={() => setHot(false)}
+						onLoad={() => setimgSpinner(false)}
+					></img>
+				)}
 			</Paper>
 		</div>
 	);
