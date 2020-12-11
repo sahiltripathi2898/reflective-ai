@@ -312,14 +312,14 @@ const Canvas = (props) => {
 					</Button> */}
 				</div>
 			</Grid>
-			<Grid item xs={4}>
+			<Grid item xs={6} sm={3} md={4}>
 				<Paper
 					style={{
 						height: '424px',
 						marginTop: '50px',
 						borderRadius: '10px',
 						padding: '20px',
-						minWidth: '300px',
+						minWidth: '150px',
 					}}
 					elevation={10}
 				>
