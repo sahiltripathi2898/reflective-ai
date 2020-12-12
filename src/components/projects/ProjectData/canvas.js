@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Konva from 'konva';
-import { Stage, Layer, Line, Circle, Transformer, Image } from 'react-konva';
+import { Stage, Layer, Line, Circle, Image, Text } from 'react-konva';
 import {
 	Button,
 	Typography,
@@ -9,15 +9,17 @@ import {
 	List,
 	ListItemIcon,
 	ListItem,
+	Tooltip,
 } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import ReplayIcon from '@material-ui/icons/Replay';
 import RestorePageIcon from '@material-ui/icons/RestorePage';
 import CancelIcon from '@material-ui/icons/Cancel';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+import CreateIcon from '@material-ui/icons/Create';
+import FormatColorResetIcon from '@material-ui/icons/FormatColorReset';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 class URLImage extends React.Component {
 	state = {
@@ -67,9 +69,10 @@ class URLImage extends React.Component {
 }
 
 const Canvas = (props) => {
-	const trRef = React.useRef();
 	const polyRef = React.useRef();
 	const circleRef = React.useRef();
+
+	const [freeDraw, setfreeDraw] = useState(false);
 
 	const [points, setPoints] = useState([]);
 	const [selected, setSelected] = useState(false);
@@ -89,7 +92,7 @@ const Canvas = (props) => {
 		}
 	}, [selected]);
 
-	function handleMouseDown(e) {
+	function handleMouseDownPoly(e) {
 		const clickedOnPoly = e.target instanceof Konva.Line;
 		if (clickedOnPoly) {
 			setSelected(true);
@@ -145,11 +148,7 @@ const Canvas = (props) => {
 	}
 
 	const stageRef = React.useRef(null);
-	const layerRef = React.useRef(null);
-	const [rectCount, setrectCount] = useState(0);
-	const [rectdelcount, setrectdelcount] = useState(0);
-
-	function createRect() {}
+	const stageRefFree = React.useRef(null);
 
 	const [imgSrc, setimgSrc] = useState('');
 
@@ -163,13 +162,14 @@ const Canvas = (props) => {
 	}
 
 	function imageUpload(e) {
-		var file = document.querySelector('input').files;
-		console.log(file);
+		var file = document.getElementById('icon-button-file').files;
+		//console.log(file);
 		setimgSrc(URL.createObjectURL(file[0]));
 	}
 
 	function clearStage() {
 		setPoints([]);
+		setLines([]);
 	}
 	function undoStage() {
 		var old = [...points];
@@ -180,6 +180,41 @@ const Canvas = (props) => {
 	/* 	useEffect(() => {
 		console.log(points);
 	}, [points]); */
+
+	///////////////////////////// Free Draw//////////////////////
+	const [tool, setTool] = React.useState('pen');
+	const [lines, setLines] = React.useState([]);
+	const isDrawing = React.useRef(false);
+
+	const handleMouseDown = (e) => {
+		isDrawing.current = true;
+		const pos = e.target.getStage().getPointerPosition();
+		setLines([...lines, { tool, points: [pos.x, pos.y] }]);
+	};
+
+	const handleMouseMove = (e) => {
+		// no drawing - skipping
+		if (!isDrawing.current) {
+			return;
+		}
+		const stage = e.target.getStage();
+		const point = stage.getPointerPosition();
+		let lastLine = lines[lines.length - 1];
+		// add point
+		lastLine.points = lastLine.points.concat([point.x, point.y]);
+
+		// replace last
+		lines.splice(lines.length - 1, 1, lastLine);
+		setLines(lines.concat());
+	};
+
+	const handleMouseUp = () => {
+		isDrawing.current = false;
+	};
+
+	useEffect(() => {
+		console.log(imgSrc);
+	}, [imgSrc]);
 
 	return (
 		<Grid container spacing={2} style={{ marginBottom: '60px' }}>
@@ -206,26 +241,64 @@ const Canvas = (props) => {
 									className="inputFileToLoad"
 								/>
 								<label htmlFor="icon-button-file">
-									<IconButton
-										color="primary"
-										aria-label="upload picture"
-										component="span"
-									>
-										<AddAPhotoIcon fontSize="large" />
-									</IconButton>
+									<Tooltip title="Add Image">
+										<IconButton
+											color="primary"
+											aria-label="upload picture"
+											component="span"
+										>
+											<AddAPhotoIcon fontSize="large" />
+										</IconButton>
+									</Tooltip>
 								</label>
 							</ListItemIcon>
 						</ListItem>
-						<ListItem style={{ padding: '0px' }} onClick={undoStage}>
+						{/* <ListItem style={{ padding: '0px' }} onClick={() => setimgSrc('')}>
 							<IconButton>
-								<RestorePageIcon color="primary" fontSize="large" />
+								<DeleteIcon color="primary" fontSize="large" />
 							</IconButton>
-						</ListItem>
+						</ListItem> */}
 						<ListItem style={{ padding: '0px' }} onClick={clearStage}>
-							<IconButton>
-								<CancelIcon color="primary" fontSize="large" />
-							</IconButton>
+							<Tooltip title="Clear">
+								<IconButton>
+									<CancelIcon color="primary" fontSize="large" />
+								</IconButton>
+							</Tooltip>
 						</ListItem>
+						{freeDraw === false && (
+							<ListItem style={{ padding: '0px' }} onClick={undoStage}>
+								<Tooltip title="Undo">
+									<IconButton>
+										<RestorePageIcon color="primary" fontSize="large" />
+									</IconButton>
+								</Tooltip>
+							</ListItem>
+						)}
+
+						{freeDraw === true && (
+							<ListItem
+								style={{ padding: '0px' }}
+								onClick={() => setTool('pen')}
+							>
+								<Tooltip title="Pen">
+									<IconButton>
+										<CreateIcon color="primary" fontSize="large" />
+									</IconButton>
+								</Tooltip>
+							</ListItem>
+						)}
+						{freeDraw === true && (
+							<ListItem
+								style={{ padding: '0px' }}
+								onClick={() => setTool('eraser')}
+							>
+								<Tooltip title="Eraser">
+									<IconButton>
+										<FormatColorResetIcon color="primary" fontSize="large" />
+									</IconButton>
+								</Tooltip>
+							</ListItem>
+						)}
 					</List>
 				</Paper>
 			</Grid>
@@ -234,62 +307,105 @@ const Canvas = (props) => {
 					variant="h5"
 					style={{ textAlign: 'center', margin: '10px', fontWeight: '600' }}
 				>
-					Select Points to Draw a Polygon
+					{freeDraw === true
+						? 'Drag to Draw Points'
+						: 'Select Points to Draw a Polygon '}
 				</Typography>
 
 				<Paper
 					style={{ width: '720px', height: '420px' }}
 					style={{ border: '4px solid black', borderRadius: '10px' }}
 				>
-					<Stage
-						width={720}
-						height={420}
-						onClick={stageClick}
-						ref={stageRef}
-						onMouseDown={handleMouseDown}
-					>
-						<Layer>
-							<URLImage src={imgSrc} />
-						</Layer>
-						<Layer>
-							{_.chunk(points, 2).map((coord, i) => (
-								<Circle
-									ref={circleRef}
-									x={coord[0]}
-									y={coord[1]}
-									key={i}
-									radius={7}
-									fill="#3f50b5"
-									rotateEnabled={false}
-									draggable
-									onDragMove={(e) => {
-										handleCircleDrag(e, coord[0], coord[1]);
-									}}
-								/>
-							))}
+					<Layer>
+						<URLImage src={imgSrc} />
+					</Layer>
+					{freeDraw === false && (
+						<Stage
+							width={720}
+							height={420}
+							onClick={stageClick}
+							ref={stageRefFree}
+							onMouseDown={handleMouseDownPoly}
+						>
+							<Layer>
+								<URLImage src={imgSrc} />
+							</Layer>
+							<Layer>
+								{_.chunk(points, 2).map((coord, i) => (
+									<Circle
+										ref={circleRef}
+										x={coord[0]}
+										y={coord[1]}
+										key={i}
+										radius={7}
+										fill="#3f50b5"
+										rotateEnabled={false}
+										draggable
+										onDragMove={(e) => {
+											handleCircleDrag(e, coord[0], coord[1]);
+										}}
+									/>
+								))}
 
-							<Line
-								closed
-								draggable
-								ref={polyRef}
-								stroke="#ba000d"
-								strokeWidth={3}
-								points={points}
-								onDragEnd={handlePolyDrag}
-								onTransformEnd={handlePolyDrag}
-							/>
-							{/* {selected && <Transformer ref={trRef} rotateEnabled={false} />} */}
-						</Layer>
-					</Stage>
+								<Line
+									closed
+									draggable
+									ref={polyRef}
+									stroke="#ba000d"
+									strokeWidth={3}
+									points={points}
+									onDragEnd={handlePolyDrag}
+									onTransformEnd={handlePolyDrag}
+								/>
+								{/* {selected && <Transformer ref={trRef} rotateEnabled={false} />} */}
+							</Layer>
+						</Stage>
+					)}
+					{freeDraw === true && (
+						<div>
+							<Stage
+								width={720}
+								height={420}
+								onMouseDown={handleMouseDown}
+								onMousemove={handleMouseMove}
+								onMouseup={handleMouseUp}
+								ref={stageRef}
+							>
+								<Layer>
+									<URLImage src={imgSrc} />
+								</Layer>
+								<Layer>
+									{lines.map((line, i) => (
+										<Line
+											key={i}
+											points={line.points}
+											stroke="#df4b26"
+											strokeWidth={5}
+											tension={0.5}
+											lineCap="round"
+											globalCompositeOperation={
+												line.tool === 'eraser'
+													? 'destination-out'
+													: 'source-over'
+											}
+										/>
+									))}
+								</Layer>
+							</Stage>
+						</div>
+					)}
 				</Paper>
 				<div>
-					{/* <input
-						type="file"
-						id="inputFileToLoad"
-						onChange={imageUpload}
-						multiple
-						style={{ marginLeft: '10px' }}
-					/> */}
+					<Button
+						variant="contained"
+						color="secondary"
+						onClick={() => setfreeDraw(!freeDraw)}
+						style={{
+							marginTop: '5px',
+						}}
+					>
+						{freeDraw === true ? 'Draw Polygon ' : 'Free Draw'}
+					</Button>
 					<Button
 						variant="contained"
 						color="primary"
@@ -302,14 +418,6 @@ const Canvas = (props) => {
 					>
 						Create Alert
 					</Button>{' '}
-					{/* <Button
-						variant="contained"
-						color="primary"
-						onClick={clearStage}
-						style={{ marginTop: '5px' }}
-					>
-						Clear
-					</Button> */}
 				</div>
 			</Grid>
 			<Grid item xs={6} sm={3} md={4}>
@@ -336,214 +444,3 @@ const Canvas = (props) => {
 };
 
 export default withRouter(Canvas);
-
-// const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
-// 	const shapeRef = React.useRef();
-// 	const trRef = React.useRef();
-
-// 	React.useEffect(() => {
-// 		if (isSelected) {
-// 			// we need to attach transformer manually
-// 			trRef.current.nodes([shapeRef.current]);
-// 			trRef.current.getLayer().batchDraw();
-// 		}
-// 	}, [isSelected]);
-
-// 	return (
-// 		<React.Fragment>
-// 			<Rect
-// 				onClick={onSelect}
-// 				onTap={onSelect}
-// 				ref={shapeRef}
-// 				{...shapeProps}
-// 				draggable
-// 				onDragEnd={(e) => {
-// 					onChange({
-// 						...shapeProps,
-// 						x: e.target.x(),
-// 						y: e.target.y(),
-// 					});
-// 				}}
-// 				onTransformEnd={(e) => {
-// 					// transformer is changing scale of the node
-// 					// and NOT its width or height
-// 					// but in the store we have only width and height
-// 					// to match the data better we will reset scale on transform end
-// 					const node = shapeRef.current;
-// 					const scaleX = node.scaleX();
-// 					const scaleY = node.scaleY();
-
-// 					// we will reset it back
-// 					node.scaleX(1);
-// 					node.scaleY(1);
-// 					onChange({
-// 						...shapeProps,
-// 						x: node.x(),
-// 						y: node.y(),
-// 						// set minimal value
-// 						width: Math.max(5, node.width() * scaleX),
-// 						height: Math.max(node.height() * scaleY),
-// 					});
-// 				}}
-// 			/>
-// 			{isSelected && (
-// 				<Transformer
-// 					ref={trRef}
-// 					boundBoxFunc={(oldBox, newBox) => {
-// 						// limit resize
-// 						if (newBox.width < 5 || newBox.height < 5) {
-// 							return oldBox;
-// 						}
-// 						return newBox;
-// 					}}
-// 				/>
-// 			)}
-// 		</React.Fragment>
-// 	);
-// };
-
-// const Canvas = (props) => {
-// 	const { history } = props;
-
-// 	const [rectangles, setRectangles] = React.useState([
-// 		// {
-// 		// 	x: 10,
-// 		// 	y: 10,
-// 		// 	width: 100,
-// 		// 	height: 100,
-// 		// 	id: 'rect1',
-// 		// 	stroke: 'red',
-// 		// },
-// 		// {
-// 		// 	x: 70,
-// 		// 	y: 100,
-// 		// 	width: 100,
-// 		// 	height: 100,
-// 		// 	id: 'rect1',
-// 		// 	stroke: 'red',
-//         // },
-// 	]);
-// 	const [selectedId, selectShape] = React.useState(null);
-
-// 	useEffect(() => {
-// 		console.log(rectangles);
-// 	}, [rectangles]);
-
-// 	const checkDeselect = (e) => {
-// 		// deselect when clicked on empty area
-// 		const clickedOnEmpty = e.target === e.target.getStage();
-// 		if (clickedOnEmpty) {
-// 			selectShape(null);
-// 		}
-// 	};
-
-// 	const stageRef = React.useRef(null);
-// 	const layerRef = React.useRef(null);
-// 	const [rectCount, setrectCount] = useState(0);
-// 	const [rectdelcount, setrectdelcount] = useState(0);
-
-// 	function createRect() {
-// 		let old = [...rectangles];
-// 		old[rectCount] = {
-// 			x: 10,
-// 			y: 10,
-// 			width: 100,
-// 			height: 100,
-// 			id: 'rect1',
-// 			stroke: 'red',
-// 		};
-// 		setRectangles(old);
-// 		setrectCount((old) => old + 1);
-// 	}
-
-// 	const [imgSrc, setimgSrc] = useState('');
-
-// 	function imageUpload(e) {
-// 		var file = document.getElementById('inputFileToLoad').files;
-// 		setimgSrc(URL.createObjectURL(file[0]));
-// 	}
-
-// 	function clearStage() {
-// 		let old = [...rectangles];
-
-// 		old[rectdelcount] = {
-// 			x: 0,
-// 			y: 0,
-// 			width: 0,
-// 			height: 0,
-// 			id: 'rect1',
-// 			stroke: 'red',
-// 		};
-// 		setRectangles(old);
-// 		setrectdelcount((old) => old + 1);
-// 	}
-
-// 	return (
-// 		<div style={{ margin: 'auto' }}>
-// 			<Typography
-// 				variant="h5"
-// 				style={{ textAlign: 'center', margin: '10px', fontWeight: '600' }}
-// 			>
-// 				Drag and Resize Rectangle
-// 			</Typography>
-
-// 			<Stage
-// 				width={720}
-// 				height={420}
-// 				style={{ border: '4px solid black', borderRadius: '10px' }}
-// 				// onClick={canvasClick}
-// 				ref={stageRef}
-// 				onMouseDown={checkDeselect}
-// 				onTouchStart={checkDeselect}
-// 			>
-// 				<Layer>
-//
-// 					{rectangles.map((rect, i) => {
-// 						return (
-// 							<Rectangle
-// 								key={i}
-// 								shapeProps={rect}
-// 								isSelected={rect.id === selectedId}
-// 								onSelect={() => {
-// 									selectShape(rect.id);
-// 								}}
-// 								onChange={(newAttrs) => {
-// 									const rects = rectangles.slice();
-// 									rects[i] = newAttrs;
-// 									setRectangles(rects);
-// 								}}
-// 							/>
-// 						);
-// 					})}
-// 				</Layer>
-// 			</Stage>
-// 			<div>
-// 				<input
-// 					type="file"
-// 					id="inputFileToLoad"
-// 					onChange={imageUpload}
-// 					multiple
-// 					style={{ marginLeft: '10px' }}
-// 				/>
-// 				<Button
-// 					variant="contained"
-// 					color="primary"
-// 					onClick={createRect}
-// 					style={{ marginLeft: '170px', marginTop: '5px' }}
-// 				>
-// 					Generate a rectangle
-// 				</Button>{' '}
-// 				<Button
-// 					variant="contained"
-// 					color="secondary"
-// 					onClick={clearStage}
-// 					style={{ marginTop: '5px' }}
-// 				>
-// 					Clear
-// 				</Button>
-// 			</div>
-// 		</div>
-// 	);
-// };
-
-// export default withRouter(Canvas);
