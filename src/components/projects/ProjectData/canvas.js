@@ -10,6 +10,12 @@ import {
 	ListItemIcon,
 	ListItem,
 	Tooltip,
+	ButtonGroup,
+	TextField,
+	InputLabel,
+	Select,
+	MenuItem,
+	FormControl,
 } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
@@ -19,6 +25,8 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import CreateIcon from '@material-ui/icons/Create';
 import FormatColorResetIcon from '@material-ui/icons/FormatColorReset';
+import SwitchCameraIcon from '@material-ui/icons/SwitchCamera';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 class URLImage extends React.Component {
@@ -76,6 +84,25 @@ const Canvas = (props) => {
 
 	const [points, setPoints] = useState([]);
 	const [selected, setSelected] = useState(false);
+
+	////// Show editing icons
+	const [editMode, seteditMode] = useState(false);
+
+	////// Hazard Zone Array
+	const [hazardZones, sethazardZones] = useState([
+		{
+			name: 'Zone 1',
+			color: 'red',
+			startDate: '',
+			endDate: '',
+		},
+		{
+			name: 'Zone 2',
+			color: 'orange',
+			startDate: '',
+			endDate: '',
+		},
+	]);
 
 	useEffect(() => {
 		if (selected) {
@@ -177,9 +204,6 @@ const Canvas = (props) => {
 		old.pop();
 		setPoints(old);
 	}
-	/* 	useEffect(() => {
-		console.log(points);
-	}, [points]); */
 
 	///////////////////////////// Free Draw//////////////////////
 	const [tool, setTool] = React.useState('pen');
@@ -212,9 +236,46 @@ const Canvas = (props) => {
 		isDrawing.current = false;
 	};
 
+	////// Hazard Zone values
+	const [hazardName, sethazardName] = useState('');
+	const [hazardColor, sethazardColor] = useState('');
+	const [hazardStartDate, sethazardStartDate] = useState('');
+	const [hazardEndDate, sethazardEndDate] = useState('');
+
+	const hazardZoneColorChangeHandler = (event) => {
+		sethazardColor(event.target.value);
+	};
+
+	const hazardZoneNameChangeHandler = (event) => {
+		sethazardName(event.target.value);
+	};
+
+	const hazardZoneStartDateChangeHandler = (event) => {
+		sethazardStartDate(event.target.value);
+	};
+
+	const hazardZoneEndDateChangeHandler = (event) => {
+		sethazardEndDate(event.target.value);
+	};
+
+	function addHazardZone() {
+		sethazardZones([
+			...hazardZones,
+			{
+				name: hazardName,
+				color: hazardColor,
+				startDate: hazardStartDate,
+				endDate: hazardEndDate,
+			},
+		]);
+	}
+
 	useEffect(() => {
-		console.log(imgSrc);
-	}, [imgSrc]);
+		console.log(hazardName);
+		console.log(hazardColor);
+		console.log(hazardStartDate);
+		console.log(hazardEndDate);
+	}, [hazardName, hazardColor]);
 
 	return (
 		<Grid container spacing={2} style={{ marginBottom: '60px' }}>
@@ -222,7 +283,7 @@ const Canvas = (props) => {
 				<Paper
 					style={{
 						height: '424px',
-						marginTop: '50px',
+						marginTop: '60px',
 						borderRadius: '10px',
 						width: '60px',
 						padding: '0px',
@@ -258,14 +319,30 @@ const Canvas = (props) => {
 								<DeleteIcon color="primary" fontSize="large" />
 							</IconButton>
 						</ListItem> */}
-						<ListItem style={{ padding: '0px' }} onClick={clearStage}>
-							<Tooltip title="Clear">
-								<IconButton>
-									<CancelIcon color="primary" fontSize="large" />
-								</IconButton>
-							</Tooltip>
-						</ListItem>
-						{freeDraw === false && (
+						{editMode === true && (
+							<ListItem
+								style={{ padding: '0px' }}
+								onClick={() => setfreeDraw(!freeDraw)}
+							>
+								<Tooltip
+									title={freeDraw === true ? 'Draw Polygon ' : 'Free Draw'}
+								>
+									<IconButton>
+										<SwitchCameraIcon color="primary" fontSize="large" />
+									</IconButton>
+								</Tooltip>
+							</ListItem>
+						)}
+						{editMode === true && (
+							<ListItem style={{ padding: '0px' }} onClick={clearStage}>
+								<Tooltip title="Clear">
+									<IconButton>
+										<CancelIcon color="primary" fontSize="large" />
+									</IconButton>
+								</Tooltip>
+							</ListItem>
+						)}
+						{editMode === true && freeDraw === false && (
 							<ListItem style={{ padding: '0px' }} onClick={undoStage}>
 								<Tooltip title="Undo">
 									<IconButton>
@@ -299,33 +376,75 @@ const Canvas = (props) => {
 								</Tooltip>
 							</ListItem>
 						)}
+						{editMode === true && (
+							<ListItem style={{ padding: '0px' }} onClick={undoStage}>
+								<Tooltip title="Done ?">
+									<IconButton>
+										<CheckCircleIcon color="primary" fontSize="large" />
+									</IconButton>
+								</Tooltip>
+							</ListItem>
+						)}
 					</List>
 				</Paper>
 			</Grid>
 			<Grid item xl={7}>
-				<Typography
-					variant="h5"
-					style={{ textAlign: 'center', margin: '10px', fontWeight: '600' }}
-				>
-					{freeDraw === true
-						? 'Drag to Draw Points'
-						: 'Select Points to Draw a Polygon '}
-				</Typography>
+				<Grid container style={{ marginBottom: '10px' }}>
+					<Grid item xs={9}>
+						<Typography
+							variant="h5"
+							style={{
+								textAlign: 'center',
+								margin: '10px',
+								fontWeight: '600',
+								float: 'right',
+								marginRight: '60px',
+							}}
+						>
+							{editMode === true
+								? 'Create Your Hazard Zone'
+								: 'Hazard Zone Monitoring'}
+						</Typography>
+					</Grid>
+					<Grid item xs={3}>
+						<div>
+							<FormControl style={{ width: '100%' }}>
+								<InputLabel id="demo-simple-select-label">
+									Select Hazard Zone
+								</InputLabel>
+								<Select
+									labelId="demo-simple-select-label"
+									id="demo-simple-select"
+									label="Days To Monitor"
+									//value={hazardZoneSelect}
+									//onChange={hazardZoneSelectChange}
+								>
+									{hazardZones.map((zone, index) => (
+										<MenuItem value={zone.name}>{zone.name}</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+						</div>
+					</Grid>
+				</Grid>
 
 				<Paper
-					style={{ width: '720px', height: '420px' }}
-					style={{ border: '4px solid black', borderRadius: '10px' }}
+					style={{
+						border: '4px solid black',
+						borderRadius: '10px',
+						width: '720px',
+						height: '420px',
+						position: 'relative',
+					}}
 				>
-					<Layer>
-						<URLImage src={imgSrc} />
-					</Layer>
 					{freeDraw === false && (
 						<Stage
-							width={720}
-							height={420}
+							width={714}
+							height={414}
 							onClick={stageClick}
 							ref={stageRefFree}
 							onMouseDown={handleMouseDownPoly}
+							style={{ cursor: 'pointer' }}
 						>
 							<Layer>
 								<URLImage src={imgSrc} />
@@ -364,12 +483,13 @@ const Canvas = (props) => {
 					{freeDraw === true && (
 						<div>
 							<Stage
-								width={720}
-								height={420}
+								width={714}
+								height={414}
 								onMouseDown={handleMouseDown}
 								onMousemove={handleMouseMove}
 								onMouseup={handleMouseUp}
 								ref={stageRef}
+								style={{ cursor: 'pointer' }}
 							>
 								<Layer>
 									<URLImage src={imgSrc} />
@@ -395,50 +515,144 @@ const Canvas = (props) => {
 						</div>
 					)}
 				</Paper>
-				<div>
-					<Button
-						variant="contained"
-						color="secondary"
-						onClick={() => setfreeDraw(!freeDraw)}
-						style={{
-							marginTop: '5px',
-						}}
-					>
-						{freeDraw === true ? 'Draw Polygon ' : 'Free Draw'}
-					</Button>
-					<Button
-						variant="contained"
-						color="primary"
-						//onClick={undoStage}
-						style={{
-							marginTop: '5px',
-							float: 'right',
-							marginRight: '10px',
-						}}
-					>
-						Create Alert
-					</Button>{' '}
-				</div>
 			</Grid>
-			<Grid item xs={6} sm={3} md={4}>
-				<Paper
-					style={{
-						height: '424px',
-						marginTop: '50px',
-						borderRadius: '10px',
-						padding: '20px',
-						minWidth: '150px',
-					}}
-					elevation={10}
-				>
-					<Typography
-						variant="h5"
-						style={{ fontWeight: '600', textAlign: 'center' }}
+			{editMode === false ? (
+				<Grid item xs={6} sm={3} md={4}>
+					<Paper
+						style={{
+							height: '424px',
+							marginTop: '60px',
+							borderRadius: '10px',
+							padding: '20px',
+							minWidth: '150px',
+							position: 'relative',
+						}}
+						elevation={10}
 					>
-						Alert Visuals
-					</Typography>
-				</Paper>
-			</Grid>
+						<Typography
+							variant="h5"
+							style={{ fontWeight: '600', textAlign: 'center' }}
+						>
+							Hazard Zones
+						</Typography>
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={() => {
+								seteditMode(true);
+							}}
+							style={{
+								margin: '0',
+								position: 'absolute',
+								top: '50%',
+								left: '50%',
+								msTransform: 'translate(-50%, -50%)',
+								transform: 'translate(-50%, -50%)',
+							}}
+						>
+							Add Hazard Zone
+						</Button>{' '}
+					</Paper>
+				</Grid>
+			) : (
+				<Grid item xs={6} sm={3} md={4}>
+					<Paper
+						style={{
+							height: '424px',
+							marginTop: '60px',
+							borderRadius: '10px',
+							padding: '20px',
+							minWidth: '150px',
+							position: 'relative',
+						}}
+						elevation={10}
+					>
+						<Typography
+							variant="h5"
+							style={{ fontWeight: '600', textAlign: 'center' }}
+						>
+							Hazard Zone 1
+						</Typography>
+						<form
+							style={{ width: '100%', padding: '0px 22px' }}
+							noValidate
+							autoComplete="off"
+						>
+							<div style={{ marginTop: '30px' }}>
+								<TextField
+									id="standard-basic"
+									label="Enter Name"
+									style={{ width: '100%' }}
+									onChange={hazardZoneNameChangeHandler}
+									name="name"
+									value={hazardName}
+								/>
+							</div>
+							<div style={{ marginTop: '30px' }}>
+								<Grid container spacing={3}>
+									<Grid item xs={6}>
+										<TextField
+											type="date"
+											style={{ width: '100%' }}
+											label="Start Date"
+											InputLabelProps={{ shrink: true }}
+											name="startDate"
+											value={hazardStartDate}
+											onChange={hazardZoneStartDateChangeHandler}
+										></TextField>
+									</Grid>
+									<Grid item xs={6}>
+										<TextField
+											type="date"
+											style={{ width: '100%' }}
+											label="End Date"
+											InputLabelProps={{ shrink: true }}
+											name="endDate"
+											value={hazardEndDate}
+											onChange={hazardZoneEndDateChangeHandler}
+										></TextField>
+									</Grid>
+								</Grid>
+							</div>
+							<div style={{ marginTop: '30px' }}>
+								<FormControl style={{ width: '100%' }}>
+									<InputLabel id="demo-simple-select-label">
+										Select Hazard Zone Color
+									</InputLabel>
+									<Select
+										labelId="demo-simple-select-label"
+										id="demo-simple-select"
+										value={hazardColor}
+										onChange={hazardZoneColorChangeHandler}
+									>
+										<MenuItem value={'red'}>Red</MenuItem>
+										<MenuItem value={'orange'}>Orange</MenuItem>
+										<MenuItem value={'blue'}>Blue</MenuItem>
+									</Select>
+								</FormControl>
+							</div>
+						</form>
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={() => {
+								seteditMode(false);
+								addHazardZone();
+							}}
+							style={{
+								margin: '0',
+								position: 'absolute',
+								top: '90%',
+								left: '50%',
+								msTransform: 'translate(-50%, -50%)',
+								transform: 'translate(-50%, -50%)',
+							}}
+						>
+							Create Hazard Zone
+						</Button>{' '}
+					</Paper>
+				</Grid>
+			)}
 		</Grid>
 	);
 };

@@ -152,7 +152,7 @@ const ProjectHome = (props) => {
 						Project Team
 					</Button>
 					<Button onClick={fourthBtn} style={{ backgroundColor: btnD }}>
-						Draw on Image
+						Hazard Zones
 					</Button>
 				</ButtonGroup>
 			</Container>
