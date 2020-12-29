@@ -12,7 +12,7 @@ import Register from './Login/Register';
 import ProjectTable from './components/projects/projectTable';
 import ResetPassword from './Login/Reset';
 import Project from './components/projects/ProjectData/Tabs';
-import CanvasDraw from './components/projects/ProjectData/canvas';
+import CanvasDraw from './components/projects/ProjectData/canvas/canvas';
 
 import Protected from './ProtectedRoute';
 

@@ -1,5 +1,5 @@
 import 'date-fns';
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,7 +18,7 @@ import Spinner from '../../spinner';
 import Team from './team';
 import Metrics from './metrics';
 import Visual from './visual';
-import CanvasDraw from './canvas';
+import CanvasDraw from './canvas/canvas';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -343,7 +343,9 @@ export default function MaterialUIPickers(props) {
 							<Visual cID={cameraID} sDate={sDate} eDate={eDate} />
 						)}
 						{bID === '3' && <Team />}
-						{bID === '4' && <CanvasDraw />}
+						{bID === '4' && (
+							<CanvasDraw cID={cameraID} sDate={sDate} eDate={eDate} />
+						)}
 					</Grid>
 				</Grid>
 			)}

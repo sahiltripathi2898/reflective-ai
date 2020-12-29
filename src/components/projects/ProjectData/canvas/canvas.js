@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Konva from 'konva';
 import { Stage, Layer, Line, Circle, Image, Text } from 'react-konva';
+import {
+	MuiPickersUtilsProvider,
+	KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import {
 	Button,
 	Typography,
@@ -16,6 +22,7 @@ import {
 	Select,
 	MenuItem,
 	FormControl,
+	Divider,
 } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
@@ -27,8 +34,11 @@ import CreateIcon from '@material-ui/icons/Create';
 import FormatColorResetIcon from '@material-ui/icons/FormatColorReset';
 import SwitchCameraIcon from '@material-ui/icons/SwitchCamera';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import DeleteIcon from '@material-ui/icons/Delete';
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 
+import CanvasMetrics from './canvasMetrics';
+
+///////////// Uploaded image on Konva canvas
 class URLImage extends React.Component {
 	state = {
 		image: null,
@@ -76,33 +86,203 @@ class URLImage extends React.Component {
 	}
 }
 
+//////////// Main Function/////////////////
+
 const Canvas = (props) => {
+	const { cID, sDate, eDate } = props;
+	/////// Drawing refs
 	const polyRef = React.useRef();
 	const circleRef = React.useRef();
 
-	const [freeDraw, setfreeDraw] = useState(false);
-
-	const [points, setPoints] = useState([]);
 	const [selected, setSelected] = useState(false);
 
-	////// Show editing icons
-	const [editMode, seteditMode] = useState(false);
+	/////// Start Mode
+	const [start, setStart] = useState(true);
 
-	////// Hazard Zone Array
-	const [hazardZones, sethazardZones] = useState([
+	/////// Co-ordinates
+	const [points, setPoints] = useState([]);
+
+	/////// Co-ordinates from backend if hazard zone already present
+	const [coordinates, setCoordinates] = useState([]);
+
+	////// Image Source
+	const [imgSrc, setimgSrc] = useState('');
+
+	////// Show editing icons
+	const [addMode, setaddMode] = useState(false);
+
+	////// Hazard Zone Available
+	const [hazardZoneAvailable, sethazardZoneAvailable] = useState(false);
+
+	/////// Free Draw Mode
+	const [freeDraw, setfreeDraw] = useState(false);
+
+	////// Hazard Zone values
+	const [hazardName, sethazardName] = useState('');
+	const [hazardColor, sethazardColor] = useState('');
+	// Dates
+	const [hazardStartDate, setstartDate] = useState(new Date());
+	const [hazardEndDate, setendDate] = useState(new Date());
+
+	const hazardZoneColorChangeHandler = (event) => {
+		sethazardColor(event.target.value);
+	};
+
+	const hazardZoneNameChangeHandler = (event) => {
+		sethazardName(event.target.value);
+	};
+
+	/* 	const hazardZoneStartDateChangeHandler = (event) => {
+		sethazardStartDate(event.target.value);
+	};
+
+	const hazardZoneEndDateChangeHandler = (event) => {
+		sethazardEndDate(event.target.value);
+	}; */
+
+	const [zoneViolation, setzoneViolation] = useState([
 		{
 			name: 'Zone 1',
-			color: 'red',
-			startDate: '',
-			endDate: '',
+			duration: '04:39 mins',
 		},
 		{
 			name: 'Zone 2',
-			color: 'orange',
-			startDate: '',
-			endDate: '',
+			duration: '01:11 mins',
 		},
+		{
+			name: 'Zone 3',
+			duration: '00:20 mins',
+		},
+		/* 		{
+			name: 'Zone 3',
+			duration: '00:20 mins',
+		},
+		{
+			name: 'Zone 3',
+			duration: '00:20 mins',
+		},
+		{
+			name: 'Zone 3',
+			duration: '00:20 mins',
+		}, */
 	]);
+
+	/////////////////////API calls
+	useEffect(() => {
+		const data = {
+			project_id: Number(localStorage.getItem('projectID')),
+			camera_id: cID,
+			company_id: Number(localStorage.getItem('company_id')),
+		};
+		console.log(data);
+
+		axios
+			.post('https://api.reflective.ai/hazard_zone', data)
+			.then((res) => {
+				console.log(res.data);
+				if (res.data.hazard_flag === 0) {
+					setaddMode(false);
+					sethazardZoneAvailable(false);
+				}
+				if (res.data.hazard_flag === 1) {
+					setaddMode(false);
+					sethazardZoneAvailable(true);
+					var curr = res.data.coordinates;
+					var stored = [];
+					for (var i = 0; i < curr.length; i++) {
+						stored.push(curr[i][0]);
+						stored.push(curr[i][1]);
+					}
+					console.log(stored);
+					setCoordinates(stored);
+				}
+				setimgSrc(res.data.src);
+			})
+			.catch((err) => console.log(err));
+	}, []);
+
+	////// Button Click Handlers
+	function createHazardZoneClickHandler() {
+		setaddMode(false);
+		setStart(false);
+		sethazardZoneAvailable(true);
+
+		var curr = [...points];
+		var finalCoordinates = [];
+		var pair = [];
+		//pair.push(curr[0]);
+		for (var i = 0; i < curr.length - 1; ) {
+			pair.push(curr[i]);
+			pair.push(curr[i + 1]);
+			finalCoordinates.push(pair);
+			pair = [];
+			i += 2;
+		}
+		/// Set points and everything to backend /register_hazard_zone
+		const data = {
+			project_id: Number(localStorage.getItem('projectID')),
+			camera_id: cID,
+			company_id: Number(localStorage.getItem('company_id')),
+			name: hazardName,
+			color: hazardColor,
+			start_date: hazardStartDate.toISOString().slice(0, 10) + ' 00:00:00',
+			end_date: hazardEndDate.toISOString().slice(0, 10) + ' 00:00:00',
+			coordinates: finalCoordinates,
+		};
+		console.log(data);
+		axios
+			.post('https://api.reflective.ai/register_hazard_zone', data)
+			.then((res) => {
+				console.log(res.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+
+	///////////// Upload Images and Edit button options///////////
+
+	const stageRef = React.useRef(null);
+	const stageRefFree = React.useRef(null);
+
+	function stageClick(e) {
+		var stage = e.target.getStage();
+		setPoints((old) => [
+			...old,
+			stage.getPointerPosition().x,
+			stage.getPointerPosition().y,
+		]);
+	}
+
+	function imageUpload(e) {
+		var file = document.getElementById('icon-button-file').files;
+		//console.log(file);
+		setimgSrc(URL.createObjectURL(file[0]));
+	}
+
+	function clearStage() {
+		setPoints([]);
+		setLines([]);
+	}
+	function undoStage() {
+		var old = [...points];
+		old.pop();
+		old.pop();
+		setPoints(old);
+	}
+
+	///////////////// Date Change Handler///////////////////
+
+	const handleStartDateChange = (date) => {
+		setstartDate(date);
+		//console.log(sDate)
+	};
+	const handleEndDateChange = (date) => {
+		setendDate(date);
+		//console.log(endDate)
+	};
+
+	/////////////////////// Draw polygon///////////////////
 
 	useEffect(() => {
 		if (selected) {
@@ -174,38 +354,8 @@ const Canvas = (props) => {
 		return newPoints;
 	}
 
-	const stageRef = React.useRef(null);
-	const stageRefFree = React.useRef(null);
-
-	const [imgSrc, setimgSrc] = useState('');
-
-	function stageClick(e) {
-		var stage = e.target.getStage();
-		setPoints((old) => [
-			...old,
-			stage.getPointerPosition().x,
-			stage.getPointerPosition().y,
-		]);
-	}
-
-	function imageUpload(e) {
-		var file = document.getElementById('icon-button-file').files;
-		//console.log(file);
-		setimgSrc(URL.createObjectURL(file[0]));
-	}
-
-	function clearStage() {
-		setPoints([]);
-		setLines([]);
-	}
-	function undoStage() {
-		var old = [...points];
-		old.pop();
-		old.pop();
-		setPoints(old);
-	}
-
 	///////////////////////////// Free Draw//////////////////////
+
 	const [tool, setTool] = React.useState('pen');
 	const [lines, setLines] = React.useState([]);
 	const isDrawing = React.useRef(false);
@@ -235,47 +385,6 @@ const Canvas = (props) => {
 	const handleMouseUp = () => {
 		isDrawing.current = false;
 	};
-
-	////// Hazard Zone values
-	const [hazardName, sethazardName] = useState('');
-	const [hazardColor, sethazardColor] = useState('');
-	const [hazardStartDate, sethazardStartDate] = useState('');
-	const [hazardEndDate, sethazardEndDate] = useState('');
-
-	const hazardZoneColorChangeHandler = (event) => {
-		sethazardColor(event.target.value);
-	};
-
-	const hazardZoneNameChangeHandler = (event) => {
-		sethazardName(event.target.value);
-	};
-
-	const hazardZoneStartDateChangeHandler = (event) => {
-		sethazardStartDate(event.target.value);
-	};
-
-	const hazardZoneEndDateChangeHandler = (event) => {
-		sethazardEndDate(event.target.value);
-	};
-
-	function addHazardZone() {
-		sethazardZones([
-			...hazardZones,
-			{
-				name: hazardName,
-				color: hazardColor,
-				startDate: hazardStartDate,
-				endDate: hazardEndDate,
-			},
-		]);
-	}
-
-	useEffect(() => {
-		console.log(hazardName);
-		console.log(hazardColor);
-		console.log(hazardStartDate);
-		console.log(hazardEndDate);
-	}, [hazardName, hazardColor]);
 
 	return (
 		<Grid container spacing={2} style={{ marginBottom: '60px' }}>
@@ -314,12 +423,7 @@ const Canvas = (props) => {
 								</label>
 							</ListItemIcon>
 						</ListItem>
-						{/* <ListItem style={{ padding: '0px' }} onClick={() => setimgSrc('')}>
-							<IconButton>
-								<DeleteIcon color="primary" fontSize="large" />
-							</IconButton>
-						</ListItem> */}
-						{editMode === true && (
+						{addMode === true && (
 							<ListItem
 								style={{ padding: '0px' }}
 								onClick={() => setfreeDraw(!freeDraw)}
@@ -333,7 +437,7 @@ const Canvas = (props) => {
 								</Tooltip>
 							</ListItem>
 						)}
-						{editMode === true && (
+						{addMode === true && (
 							<ListItem style={{ padding: '0px' }} onClick={clearStage}>
 								<Tooltip title="Clear">
 									<IconButton>
@@ -342,7 +446,7 @@ const Canvas = (props) => {
 								</Tooltip>
 							</ListItem>
 						)}
-						{editMode === true && freeDraw === false && (
+						{addMode === true && freeDraw === false && (
 							<ListItem style={{ padding: '0px' }} onClick={undoStage}>
 								<Tooltip title="Undo">
 									<IconButton>
@@ -376,7 +480,7 @@ const Canvas = (props) => {
 								</Tooltip>
 							</ListItem>
 						)}
-						{editMode === true && (
+						{addMode === true && (
 							<ListItem style={{ padding: '0px' }} onClick={undoStage}>
 								<Tooltip title="Done ?">
 									<IconButton>
@@ -401,30 +505,10 @@ const Canvas = (props) => {
 								marginRight: '60px',
 							}}
 						>
-							{editMode === true
+							{addMode === true
 								? 'Create Your Hazard Zone'
 								: 'Hazard Zone Monitoring'}
 						</Typography>
-					</Grid>
-					<Grid item xs={3}>
-						<div>
-							<FormControl style={{ width: '100%' }}>
-								<InputLabel id="demo-simple-select-label">
-									Select Hazard Zone
-								</InputLabel>
-								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									label="Days To Monitor"
-									//value={hazardZoneSelect}
-									//onChange={hazardZoneSelectChange}
-								>
-									{hazardZones.map((zone, index) => (
-										<MenuItem value={zone.name}>{zone.name}</MenuItem>
-									))}
-								</Select>
-							</FormControl>
-						</div>
 					</Grid>
 				</Grid>
 
@@ -437,7 +521,7 @@ const Canvas = (props) => {
 						position: 'relative',
 					}}
 				>
-					{freeDraw === false && (
+					{addMode === false && freeDraw === false && (
 						<Stage
 							width={714}
 							height={414}
@@ -447,7 +531,50 @@ const Canvas = (props) => {
 							style={{ cursor: 'pointer' }}
 						>
 							<Layer>
-								<URLImage src={imgSrc} />
+								<URLImage src={'https://api.reflective.ai/image' + imgSrc} />
+							</Layer>
+							<Layer>
+								{_.chunk(coordinates, 2).map((coord, i) => (
+									<Circle
+										ref={circleRef}
+										x={coord[0]}
+										y={coord[1]}
+										key={i}
+										radius={7}
+										fill="#3f50b5"
+										rotateEnabled={false}
+										draggable
+										onDragMove={(e) => {
+											handleCircleDrag(e, coord[0], coord[1]);
+										}}
+									/>
+								))}
+
+								<Line
+									closed
+									draggable
+									ref={polyRef}
+									stroke="#ba000d"
+									strokeWidth={3}
+									points={coordinates}
+									onDragEnd={handlePolyDrag}
+									onTransformEnd={handlePolyDrag}
+								/>
+								{/* {selected && <Transformer ref={trRef} rotateEnabled={false} />} */}
+							</Layer>
+						</Stage>
+					)}
+					{addMode === true && freeDraw === false && (
+						<Stage
+							width={714}
+							height={414}
+							onClick={stageClick}
+							ref={stageRefFree}
+							onMouseDown={handleMouseDownPoly}
+							style={{ cursor: 'pointer' }}
+						>
+							<Layer>
+								<URLImage src={'https://api.reflective.ai/image' + imgSrc} />
 							</Layer>
 							<Layer>
 								{_.chunk(points, 2).map((coord, i) => (
@@ -480,7 +607,7 @@ const Canvas = (props) => {
 							</Layer>
 						</Stage>
 					)}
-					{freeDraw === true && (
+					{addMode === true && freeDraw === true && (
 						<div>
 							<Stage
 								width={714}
@@ -492,7 +619,7 @@ const Canvas = (props) => {
 								style={{ cursor: 'pointer' }}
 							>
 								<Layer>
-									<URLImage src={imgSrc} />
+									<URLImage src={'https://api.reflective.ai/image' + imgSrc} />
 								</Layer>
 								<Layer>
 									{lines.map((line, i) => (
@@ -516,7 +643,93 @@ const Canvas = (props) => {
 					)}
 				</Paper>
 			</Grid>
-			{editMode === false ? (
+			{/* ///////////////////////////////////// Right Grid ///////////////////////////////////////////*/}
+			{/* //////////////////////////////////////Hazard Zone Metrics and Videos /////////////////////////////////*/}
+			{hazardZoneAvailable === true && addMode === false && (
+				<Grid item xs={6} sm={3} md={4}>
+					<Paper
+						style={{
+							height: '424px',
+							marginTop: '60px',
+							borderRadius: '10px',
+							padding: '20px',
+							minWidth: '150px',
+							position: 'relative',
+						}}
+						elevation={10}
+					>
+						{/* <Typography
+							variant="h5"
+							style={{ fontWeight: '600', textAlign: 'center' }}
+						>
+							Hazard Zones
+						</Typography> */}
+						<CanvasMetrics time={14} incidences={22} />
+						<Divider style={{ margin: '20px 0px' }} />
+						<div
+							style={{
+								maxHeight: '240px',
+								backgroundColor: 'white',
+								//overflow: 'auto',
+							}}
+						>
+							{zoneViolation.map((zone, index) => (
+								<Paper
+									style={{
+										height: '50px',
+										borderRadius: '10px',
+										width: '98%',
+										margin: 'auto',
+										marginBottom: '12px',
+										marginTop: '5px',
+									}}
+									elevation={6}
+									key={index}
+								>
+									<Grid container>
+										<Grid item xs={4}>
+											<ListItem
+												style={{ margin: '0px 0px 0px 10px', padding: '0px' }}
+												//onClick={() => setTool('pen')}
+											>
+												<Tooltip title="Play Video">
+													<IconButton
+														style={{
+															padding: '0px',
+															margin: '7px 0px 0px 10px',
+														}}
+													>
+														<PlayCircleFilledIcon
+															color="primary"
+															fontSize="large"
+														/>
+													</IconButton>
+												</Tooltip>
+											</ListItem>
+										</Grid>
+										<Grid
+											item
+											xs={4}
+											style={{ marginTop: '12px', fontSize: '18px' }}
+										>
+											{zone.name}
+										</Grid>
+										<Grid
+											item
+											xs={4}
+											style={{ marginTop: '12px', fontSize: '18px' }}
+										>
+											{zone.duration}
+										</Grid>
+									</Grid>
+								</Paper>
+							))}
+						</div>
+					</Paper>
+				</Grid>
+			)}{' '}
+			{/* //////////////////////////////////////Add Hazard Button ////////////////////////////////// */}
+			{addMode === false && hazardZoneAvailable === false && (
 				<Grid item xs={6} sm={3} md={4}>
 					<Paper
 						style={{
@@ -539,7 +752,7 @@ const Canvas = (props) => {
 							variant="contained"
 							color="primary"
 							onClick={() => {
-								seteditMode(true);
+								setaddMode(true);
 							}}
 							style={{
 								margin: '0',
@@ -554,14 +767,16 @@ const Canvas = (props) => {
 						</Button>{' '}
 					</Paper>
 				</Grid>
-			) : (
+			)}
+			{/* //////////////////////////////////////Add Hazard Zone Form ////////////////////////////////// */}
+			{addMode === true && hazardZoneAvailable === false && (
 				<Grid item xs={6} sm={3} md={4}>
 					<Paper
 						style={{
 							height: '424px',
 							marginTop: '60px',
 							borderRadius: '10px',
-							padding: '20px',
+							padding: '20px 8px',
 							minWidth: '150px',
 							position: 'relative',
 						}}
@@ -571,7 +786,7 @@ const Canvas = (props) => {
 							variant="h5"
 							style={{ fontWeight: '600', textAlign: 'center' }}
 						>
-							Hazard Zone 1
+							Edit Hazard Zone
 						</Typography>
 						<form
 							style={{ width: '100%', padding: '0px 22px' }}
@@ -591,33 +806,66 @@ const Canvas = (props) => {
 							<div style={{ marginTop: '30px' }}>
 								<Grid container spacing={3}>
 									<Grid item xs={6}>
-										<TextField
+										{/*<TextField
 											type="date"
 											style={{ width: '100%' }}
-											label="Start Date"
+											label="Monitoring Start Date"
 											InputLabelProps={{ shrink: true }}
 											name="startDate"
 											value={hazardStartDate}
 											onChange={hazardZoneStartDateChangeHandler}
-										></TextField>
+										></TextField> */}
+										<MuiPickersUtilsProvider utils={DateFnsUtils}>
+											<KeyboardDatePicker
+												margin="normal"
+												id="date-picker-dialog"
+												format="MM/dd/yyyy"
+												onChange={handleStartDateChange}
+												value={sDate}
+												KeyboardButtonProps={{
+													'aria-label': 'change date',
+												}}
+												variant="outlined"
+												//disabled={disableDate}
+												//minDate={startMin}
+												//maxDate={eDate}
+											/>
+										</MuiPickersUtilsProvider>
 									</Grid>
+
 									<Grid item xs={6}>
-										<TextField
+										{/*<TextField
 											type="date"
 											style={{ width: '100%' }}
-											label="End Date"
+											label="Monitoring End Date"
 											InputLabelProps={{ shrink: true }}
 											name="endDate"
 											value={hazardEndDate}
 											onChange={hazardZoneEndDateChangeHandler}
-										></TextField>
+										></TextField> */}
+										<MuiPickersUtilsProvider utils={DateFnsUtils}>
+											<KeyboardDatePicker
+												margin="normal"
+												id="date-picker-dialog"
+												format="MM/dd/yyyy"
+												onChange={handleEndDateChange}
+												value={eDate}
+												KeyboardButtonProps={{
+													'aria-label': 'change date',
+												}}
+												variant="outlined"
+												//disabled={disableDate}
+												//minDate={startMin}
+												//maxDate={eDate}
+											/>
+										</MuiPickersUtilsProvider>
 									</Grid>
 								</Grid>
 							</div>
 							<div style={{ marginTop: '30px' }}>
 								<FormControl style={{ width: '100%' }}>
 									<InputLabel id="demo-simple-select-label">
-										Select Hazard Zone Color
+										Select Zone Color
 									</InputLabel>
 									<Select
 										labelId="demo-simple-select-label"
@@ -635,10 +883,7 @@ const Canvas = (props) => {
 						<Button
 							variant="contained"
 							color="primary"
-							onClick={() => {
-								seteditMode(false);
-								addHazardZone();
-							}}
+							onClick={createHazardZoneClickHandler}
 							style={{
 								margin: '0',
 								position: 'absolute',
@@ -658,3 +903,45 @@ const Canvas = (props) => {
 };
 
 export default withRouter(Canvas);
+
+/* 	function addHazardZone() {
+		sethazardZones([
+			...hazardZones,
+			{
+				name: hazardName,
+				color: hazardColor,
+				startDate: hazardStartDate,
+				endDate: hazardEndDate,
+			},
+		]);
+	} */
+
+/* 	useEffect(() => {
+		console.log(hazardName);
+		console.log(hazardColor);
+		console.log(hazardStartDate);
+		console.log(hazardEndDate);
+	}, [hazardName, hazardColor]); */
+
+{
+	/* 					<Grid item xs={3}>
+						<div>
+							<FormControl style={{ width: '100%' }}>
+								<InputLabel id="demo-simple-select-label">
+									Select Hazard Zone
+								</InputLabel>
+								<Select
+									labelId="demo-simple-select-label"
+									id="demo-simple-select"
+									label="Days To Monitor"
+									//value={hazardZoneSelect}
+									//onChange={hazardZoneSelectChange}
+								>
+									{hazardZones.map((zone, index) => (
+										<MenuItem value={zone.name}>{zone.name}</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+						</div>
+					</Grid> */
+}

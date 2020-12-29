@@ -162,7 +162,7 @@ const Visual = (props) => {
 						history.push('/');
 					}
 					localStorage.setItem(str, JSON.stringify(res.data));
-					//console.log(res.data);
+					console.log(res.data);
 					setHat(res.data.hard_hat);
 					setPhy(res.data.physical_distancing);
 					setMask(res.data.mask);
