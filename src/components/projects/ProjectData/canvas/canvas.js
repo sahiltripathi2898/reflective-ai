@@ -30,11 +30,12 @@ import IconButton from '@material-ui/core/IconButton';
 import RestorePageIcon from '@material-ui/icons/RestorePage';
 import CancelIcon from '@material-ui/icons/Cancel';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-import CreateIcon from '@material-ui/icons/Create';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 import FormatColorResetIcon from '@material-ui/icons/FormatColorReset';
 import SwitchCameraIcon from '@material-ui/icons/SwitchCamera';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import EditIcon from '@material-ui/icons/Edit';
 
 import CanvasMetrics from './canvasMetrics';
 
@@ -99,6 +100,9 @@ const Canvas = (props) => {
 	/////// Video Mode
 	const [videoMode, setvideoMode] = useState(false);
 	const [videoSrc, setvideoSrc] = useState('');
+
+	//////// Edit Mode
+	const [editMode, seteditMode] = useState(false);
 
 	/////// Co-ordinates
 	const [points, setPoints] = useState([]);
@@ -168,6 +172,8 @@ const Canvas = (props) => {
 		}, */
 	]);
 
+	const [fire, setFire] = useState(false);
+
 	/////////////////////API calls
 	useEffect(() => {
 		const data = {
@@ -180,14 +186,12 @@ const Canvas = (props) => {
 		axios
 			.post('https://api.reflective.ai/hazard_zone', data)
 			.then((res) => {
-				//console.log(res.data);
+				console.log(res.data);
 				if (res.data.hazard_flag === 0) {
-					setaddMode(false);
 					sethazardZoneAvailable(false);
 				}
 				if (res.data.hazard_flag === 1) {
-					console.log('Running after sending the data');
-					setaddMode(false);
+					console.log('2');
 					sethazardZoneAvailable(true);
 					var curr = res.data.coordinates;
 					var stored = [];
@@ -201,7 +205,7 @@ const Canvas = (props) => {
 				setimgSrc(res.data.src);
 			})
 			.catch((err) => console.log(err));
-	}, [hazardZoneAvailable]);
+	}, [fire]);
 
 	////// Button Click Handlers
 	function createHazardZoneClickHandler() {
@@ -231,14 +235,17 @@ const Canvas = (props) => {
 			.post('https://api.reflective.ai/register_hazard_zone', newdata)
 			.then((res) => {
 				//console.log(res.data);
-				console.log('Changed API called with hazard zone');
+				console.log('1');
 			})
 			.catch((err) => {
 				console.log(err);
 			});
 
+		seteditMode(false);
 		setaddMode(false);
 		sethazardZoneAvailable(true);
+		setFire(!fire);
+		setPoints([]);
 	}
 
 	///////////// Upload Images and Edit button options///////////
@@ -424,6 +431,23 @@ const Canvas = (props) => {
 								</label>
 							</ListItemIcon>
 						</ListItem>
+						{hazardZoneAvailable === true && addMode === false && (
+							<ListItem
+								style={{ padding: '0px' }}
+								onClick={() => {
+									seteditMode(true);
+									setaddMode(true);
+									var curr = [...coordinates];
+									setPoints(curr);
+								}}
+							>
+								<Tooltip title="Edit Hazard Zone">
+									<IconButton>
+										<EditIcon color="primary" fontSize="large" />
+									</IconButton>
+								</Tooltip>
+							</ListItem>
+						)}
 						{addMode === true && (
 							<ListItem
 								style={{ padding: '0px' }}
@@ -464,7 +488,7 @@ const Canvas = (props) => {
 							>
 								<Tooltip title="Pen">
 									<IconButton>
-										<CreateIcon color="primary" fontSize="large" />
+										<BorderColorIcon color="primary" fontSize="large" />
 									</IconButton>
 								</Tooltip>
 							</ListItem>
@@ -632,6 +656,51 @@ const Canvas = (props) => {
 								</Layer>
 							</Stage>
 						)}
+					{/*/////////////////////////////////////////Edit the polygon ///////////////////*/}
+					{editMode === true && (
+						<Stage
+							width={714}
+							height={414}
+							onClick={stageClick}
+							ref={stageRefFree}
+							onMouseDown={handleMouseDownPoly}
+							style={{ cursor: 'pointer' }}
+						>
+							<Layer>
+								<URLImage src={'https://api.reflective.ai/image' + imgSrc} />
+							</Layer>
+							<Layer>
+								{_.chunk(points, 2).map((coord, i) => (
+									<Circle
+										ref={circleRef}
+										x={coord[0]}
+										y={coord[1]}
+										key={i}
+										radius={7}
+										fill="#3f50b5"
+										rotateEnabled={false}
+										draggable
+										onDragMove={(e) => {
+											handleCircleDrag(e, coord[0], coord[1]);
+										}}
+									/>
+								))}
+
+								<Line
+									closed
+									draggable
+									ref={polyRef}
+									stroke={hazardColor === '' ? '#ba000d' : hazardColor}
+									strokeWidth={3}
+									points={points}
+									onDragEnd={handlePolyDrag}
+									onTransformEnd={handlePolyDrag}
+								/>
+								{/* {selected && <Transformer ref={trRef} rotateEnabled={false} />} */}
+							</Layer>
+						</Stage>
+					)}
+					{/*/////////////////////////////////////////Editable and Drawable polygon ///////////////////*/}
 					{addMode === true &&
 						hazardZoneAvailable === false &&
 						videoMode === false &&
@@ -848,7 +917,7 @@ const Canvas = (props) => {
 				</Grid>
 			)}
 			{/* //////////////////////////////////////Add Hazard Zone Form ////////////////////////////////// */}
-			{addMode === true && hazardZoneAvailable === false && (
+			{addMode === true && (
 				<Grid item xs={6} sm={3} md={4}>
 					<Paper
 						style={{
