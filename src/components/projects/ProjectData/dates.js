@@ -344,7 +344,15 @@ export default function MaterialUIPickers(props) {
 						)}
 						{bID === '3' && <Team />}
 						{bID === '4' && (
-							<CanvasDraw cID={cameraID} sDate={sDate} eDate={eDate} />
+							<CanvasDraw
+								cID={cameraID}
+								sDate={sDate}
+								eDate={eDate}
+								startMinDate={startMin}
+								startMaxDate={eDate}
+								endMinDate={endMin}
+								endMaxDate={endMax}
+							/>
 						)}
 					</Grid>
 				</Grid>

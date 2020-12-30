@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Konva from 'konva';
+import ColorPicker from 'material-ui-color-picker';
 import { Stage, Layer, Line, Circle, Image, Text } from 'react-konva';
 import {
 	MuiPickersUtilsProvider,
@@ -90,7 +91,15 @@ class URLImage extends React.Component {
 //////////// Main Function/////////////////
 
 const Canvas = (props) => {
-	const { cID, sDate, eDate } = props;
+	const {
+		cID,
+		sDate,
+		eDate,
+		startMinDate,
+		startMaxDate,
+		endMinDate,
+		endMaxDate,
+	} = props;
 	/////// Drawing refs
 	const polyRef = React.useRef();
 	const circleRef = React.useRef();
@@ -124,7 +133,7 @@ const Canvas = (props) => {
 
 	////// Hazard Zone values
 	const [hazardName, sethazardName] = useState('');
-	const [hazardColor, sethazardColor] = useState('');
+	const [hazardColor, sethazardColor] = useState('#ba000d');
 	// Dates
 	const [hazardStartDate, setstartDate] = useState(new Date());
 	const [hazardEndDate, setendDate] = useState(new Date());
@@ -505,7 +514,7 @@ const Canvas = (props) => {
 								</Tooltip>
 							</ListItem>
 						)}
-						{addMode === true && (
+						{/*{addMode === true && (
 							<ListItem style={{ padding: '0px' }} onClick={undoStage}>
 								<Tooltip title="Done ?">
 									<IconButton>
@@ -513,7 +522,7 @@ const Canvas = (props) => {
 									</IconButton>
 								</Tooltip>
 							</ListItem>
-						)}
+						)} */}
 					</List>
 				</Paper>
 			</Grid>
@@ -954,15 +963,6 @@ const Canvas = (props) => {
 							<div style={{ marginTop: '30px' }}>
 								<Grid container spacing={3}>
 									<Grid item xs={6}>
-										{/*<TextField
-											type="date"
-											style={{ width: '100%' }}
-											label="Monitoring Start Date"
-											InputLabelProps={{ shrink: true }}
-											name="startDate"
-											value={hazardStartDate}
-											onChange={hazardZoneStartDateChangeHandler}
-										></TextField> */}
 										<MuiPickersUtilsProvider utils={DateFnsUtils}>
 											<KeyboardDatePicker
 												margin="normal"
@@ -974,23 +974,13 @@ const Canvas = (props) => {
 													'aria-label': 'change date',
 												}}
 												variant="outlined"
-												//disabled={disableDate}
-												//minDate={startMin}
-												//maxDate={eDate}
+												minDate={startMinDate}
+												maxDate={startMaxDate}
 											/>
 										</MuiPickersUtilsProvider>
 									</Grid>
 
 									<Grid item xs={6}>
-										{/*<TextField
-											type="date"
-											style={{ width: '100%' }}
-											label="Monitoring End Date"
-											InputLabelProps={{ shrink: true }}
-											name="endDate"
-											value={hazardEndDate}
-											onChange={hazardZoneEndDateChangeHandler}
-										></TextField> */}
 										<MuiPickersUtilsProvider utils={DateFnsUtils}>
 											<KeyboardDatePicker
 												margin="normal"
@@ -1002,15 +992,14 @@ const Canvas = (props) => {
 													'aria-label': 'change date',
 												}}
 												variant="outlined"
-												//disabled={disableDate}
-												//minDate={startMin}
-												//maxDate={eDate}
+												minDate={endMinDate}
+												maxDate={endMaxDate}
 											/>
 										</MuiPickersUtilsProvider>
 									</Grid>
 								</Grid>
 							</div>
-							<div style={{ marginTop: '30px' }}>
+							{/* 							<div style={{ marginTop: '30px' }}>
 								<FormControl style={{ width: '100%' }}>
 									<InputLabel id="demo-simple-select-label">
 										Select Zone Color
@@ -1026,6 +1015,15 @@ const Canvas = (props) => {
 										<MenuItem value={'blue'}>Blue</MenuItem>
 									</Select>
 								</FormControl>
+							</div> */}
+							<div style={{ marginTop: '30px' }}>
+								<ColorPicker
+									name="color"
+									defaultValue="Hazard Zone Color "
+									value={hazardColor}
+									onChange={(color) => sethazardColor(color)}
+									style={{ width: '100%' }}
+								/>
 							</div>
 						</form>
 						<Button
