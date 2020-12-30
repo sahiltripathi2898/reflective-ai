@@ -17,12 +17,7 @@ import {
 	ListItemIcon,
 	ListItem,
 	Tooltip,
-	ButtonGroup,
 	TextField,
-	InputLabel,
-	Select,
-	MenuItem,
-	FormControl,
 	Divider,
 } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
@@ -34,11 +29,11 @@ import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import FormatColorResetIcon from '@material-ui/icons/FormatColorReset';
 import SwitchCameraIcon from '@material-ui/icons/SwitchCamera';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import EditIcon from '@material-ui/icons/Edit';
 
 import CanvasMetrics from './canvasMetrics';
+import Spinner from '../../../spinner';
 
 ///////////// Uploaded image on Konva canvas
 class URLImage extends React.Component {
@@ -103,6 +98,8 @@ const Canvas = (props) => {
 	/////// Drawing refs
 	const polyRef = React.useRef();
 	const circleRef = React.useRef();
+
+	const [loading, setLoading] = useState(true);
 
 	const [selected, setSelected] = useState(false);
 
@@ -212,6 +209,7 @@ const Canvas = (props) => {
 					setCoordinates(stored);
 				}
 				setimgSrc(res.data.src);
+				setLoading(false);
 			})
 			.catch((err) => console.log(err));
 	}, [fire]);
@@ -402,6 +400,8 @@ const Canvas = (props) => {
 	const handleMouseUp = () => {
 		isDrawing.current = false;
 	};
+
+	if (loading) return <Spinner />;
 
 	return (
 		<Grid container spacing={2} style={{ marginBottom: '60px' }}>
