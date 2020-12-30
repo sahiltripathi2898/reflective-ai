@@ -96,8 +96,9 @@ const Canvas = (props) => {
 
 	const [selected, setSelected] = useState(false);
 
-	/////// Start Mode
-	const [start, setStart] = useState(true);
+	/////// Video Mode
+	const [videoMode, setvideoMode] = useState(false);
+	const [videoSrc, setvideoSrc] = useState('');
 
 	/////// Co-ordinates
 	const [points, setPoints] = useState([]);
@@ -174,17 +175,18 @@ const Canvas = (props) => {
 			camera_id: cID,
 			company_id: Number(localStorage.getItem('company_id')),
 		};
-		console.log(data);
+		//console.log(data);
 
 		axios
 			.post('https://api.reflective.ai/hazard_zone', data)
 			.then((res) => {
-				console.log(res.data);
+				//console.log(res.data);
 				if (res.data.hazard_flag === 0) {
 					setaddMode(false);
 					sethazardZoneAvailable(false);
 				}
 				if (res.data.hazard_flag === 1) {
+					console.log('Running after sending the data');
 					setaddMode(false);
 					sethazardZoneAvailable(true);
 					var curr = res.data.coordinates;
@@ -193,20 +195,16 @@ const Canvas = (props) => {
 						stored.push(curr[i][0]);
 						stored.push(curr[i][1]);
 					}
-					console.log(stored);
+					//console.log(stored);
 					setCoordinates(stored);
 				}
 				setimgSrc(res.data.src);
 			})
 			.catch((err) => console.log(err));
-	}, []);
+	}, [hazardZoneAvailable]);
 
 	////// Button Click Handlers
 	function createHazardZoneClickHandler() {
-		setaddMode(false);
-		setStart(false);
-		sethazardZoneAvailable(true);
-
 		var curr = [...points];
 		var finalCoordinates = [];
 		var pair = [];
@@ -219,7 +217,7 @@ const Canvas = (props) => {
 			i += 2;
 		}
 		/// Set points and everything to backend /register_hazard_zone
-		const data = {
+		const newdata = {
 			project_id: Number(localStorage.getItem('projectID')),
 			camera_id: cID,
 			company_id: Number(localStorage.getItem('company_id')),
@@ -229,15 +227,18 @@ const Canvas = (props) => {
 			end_date: hazardEndDate.toISOString().slice(0, 10) + ' 00:00:00',
 			coordinates: finalCoordinates,
 		};
-		console.log(data);
 		axios
-			.post('https://api.reflective.ai/register_hazard_zone', data)
+			.post('https://api.reflective.ai/register_hazard_zone', newdata)
 			.then((res) => {
-				console.log(res.data);
+				//console.log(res.data);
+				console.log('Changed API called with hazard zone');
 			})
 			.catch((err) => {
 				console.log(err);
 			});
+
+		setaddMode(false);
+		sethazardZoneAvailable(true);
 	}
 
 	///////////// Upload Images and Edit button options///////////
@@ -521,126 +522,201 @@ const Canvas = (props) => {
 						position: 'relative',
 					}}
 				>
-					{addMode === false && freeDraw === false && (
-						<Stage
-							width={714}
-							height={414}
-							onClick={stageClick}
-							ref={stageRefFree}
-							onMouseDown={handleMouseDownPoly}
-							style={{ cursor: 'pointer' }}
+					{videoMode === true && (
+						<div
+							style={{ width: '100%', height: '100%', position: 'relative' }}
 						>
-							<Layer>
-								<URLImage src={'https://api.reflective.ai/image' + imgSrc} />
-							</Layer>
-							<Layer>
-								{_.chunk(coordinates, 2).map((coord, i) => (
-									<Circle
-										ref={circleRef}
-										x={coord[0]}
-										y={coord[1]}
-										key={i}
-										radius={7}
-										fill="#3f50b5"
-										rotateEnabled={false}
-										draggable
-										onDragMove={(e) => {
-											handleCircleDrag(e, coord[0], coord[1]);
-										}}
-									/>
-								))}
-
-								<Line
-									closed
-									draggable
-									ref={polyRef}
-									stroke="#ba000d"
-									strokeWidth={3}
-									points={coordinates}
-									onDragEnd={handlePolyDrag}
-									onTransformEnd={handlePolyDrag}
+							{' '}
+							<video
+								width="100%"
+								height="99%"
+								controls={true}
+								poster={
+									'https://api.reflective.ai/media' +
+									'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg'
+								}
+								/*onClick={() => {
+										handleOpen();
+										setModalVideo(
+											'https://api.reflective.ai/media' +
+												phy.data_path
+										);
+									}} */
+								style={{
+									outline: 'none',
+									position: 'absolute',
+								}}
+							>
+								<source
+									src={
+										'https://api.reflective.ai/media' +
+										'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.mp4'
+									}
 								/>
-								{/* {selected && <Transformer ref={trRef} rotateEnabled={false} />} */}
-							</Layer>
-						</Stage>
+							</video>
+							<Button
+								variant="text"
+								color="primary"
+								style={{ position: 'absolute', right: '0' }}
+								onClick={() => {
+									setaddMode(false);
+									setvideoMode(false);
+								}}
+							>
+								<CancelIcon color="primary" fontSize="large" />
+							</Button>
+						</div>
 					)}
-					{addMode === true && freeDraw === false && (
-						<Stage
-							width={714}
-							height={414}
-							onClick={stageClick}
-							ref={stageRefFree}
-							onMouseDown={handleMouseDownPoly}
-							style={{ cursor: 'pointer' }}
-						>
-							<Layer>
-								<URLImage src={'https://api.reflective.ai/image' + imgSrc} />
-							</Layer>
-							<Layer>
-								{_.chunk(points, 2).map((coord, i) => (
-									<Circle
-										ref={circleRef}
-										x={coord[0]}
-										y={coord[1]}
-										key={i}
-										radius={7}
-										fill="#3f50b5"
-										rotateEnabled={false}
-										draggable
-										onDragMove={(e) => {
-											handleCircleDrag(e, coord[0], coord[1]);
-										}}
-									/>
-								))}
-
-								<Line
-									closed
-									draggable
-									ref={polyRef}
-									stroke="#ba000d"
-									strokeWidth={3}
-									points={points}
-									onDragEnd={handlePolyDrag}
-									onTransformEnd={handlePolyDrag}
-								/>
-								{/* {selected && <Transformer ref={trRef} rotateEnabled={false} />} */}
-							</Layer>
-						</Stage>
-					)}
-					{addMode === true && freeDraw === true && (
-						<div>
+					{/*//////////////////////// Display just the image and the polygon /////////////////*/}
+					{addMode === false &&
+						hazardZoneAvailable === true &&
+						videoMode === false &&
+						freeDraw === false && (
 							<Stage
 								width={714}
 								height={414}
-								onMouseDown={handleMouseDown}
-								onMousemove={handleMouseMove}
-								onMouseup={handleMouseUp}
-								ref={stageRef}
+								//onClick={stageClick}
+								ref={stageRefFree}
+								onMouseDown={handleMouseDownPoly}
+								//style={{ cursor: 'pointer' }}
+							>
+								<Layer>
+									<URLImage src={'https://api.reflective.ai/image' + imgSrc} />
+								</Layer>
+								<Layer>
+									{_.chunk(coordinates, 2).map((coord, i) => (
+										<Circle
+											ref={circleRef}
+											x={coord[0]}
+											y={coord[1]}
+											key={i}
+											radius={7}
+											fill="#3f50b5"
+											/* rotateEnabled={false}
+										draggable
+										onDragMove={(e) => {
+											handleCircleDrag(e, coord[0], coord[1]);
+										}} */
+										/>
+									))}
+
+									<Line
+										closed
+										//draggable
+										ref={polyRef}
+										stroke="#ba000d"
+										strokeWidth={3}
+										points={coordinates}
+										/* onDragEnd={handlePolyDrag}
+									onTransformEnd={handlePolyDrag} */
+									/>
+									{/* {selected && <Transformer ref={trRef} rotateEnabled={false} />} */}
+								</Layer>
+							</Stage>
+						)}
+					{/*////////////////////////////// Display just the image //////////////////////////////*/}
+					{addMode === false &&
+						hazardZoneAvailable === false &&
+						videoMode === false &&
+						freeDraw === false && (
+							<Stage
+								width={714}
+								height={414}
+								//onClick={stageClick}
+								ref={stageRefFree}
+								onMouseDown={handleMouseDownPoly}
+								//style={{ cursor: 'pointer' }}
+							>
+								<Layer>
+									<URLImage src={'https://api.reflective.ai/image' + imgSrc} />
+								</Layer>
+							</Stage>
+						)}
+					{addMode === true &&
+						hazardZoneAvailable === false &&
+						videoMode === false &&
+						freeDraw === false && (
+							<Stage
+								width={714}
+								height={414}
+								onClick={stageClick}
+								ref={stageRefFree}
+								onMouseDown={handleMouseDownPoly}
 								style={{ cursor: 'pointer' }}
 							>
 								<Layer>
 									<URLImage src={'https://api.reflective.ai/image' + imgSrc} />
 								</Layer>
 								<Layer>
-									{lines.map((line, i) => (
-										<Line
+									{_.chunk(points, 2).map((coord, i) => (
+										<Circle
+											ref={circleRef}
+											x={coord[0]}
+											y={coord[1]}
 											key={i}
-											points={line.points}
-											stroke="#df4b26"
-											strokeWidth={5}
-											tension={0.5}
-											lineCap="round"
-											globalCompositeOperation={
-												line.tool === 'eraser'
-													? 'destination-out'
-													: 'source-over'
-											}
+											radius={7}
+											fill="#3f50b5"
+											rotateEnabled={false}
+											draggable
+											onDragMove={(e) => {
+												handleCircleDrag(e, coord[0], coord[1]);
+											}}
 										/>
 									))}
+
+									<Line
+										closed
+										draggable
+										ref={polyRef}
+										stroke="#ba000d"
+										strokeWidth={3}
+										points={points}
+										onDragEnd={handlePolyDrag}
+										onTransformEnd={handlePolyDrag}
+									/>
+									{/* {selected && <Transformer ref={trRef} rotateEnabled={false} />} */}
 								</Layer>
 							</Stage>
-						</div>
-					)}
+						)}
+					{addMode === true &&
+						hazardZoneAvailable === false &&
+						videoMode === false &&
+						freeDraw === true && (
+							<div>
+								<Stage
+									width={714}
+									height={414}
+									onMouseDown={handleMouseDown}
+									onMousemove={handleMouseMove}
+									onMouseup={handleMouseUp}
+									ref={stageRef}
+									style={{ cursor: 'pointer' }}
+								>
+									<Layer>
+										<URLImage
+											src={'https://api.reflective.ai/image' + imgSrc}
+										/>
+									</Layer>
+									<Layer>
+										{lines.map((line, i) => (
+											<Line
+												key={i}
+												points={line.points}
+												stroke="#df4b26"
+												strokeWidth={5}
+												tension={0.5}
+												lineCap="round"
+												globalCompositeOperation={
+													line.tool === 'eraser'
+														? 'destination-out'
+														: 'source-over'
+												}
+											/>
+										))}
+									</Layer>
+								</Stage>
+							</div>
+						)}
 				</Paper>
 			</Grid>
 			{/* ///////////////////////////////////// Right Grid ///////////////////////////////////////////*/}
@@ -697,6 +773,9 @@ const Canvas = (props) => {
 														style={{
 															padding: '0px',
 															margin: '7px 0px 0px 10px',
+														}}
+														onClick={() => {
+															setvideoMode(true);
 														}}
 													>
 														<PlayCircleFilledIcon

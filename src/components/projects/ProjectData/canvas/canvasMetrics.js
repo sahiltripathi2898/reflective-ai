@@ -11,7 +11,7 @@ import statusimg from '../assets/status.jpg';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1,
-		marginTop: '20px',
+		marginTop: '40px',
 	},
 	paper: {
 		color: 'black',
@@ -26,7 +26,7 @@ function CanvasMetrics(props) {
 
 	const matches = useMediaQuery('(min-width:700px)');
 	const floatPic = matches ? 'right' : 'right';
-	const paperHeight = matches ? '110px' : '150px';
+	const paperHeight = matches ? '115px' : '150px';
 	return (
 		<div>
 			<Grid container spacing={3}>
@@ -53,7 +53,7 @@ function CanvasMetrics(props) {
 								variant="h5"
 								style={{
 									color: 'orange',
-									margin: '3px 0px 3px 0px',
+									margin: '42px 0px 3px 0px',
 
 									fontWeight: '600',
 								}}
@@ -95,7 +95,7 @@ function CanvasMetrics(props) {
 								variant="h5"
 								style={{
 									color: 'orange',
-									margin: '3px 0px 3px 0px',
+									margin: '10px 0px 3px 0px',
 
 									fontWeight: '600',
 								}}
