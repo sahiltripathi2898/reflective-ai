@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Konva from 'konva';
 import ColorPicker from 'material-ui-color-picker';
+import { HuePicker } from 'react-color';
 import { Stage, Layer, Line, Circle, Image, Text } from 'react-konva';
 import {
 	MuiPickersUtilsProvider,
@@ -95,6 +96,10 @@ const Canvas = (props) => {
 		endMinDate,
 		endMaxDate,
 	} = props;
+
+	useEffect(() => {
+		setLoading(true);
+	}, [cID, sDate, eDate]);
 	/////// Drawing refs
 	const polyRef = React.useRef();
 	const circleRef = React.useRef();
@@ -153,29 +158,47 @@ const Canvas = (props) => {
 
 	const [zoneViolation, setzoneViolation] = useState([
 		{
-			name: 'Zone 1',
+			name: 'Zone 1 Building 34/A New Zealand',
 			duration: '04:39 mins',
+			src:
+				'https://api.reflective.ai/media' +
+				'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg',
 		},
 		{
-			name: 'Zone 2',
+			name: 'Zone 2 Building 4/C Paris France',
 			duration: '01:11 mins',
+			src:
+				'https://api.reflective.ai/media' +
+				'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg',
 		},
 		{
-			name: 'Zone 3',
+			name: 'Zone 3 Building 34/A Sydney Australia',
 			duration: '00:20 mins',
-		},
-		/* 		{
-			name: 'Zone 3',
-			duration: '00:20 mins',
-		},
-		{
-			name: 'Zone 3',
-			duration: '00:20 mins',
+			src:
+				'https://api.reflective.ai/media' +
+				'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg',
 		},
 		{
-			name: 'Zone 3',
+			name: 'Zone 3 Building 34/A Sydney Australia',
 			duration: '00:20 mins',
-		}, */
+			src:
+				'https://api.reflective.ai/media' +
+				'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg',
+		},
+		{
+			name: 'Zone 3 Building 34/A Sydney Australia',
+			duration: '00:20 mins',
+			src:
+				'https://api.reflective.ai/media' +
+				'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg',
+		},
+		{
+			name: 'Zone 3 Building 34/A Sydney Australia',
+			duration: '00:20 mins',
+			src:
+				'https://api.reflective.ai/media' +
+				'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg',
+		},
 	]);
 
 	const [fire, setFire] = useState(false);
@@ -212,7 +235,7 @@ const Canvas = (props) => {
 				setLoading(false);
 			})
 			.catch((err) => console.log(err));
-	}, [fire]);
+	}, [fire, cID, sDate, eDate]);
 
 	////// Button Click Handlers
 	function createHazardZoneClickHandler() {
@@ -405,6 +428,9 @@ const Canvas = (props) => {
 
 	return (
 		<Grid container spacing={2} style={{ marginBottom: '60px' }}>
+			<Grid item xs={12} style={{ margin: '30px 0px', marginBottom: '15px' }}>
+				<CanvasMetrics time={14} incidences={22} />
+			</Grid>
 			<Grid item>
 				<Paper
 					style={{
@@ -806,7 +832,7 @@ const Canvas = (props) => {
 							height: '424px',
 							marginTop: '60px',
 							borderRadius: '10px',
-							padding: '20px',
+							padding: '7px',
 							minWidth: '150px',
 							position: 'relative',
 						}}
@@ -818,68 +844,48 @@ const Canvas = (props) => {
 						>
 							Hazard Zones
 						</Typography> */}
-						<CanvasMetrics time={14} incidences={22} />
-						<Divider style={{ margin: '20px 0px' }} />
+
+						{/* <Divider style={{ margin: '20px 0px' }} /> */}
 						<div
 							style={{
-								maxHeight: '240px',
+								maxHeight: '100%',
 								backgroundColor: 'white',
-								//overflow: 'auto',
+								overflow: 'auto',
 							}}
 						>
 							{zoneViolation.map((zone, index) => (
-								<Paper
-									style={{
-										height: '50px',
-										borderRadius: '10px',
-										width: '98%',
-										margin: 'auto',
-										marginBottom: '12px',
-										marginTop: '5px',
-									}}
-									elevation={6}
+								<div
 									key={index}
+									onClick={() => setvideoMode(true)}
+									style={{ cursor: 'pointer' }}
 								>
-									<Grid container>
-										<Grid item xs={4}>
-											<ListItem
-												style={{ margin: '0px 0px 0px 10px', padding: '0px' }}
-												//onClick={() => setTool('pen')}
-											>
-												<Tooltip title="Play Video">
-													<IconButton
-														style={{
-															padding: '0px',
-															margin: '7px 0px 0px 10px',
-														}}
-														onClick={() => {
-															setvideoMode(true);
-														}}
-													>
-														<PlayCircleFilledIcon
-															color="primary"
-															fontSize="large"
-														/>
-													</IconButton>
-												</Tooltip>
-											</ListItem>
+									<div
+										style={{
+											height: '64px',
+											borderRadius: '10px',
+											width: '98%',
+											margin: 'auto',
+											marginBottom: '12px',
+											marginTop: '5px',
+										}}
+									>
+										<Grid container spacing={1}>
+											<Grid item xs={4}>
+												<img width="100%" height="64px" src={zone.src}></img>
+											</Grid>
+											<Grid item xs={8} style={{ fontSize: '18px' }}>
+												<Typography
+													variant="body1"
+													style={{ fontWeight: '600' }}
+												>
+													{zone.name}
+												</Typography>
+												<Typography variant="body2">{zone.duration}</Typography>
+											</Grid>
 										</Grid>
-										<Grid
-											item
-											xs={4}
-											style={{ marginTop: '12px', fontSize: '18px' }}
-										>
-											{zone.name}
-										</Grid>
-										<Grid
-											item
-											xs={4}
-											style={{ marginTop: '12px', fontSize: '18px' }}
-										>
-											{zone.duration}
-										</Grid>
-									</Grid>
-								</Paper>
+									</div>
+									<Divider style={{ margin: '15px 0px' }} />
+								</div>
 							))}
 						</div>
 					</Paper>
@@ -1016,13 +1022,40 @@ const Canvas = (props) => {
 									</Select>
 								</FormControl>
 							</div> */}
-							<div style={{ marginTop: '30px' }}>
+							{/* 							<div style={{ marginTop: '30px' }}>
 								<ColorPicker
 									name="color"
 									defaultValue="Hazard Zone Color "
 									value={hazardColor}
 									onChange={(color) => sethazardColor(color)}
 									style={{ width: '100%' }}
+								/>
+							</div> */}
+							<div style={{ marginTop: '30px' }}>
+								<Grid container spacing={3} style={{ marginBottom: '6px' }}>
+									<Grid item xs={10}>
+										<Typography>Hazard Zone Color</Typography>
+									</Grid>
+									<Grid item xs={2}>
+										<div
+											style={{
+												width: '40px',
+												height: '20px',
+												backgroundColor: hazardColor,
+												right: '0',
+												borderRadius: '2px',
+											}}
+										></div>
+									</Grid>
+								</Grid>
+
+								<HuePicker
+									color={hazardColor}
+									onChange={(color) => {
+										console.log(color.hex);
+										sethazardColor(color.hex);
+									}}
+									width="100%"
 								/>
 							</div>
 						</form>

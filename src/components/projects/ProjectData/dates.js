@@ -146,7 +146,7 @@ export default function MaterialUIPickers(props) {
 	const [visible, setVisible] = useState(true);
 
 	useEffect(() => {
-		if (bID === '3' || bID === '4') setVisible(false);
+		if (bID === '3') setVisible(false);
 		else setVisible(true);
 	}, [bID]);
 

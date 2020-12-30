@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	paper: {
 		color: 'black',
 		borderRadius: '10px',
-		padding: '5px 5px 10px 5px',
+		padding: '10px 10px 15px 10px',
 	},
 }));
 
@@ -30,7 +30,7 @@ function CanvasMetrics(props) {
 	return (
 		<div>
 			<Grid container spacing={3}>
-				<Grid item lg={6} xs={12} md={6}>
+				<Grid item lg={3} xs={12} md={6}>
 					<Paper
 						className={classes.paper}
 						style={{ height: paperHeight }}
@@ -47,15 +47,14 @@ function CanvasMetrics(props) {
 								style={{ fontFamily: 'Roboto , sans-serif' }}
 							>
 								{' '}
-								Total Time
+								Total Time of Violations
 							</Typography>
 							<Typography
 								variant="h5"
 								style={{
 									color: 'orange',
-									margin: '42px 0px 3px 0px',
-
 									fontWeight: '600',
+									top: '0',
 								}}
 							>
 								{time}
@@ -72,7 +71,7 @@ function CanvasMetrics(props) {
 						</div>
 					</Paper>
 				</Grid>
-				<Grid item lg={6} xs={12} md={6}>
+				<Grid item lg={3} xs={12} md={6}>
 					<Paper
 						className={classes.paper}
 						style={{ height: paperHeight }}
@@ -89,14 +88,95 @@ function CanvasMetrics(props) {
 								style={{ fontFamily: 'Roboto , sans-serif' }}
 							>
 								{' '}
-								Total Incidences
+								Total Risk Score
 							</Typography>
 							<Typography
 								variant="h5"
 								style={{
 									color: 'orange',
-									margin: '10px 0px 3px 0px',
-
+									top: '0',
+									fontWeight: '600',
+								}}
+							>
+								{incidences}
+							</Typography>
+						</div>
+						<div style={{ float: floatPic, width: '30%', right: '0' }}>
+							<img
+								alt="risk-images"
+								src={statusimg}
+								width="40px"
+								height="40px"
+								style={{ float: floatPic }}
+							/>
+						</div>
+					</Paper>
+				</Grid>
+				<Grid item lg={3} xs={12} md={6}>
+					<Paper
+						className={classes.paper}
+						style={{ height: paperHeight }}
+						elevation={6}
+					>
+						<div
+							style={{
+								float: 'left',
+								width: '70%',
+							}}
+						>
+							<Typography
+								variant="h6"
+								style={{ fontFamily: 'Roboto , sans-serif' }}
+							>
+								{' '}
+								Today's Risk Score
+							</Typography>
+							<Typography
+								variant="h5"
+								style={{
+									color: 'orange',
+									top: '0',
+									fontWeight: '600',
+								}}
+							>
+								{incidences}
+							</Typography>
+						</div>
+						<div style={{ float: floatPic, width: '30%', right: '0' }}>
+							<img
+								alt="risk-images"
+								src={statusimg}
+								width="40px"
+								height="40px"
+								style={{ float: floatPic }}
+							/>
+						</div>
+					</Paper>
+				</Grid>
+				<Grid item lg={3} xs={12} md={6}>
+					<Paper
+						className={classes.paper}
+						style={{ height: paperHeight }}
+						elevation={6}
+					>
+						<div
+							style={{
+								float: 'left',
+								width: '70%',
+							}}
+						>
+							<Typography
+								variant="h6"
+								style={{ fontFamily: 'Roboto , sans-serif' }}
+							>
+								{' '}
+								Average People violating
+							</Typography>
+							<Typography
+								variant="h5"
+								style={{
+									color: 'orange',
+									top: '0',
 									fontWeight: '600',
 								}}
 							>
