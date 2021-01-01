@@ -97,9 +97,6 @@ const Canvas = (props) => {
 		endMaxDate,
 	} = props;
 
-	useEffect(() => {
-		setLoading(true);
-	}, [cID, sDate, eDate]);
 	/////// Drawing refs
 	const polyRef = React.useRef();
 	const circleRef = React.useRef();
@@ -120,6 +117,10 @@ const Canvas = (props) => {
 
 	/////// Co-ordinates from backend if hazard zone already present
 	const [coordinates, setCoordinates] = useState([]);
+
+	////// Image height and width to be scaled with
+	const [imgHeightRatio, setimgHeightRatio] = useState(0);
+	const [imgWidthRatio, setimgWidthRatio] = useState(0);
 
 	////// Image Source
 	const [imgSrc, setimgSrc] = useState('');
@@ -205,6 +206,17 @@ const Canvas = (props) => {
 
 	/////////////////////API calls
 	useEffect(() => {
+		setLoading(true);
+		sethazardName('');
+
+		sethazardName('');
+		sethazardColor('');
+		setaddMode(false);
+		seteditMode(false);
+		setfreeDraw(false);
+		sethazardZoneAvailable(false);
+	}, [cID, sDate, eDate]);
+	useEffect(() => {
 		const data = {
 			project_id: Number(localStorage.getItem('projectID')),
 			camera_id: cID,
@@ -216,6 +228,9 @@ const Canvas = (props) => {
 			.post('https://api.reflective.ai/hazard_zone', data)
 			.then((res) => {
 				console.log(res.data);
+				setimgWidthRatio(res.data.image_width / 720);
+				setimgHeightRatio(res.data.image_height / 420);
+
 				if (res.data.hazard_flag === 0) {
 					sethazardZoneAvailable(false);
 				}
@@ -224,11 +239,15 @@ const Canvas = (props) => {
 					sethazardZoneAvailable(true);
 					var curr = res.data.coordinates;
 					var stored = [];
+					var width = res.data.image_width / 720;
+					var height = res.data.image_height / 420;
+					console.log(width);
+					console.log(height);
 					for (var i = 0; i < curr.length; i++) {
-						stored.push(curr[i][0]);
-						stored.push(curr[i][1]);
+						stored.push(curr[i][0] / width);
+						stored.push(curr[i][1] / height);
 					}
-					//console.log(stored);
+					console.log(stored);
 					setCoordinates(stored);
 				}
 				setimgSrc(res.data.src);
@@ -239,17 +258,25 @@ const Canvas = (props) => {
 
 	////// Button Click Handlers
 	function createHazardZoneClickHandler() {
+		//// Scaling
+		var width = imgWidthRatio;
+		var height = imgHeightRatio;
+
 		var curr = [...points];
+		console.log(width);
+		console.log(height);
+		console.log(curr);
 		var finalCoordinates = [];
 		var pair = [];
 		//pair.push(curr[0]);
 		for (var i = 0; i < curr.length - 1; ) {
-			pair.push(curr[i]);
-			pair.push(curr[i + 1]);
+			pair.push(curr[i] * width);
+			pair.push(curr[i + 1] * height);
 			finalCoordinates.push(pair);
 			pair = [];
 			i += 2;
 		}
+		console.log(finalCoordinates);
 		/// Set points and everything to backend /register_hazard_zone
 		const newdata = {
 			project_id: Number(localStorage.getItem('projectID')),
@@ -264,7 +291,7 @@ const Canvas = (props) => {
 		axios
 			.post('https://api.reflective.ai/register_hazard_zone', newdata)
 			.then((res) => {
-				//console.log(res.data);
+				console.log(res.data);
 				console.log('1');
 			})
 			.catch((err) => {
@@ -772,7 +799,7 @@ const Canvas = (props) => {
 										closed
 										draggable
 										ref={polyRef}
-										stroke="#ba000d"
+										stroke={hazardColor === '' ? '#ba000d' : hazardColor}
 										strokeWidth={3}
 										points={points}
 										onDragEnd={handlePolyDrag}
@@ -806,7 +833,7 @@ const Canvas = (props) => {
 											<Line
 												key={i}
 												points={line.points}
-												stroke="#df4b26"
+												stroke={hazardColor === '' ? '#ba000d' : hazardColor}
 												strokeWidth={5}
 												tension={0.5}
 												lineCap="round"
@@ -838,17 +865,21 @@ const Canvas = (props) => {
 						}}
 						elevation={10}
 					>
-						{/* <Typography
+						<Typography
 							variant="h5"
-							style={{ fontWeight: '600', textAlign: 'center' }}
+							style={{
+								fontWeight: '600',
+								textAlign: 'center',
+								marginBottom: '15px',
+							}}
 						>
-							Hazard Zones
-						</Typography> */}
+							Alert Visuals
+						</Typography>
 
 						{/* <Divider style={{ margin: '20px 0px' }} /> */}
 						<div
 							style={{
-								maxHeight: '100%',
+								maxHeight: '85%',
 								backgroundColor: 'white',
 								overflow: 'auto',
 							}}
@@ -970,7 +1001,11 @@ const Canvas = (props) => {
 								<Grid container spacing={3}>
 									<Grid item xs={6}>
 										<MuiPickersUtilsProvider utils={DateFnsUtils}>
+											<label style={{ fontSize: '12px' }}>
+												Monitoring Start Date
+											</label>
 											<KeyboardDatePicker
+												style={{ margin: '5px 0px' }}
 												margin="normal"
 												id="date-picker-dialog"
 												format="MM/dd/yyyy"
@@ -988,7 +1023,11 @@ const Canvas = (props) => {
 
 									<Grid item xs={6}>
 										<MuiPickersUtilsProvider utils={DateFnsUtils}>
+											<label style={{ fontSize: '12px' }}>
+												Monitoring End Date
+											</label>
 											<KeyboardDatePicker
+												style={{ margin: '5px 0px' }}
 												margin="normal"
 												id="date-picker-dialog"
 												format="MM/dd/yyyy"
@@ -1041,7 +1080,8 @@ const Canvas = (props) => {
 											style={{
 												width: '40px',
 												height: '20px',
-												backgroundColor: hazardColor,
+												backgroundColor:
+													hazardColor === '' ? '#ba000d' : hazardColor,
 												right: '0',
 												borderRadius: '2px',
 											}}
@@ -1052,8 +1092,7 @@ const Canvas = (props) => {
 								<HuePicker
 									color={hazardColor}
 									onChange={(color) => {
-										console.log(color.hex);
-										sethazardColor(color.hex);
+										sethazardColor(`${color.hex}`);
 									}}
 									width="100%"
 								/>

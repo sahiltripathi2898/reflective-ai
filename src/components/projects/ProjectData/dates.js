@@ -294,6 +294,7 @@ export default function MaterialUIPickers(props) {
 											</Typography>
 											<MuiPickersUtilsProvider utils={DateFnsUtils}>
 												<KeyboardDatePicker
+													style={{ margin: '5px 0px' }}
 													margin="normal"
 													id="date-picker-dialog"
 													format="MM/dd/yyyy"
@@ -315,6 +316,7 @@ export default function MaterialUIPickers(props) {
 											</Typography>
 											<MuiPickersUtilsProvider utils={DateFnsUtils}>
 												<KeyboardDatePicker
+													style={{ margin: '5px 0px' }}
 													margin="normal"
 													id="date-picker-dialog"
 													format="MM/dd/yyyy"
