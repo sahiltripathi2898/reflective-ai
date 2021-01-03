@@ -19,6 +19,7 @@ import Team from './team';
 import Metrics from './metrics';
 import Visual from './visual';
 import CanvasDraw from './canvas/canvas';
+import CanvasTest from './canvas/canvastest';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -124,29 +125,14 @@ export default function MaterialUIPickers(props) {
 					);
 				}
 				setLoading(false);
-
-				/* // setting the 7 day difference
-
-				var diff = (eDate.getTime() - sDate.getTime()) / (1000 * 3600 * 24);
-
-				if (diff > 7) {
-					var newDate = new Date(res.data.cameras[0].end_date);
-					newDate.setDate(newDate.getDate() - 7);
-					setsDate(newDate);
-				}
-				if (diff <= 7) {
-					setsDate(new Date(res.data.cameras[0].start_date));
-				} */
 			})
 			.catch((err) => console.log(err));
 	}, []);
 
-	//const [help, sethelp] = useState(true)
-
 	const [visible, setVisible] = useState(true);
 
 	useEffect(() => {
-		if (bID === '3') setVisible(false);
+		if (bID === '3' || bID === '4' || bID === '5') setVisible(false);
 		else setVisible(true);
 	}, [bID]);
 
@@ -347,6 +333,17 @@ export default function MaterialUIPickers(props) {
 						{bID === '3' && <Team />}
 						{bID === '4' && (
 							<CanvasDraw
+								cID={cameraID}
+								sDate={sDate}
+								eDate={eDate}
+								startMinDate={startMin}
+								startMaxDate={eDate}
+								endMinDate={endMin}
+								endMaxDate={endMax}
+							/>
+						)}
+						{bID === '5' && (
+							<CanvasTest
 								cID={cameraID}
 								sDate={sDate}
 								eDate={eDate}

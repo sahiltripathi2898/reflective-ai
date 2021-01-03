@@ -30,6 +30,7 @@ const ProjectHome = (props) => {
 	const [btnB, setbtnB] = useState('#4ccceb');
 	const [btnC, setbtnC] = useState('#4ccceb');
 	const [btnD, setbtnD] = useState('#4ccceb');
+	const [btnE, setbtnE] = useState('#4ccceb');
 	// on click #4cebeb
 	// #4ccceb
 
@@ -76,6 +77,7 @@ const ProjectHome = (props) => {
 		setbtnB('#4ccceb');
 		setbtnC('#4ccceb');
 		setbtnD('#4ccceb');
+		setbtnE('#4ccceb');
 	}
 	function secondBtn() {
 		setbuttonId('2');
@@ -83,6 +85,7 @@ const ProjectHome = (props) => {
 		setbtnB('#4cebeb');
 		setbtnC('#4ccceb');
 		setbtnD('#4ccceb');
+		setbtnE('#4ccceb');
 	}
 	function thirdBtn() {
 		setbuttonId('3');
@@ -90,6 +93,7 @@ const ProjectHome = (props) => {
 		setbtnB('#4ccceb');
 		setbtnA('#4ccceb');
 		setbtnD('#4ccceb');
+		setbtnE('#4ccceb');
 	}
 	function fourthBtn() {
 		setbuttonId('4');
@@ -97,6 +101,15 @@ const ProjectHome = (props) => {
 		setbtnC('#4ccceb');
 		setbtnB('#4ccceb');
 		setbtnA('#4ccceb');
+		setbtnE('#4ccceb');
+	}
+	function fivthBtn() {
+		setbuttonId('5');
+		setbtnD('#4ccceb');
+		setbtnC('#4ccceb');
+		setbtnB('#4ccceb');
+		setbtnA('#4ccceb');
+		setbtnE('#4cebeb');
 	}
 
 	if (loading) return <Spinner />;
@@ -153,6 +166,9 @@ const ProjectHome = (props) => {
 					</Button>
 					<Button onClick={fourthBtn} style={{ backgroundColor: btnD }}>
 						Hazard Zones
+					</Button>
+					<Button onClick={fivthBtn} style={{ backgroundColor: btnE }}>
+						Hazard Zones 2
 					</Button>
 				</ButtonGroup>
 			</Container>

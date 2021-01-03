@@ -59,7 +59,7 @@ function CanvasVisuals() {
 								fontSize: '36px',
 							}}
 						>
-							Incident Visuals
+							Alert Visuals
 						</div>
 						<div
 							style={{
@@ -82,6 +82,114 @@ function CanvasVisuals() {
 								</Typography>
 							</Grid>
 							<Grid container spacing={2}>
+								<Grid
+									item
+									lg={4}
+									sm={6}
+									style={{ textAlign: 'center', marginTop: '20px' }}
+								>
+									<Paper className={classes.paper} elevation={5}>
+										<video
+											width="98%"
+											height="235"
+											controls={true}
+											poster={
+												'https://api.reflective.ai/media' +
+												'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg'
+											}
+											/*onClick={() => {
+															handleOpen();
+															setModalVideo(
+																'https://api.reflective.ai/media' +
+																	phy.data_path
+															);
+														}} */
+											style={{ outline: 'none', cursor: 'pointer' }}
+										>
+											<source
+												src={
+													'https://api.reflective.ai/media' +
+													'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.mp4'
+												}
+											/>
+										</video>
+										<Typography variant="h6">
+											{/* {phy.datetime.substring(0, 25)} */}
+										</Typography>
+									</Paper>
+								</Grid>
+								<Grid
+									item
+									lg={4}
+									sm={6}
+									style={{ textAlign: 'center', marginTop: '20px' }}
+								>
+									<Paper className={classes.paper} elevation={5}>
+										<video
+											width="98%"
+											height="235"
+											controls={true}
+											poster={
+												'https://api.reflective.ai/media' +
+												'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg'
+											}
+											/*onClick={() => {
+															handleOpen();
+															setModalVideo(
+																'https://api.reflective.ai/media' +
+																	phy.data_path
+															);
+														}} */
+											style={{ outline: 'none', cursor: 'pointer' }}
+										>
+											<source
+												src={
+													'https://api.reflective.ai/media' +
+													'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.mp4'
+												}
+											/>
+										</video>
+										<Typography variant="h6">
+											{/* {phy.datetime.substring(0, 25)} */}
+										</Typography>
+									</Paper>
+								</Grid>
+								<Grid
+									item
+									lg={4}
+									sm={6}
+									style={{ textAlign: 'center', marginTop: '20px' }}
+								>
+									<Paper className={classes.paper} elevation={5}>
+										<video
+											width="98%"
+											height="235"
+											controls={true}
+											poster={
+												'https://api.reflective.ai/media' +
+												'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg'
+											}
+											/*onClick={() => {
+															handleOpen();
+															setModalVideo(
+																'https://api.reflective.ai/media' +
+																	phy.data_path
+															);
+														}} */
+											style={{ outline: 'none', cursor: 'pointer' }}
+										>
+											<source
+												src={
+													'https://api.reflective.ai/media' +
+													'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.mp4'
+												}
+											/>
+										</video>
+										<Typography variant="h6">
+											{/* {phy.datetime.substring(0, 25)} */}
+										</Typography>
+									</Paper>
+								</Grid>
 								<Grid
 									item
 									lg={4}

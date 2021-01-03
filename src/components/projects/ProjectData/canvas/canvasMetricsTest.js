@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	paper: {
 		color: 'black',
 		borderRadius: '10px',
-		padding: '5px',
+		padding: '10px 10px 15px 10px',
 	},
 }));
 
@@ -30,8 +30,8 @@ function CanvasMetrics(props) {
 	return (
 		<div>
 			<Grid container spacing={3}>
-				<Grid item xs={12} md={6} lg={3}>
-					{/* 					<Paper
+				<Grid item xs={12} md={6}>
+					<Paper
 						className={classes.paper}
 						style={{ height: paperHeight }}
 						elevation={6}
@@ -69,52 +69,9 @@ function CanvasMetrics(props) {
 								style={{ float: floatPic }}
 							/>
 						</div>
-					</Paper> */}
-					<Paper
-						className={classes.paper}
-						style={{ height: paperHeight }}
-						elevation={6}
-					>
-						<div
-							style={{
-								width: '100%',
-							}}
-						>
-							<div style={{ width: '100%', height: '30px' }}>
-								<img
-									alt="risk-images"
-									src={statusimg}
-									width="30px"
-									height="30px"
-									style={{ float: floatPic }}
-								/>
-							</div>
-							<Typography
-								variant="h4"
-								style={{
-									color: 'orange',
-									fontWeight: '600',
-									textAlign: 'center',
-								}}
-							>
-								{time}
-							</Typography>
-							<Typography
-								variant="h6"
-								style={{
-									fontFamily: 'Roboto , sans-serif',
-									lineHeight: '1.4',
-									textAlign: 'center',
-									marginTop: '5px',
-								}}
-							>
-								{' '}
-								Total Time of Violations
-							</Typography>
-						</div>
 					</Paper>
 				</Grid>
-				<Grid item xs={12} md={6} lg={3}>
+				<Grid item xs={12} md={6}>
 					<Paper
 						className={classes.paper}
 						style={{ height: paperHeight }}
@@ -155,7 +112,7 @@ function CanvasMetrics(props) {
 						</div>
 					</Paper>
 				</Grid>
-				<Grid item xs={12} md={6} lg={3}>
+				<Grid item xs={12} md={6}>
 					<Paper
 						className={classes.paper}
 						style={{ height: paperHeight }}
@@ -196,7 +153,7 @@ function CanvasMetrics(props) {
 						</div>
 					</Paper>
 				</Grid>
-				<Grid item xs={12} md={6} lg={3}>
+				<Grid item xs={12} md={6}>
 					<Paper
 						className={classes.paper}
 						style={{ height: paperHeight }}

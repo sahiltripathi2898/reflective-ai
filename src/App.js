@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 // File Imports
-import Drawer from './components/drawer/drawer';
+import Drawer from './components/drawer/drawer'; ////////// Drawer component
 import Integration from './components/integrations/Integration';
 import ClientInteg from './components/integrations/client-integ/ClientInte';
 import ProfileSetting from './components/profile/Settings';
@@ -13,6 +13,7 @@ import ProjectTable from './components/projects/projectTable';
 import ResetPassword from './Login/Reset';
 import Project from './components/projects/ProjectData/Tabs';
 import CanvasDraw from './components/projects/ProjectData/canvas/canvas';
+import WorkerTest from './components/projects/ProjectData/test/workertest';
 
 import Protected from './ProtectedRoute';
 
@@ -22,6 +23,8 @@ const useStyles = makeStyles({
 		backgroundColor: '#f6f9ff',
 	},
 });
+
+/////////////  Each route has 2 components --- 1 is drawer and the other is the main component (except login , register , reset)
 
 function App() {
 	const classes = useStyles();
@@ -35,13 +38,13 @@ function App() {
 					<Route exact path="/register">
 						<Register />
 					</Route>
-					<Route exact path="/test">
-						<CanvasDraw />
-					</Route>
 					<Route exact path="/reset">
 						<ResetPassword />
 					</Route>
 					<Route exact path="/home">
+						<Protected cmp={<Drawer />} />
+					</Route>
+					<Route exact path="/home/test">
 						<Protected cmp={<Drawer />} />
 					</Route>
 					<Route exact path="/home/project">
@@ -61,6 +64,9 @@ function App() {
 				<Switch>
 					<Route exact path="/home">
 						<ProjectTable />
+					</Route>
+					<Route exact path="/home/test">
+						<WorkerTest />
 					</Route>
 					<Route exact path="/home/project">
 						<Project />
