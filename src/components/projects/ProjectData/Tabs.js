@@ -167,9 +167,9 @@ const ProjectHome = (props) => {
 					<Button onClick={fourthBtn} style={{ backgroundColor: btnD }}>
 						Hazard Zones
 					</Button>
-					<Button onClick={fivthBtn} style={{ backgroundColor: btnE }}>
+					{/* <Button onClick={fivthBtn} style={{ backgroundColor: btnE }}>
 						Hazard Zones 2
-					</Button>
+					</Button> */}
 				</ButtonGroup>
 			</Container>
 			<Dates bID={buttonId} />
