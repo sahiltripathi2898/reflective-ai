@@ -158,12 +158,21 @@ const Canvas = (props) => {
 	/////// Free Draw Mode
 	const [freeDraw, setfreeDraw] = useState(false);
 
+	////// Metrics Value
+	const [riskValue, setriskValue] = useState(0);
+	const [incidenceValue, setincidenceValue] = useState(0);
+
 	////// Hazard Zone values
 	const [hazardName, sethazardName] = useState('');
 	const [hazardColor, sethazardColor] = useState('#ba000d');
 	// Dates
 	const [hazardZoneCameraStartDate, setstartDate] = useState(new Date());
 	const [hazardZoneCameraEndDate, setendDate] = useState(new Date());
+
+	const [hazardZoneStartMinDate, sethazardZoneStartMinDate] = useState();
+	const [hazardZoneStartMaxDate, sethazardZoneStartMaxDate] = useState();
+	const [hazardZoneEndMinDate, sethazardZoneEndMinDate] = useState();
+	const [hazardZoneEndMaxDate, sethazardZoneEndMaxDate] = useState();
 
 	const hazardZoneColorChangeHandler = (event) => {
 		sethazardColor(event.target.value);
@@ -173,66 +182,12 @@ const Canvas = (props) => {
 		sethazardName(event.target.value);
 	};
 
-	/* 	const hazardZoneStartDateChangeHandler = (event) => {
-		sethazardStartDate(event.target.value);
-	};
-
-	const hazardZoneEndDateChangeHandler = (event) => {
-		sethazardEndDate(event.target.value);
-	}; */
-
-	const [zoneViolation, setzoneViolation] = useState([
-		{
-			name: 'Zone 1 Building 34/A New Zealand',
-			duration: '04:39 mins',
-			src:
-				'https://api.reflective.ai/media' +
-				'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg',
-		},
-		{
-			name: 'Zone 2 Building 4/C Paris France',
-			duration: '01:11 mins',
-			src:
-				'https://api.reflective.ai/media' +
-				'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg',
-		},
-		{
-			name: 'Zone 3 Building 34/A Sydney Australia',
-			duration: '00:20 mins',
-			src:
-				'https://api.reflective.ai/media' +
-				'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg',
-		},
-		{
-			name: 'Zone 3 Building 34/A Sydney Australia',
-			duration: '00:20 mins',
-			src:
-				'https://api.reflective.ai/media' +
-				'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg',
-		},
-		{
-			name: 'Zone 3 Building 34/A Sydney Australia',
-			duration: '00:20 mins',
-			src:
-				'https://api.reflective.ai/media' +
-				'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg',
-		},
-		{
-			name: 'Zone 3 Building 34/A Sydney Australia',
-			duration: '00:20 mins',
-			src:
-				'https://api.reflective.ai/media' +
-				'/home/ubuntu/Safety_Product/videos/1/4/2020-08-17 00:00:00/2020-08-17 05:37:34--sd_violations--142--43.jpg',
-		},
-	]);
-
 	const [fire, setFire] = useState(false);
 
 	/////////////////////API calls//////
 	useEffect(() => {
 		setLoading(true);
 		sethazardName('');
-
 		sethazardName('');
 		sethazardColor('');
 		setaddMode(false);
@@ -242,51 +197,108 @@ const Canvas = (props) => {
 	}, [cameraID]);
 
 	useEffect(() => {
-		const data = {
-			project_id: Number(localStorage.getItem('projectID')),
-			camera_id: cameraID,
-			company_id: Number(localStorage.getItem('company_id')),
-		};
-		console.log(data);
+		async function fetchData() {
+			const data = {
+				project_id: Number(localStorage.getItem('projectID')),
+				camera_id: cameraID,
+				company_id: Number(localStorage.getItem('company_id')),
+			};
+			console.log('1');
 
-		axios
-			.post('https://api.reflective.ai/hazard_zone', data)
-			.then((res) => {
-				console.log(res.data);
-				setimgWidthRatio(res.data.image_width / 720);
-				setimgHeightRatio(res.data.image_height / 420);
+			const res = await axios.post(
+				'https://api.reflective.ai/hazard_zone',
+				data
+			);
+			//console.log(res.data);
+			setimgWidthRatio(res.data.image_width / 720);
+			setimgHeightRatio(res.data.image_height / 420);
 
-				if (res.data.hazard_flag === 0) {
-					setdisableCameraDate(true);
-					sethazardZoneAvailable(false);
+			if (res.data.hazard_flag === 0) {
+				setdisableCameraDate(true);
+				sethazardZoneAvailable(false);
+				setLoading(false);
+			}
+			if (res.data.hazard_flag === 1) {
+				generateVideos(
+					new Date(res.data.start_date),
+					new Date(res.data.end_date)
+				);
+				hazardZoneDateSetter(res.data.end_date, res.data.start_date);
+				setdisableCameraDate(false);
+				sethazardZoneAvailable(true);
+				var curr = res.data.coordinates;
+				var stored = [];
+				var width = res.data.image_width / 720;
+				var height = res.data.image_height / 420;
+				for (var i = 0; i < curr.length; i++) {
+					stored.push(curr[i][0] / width);
+					stored.push(curr[i][1] / height);
 				}
-				if (res.data.hazard_flag === 1) {
-					generateVideos(
-						new Date(res.data.start_date),
-						new Date(res.data.end_date)
-					);
-					setdisableCameraDate(false);
-					setstartDate(new Date(res.data.start_date));
-					setendDate(new Date(res.data.end_date));
-					//console.log('2');
-					sethazardZoneAvailable(true);
-					var curr = res.data.coordinates;
-					var stored = [];
-					var width = res.data.image_width / 720;
-					var height = res.data.image_height / 420;
-					//console.log(width);
-					//console.log(height);
-					for (var i = 0; i < curr.length; i++) {
-						stored.push(curr[i][0] / width);
-						stored.push(curr[i][1] / height);
-					}
-					//console.log(stored);
-					setCoordinates(stored);
-				}
-				setimgSrc(res.data.src);
-			})
-			.catch((err) => console.log(err));
+				setCoordinates(stored);
+			}
+			setimgSrc(res.data.src);
+		}
+		fetchData();
 	}, [fire, cameraID]);
+
+	///////////// Hazard Zone Date Setter//////////
+	function hazardZoneDateSetter(end, start) {
+		if (end !== null) {
+			setendDate(new Date(end));
+		}
+		if (end === null) {
+			setendDate(new Date());
+		}
+		if (start !== null) {
+			setstartDate(new Date(start));
+			//setdisableCameraDate(false);
+		}
+		if (start === null) {
+			//setdisableCameraDate(true);
+		}
+
+		// end date null
+		if (end !== null) {
+			var currend = new Date(end);
+			var currstart = new Date(start);
+			var diff = (currend.getTime() - currstart.getTime()) / (1000 * 3600 * 24);
+
+			if (diff > 3) {
+				var curr = new Date(end);
+				curr.setDate(curr.getDate() - 3);
+				setstartDate(curr);
+			}
+			if (diff <= 3) {
+				setstartDate(currstart);
+			}
+
+			sethazardZoneEndMaxDate(currend);
+			sethazardZoneEndMinDate(currstart);
+
+			sethazardZoneStartMaxDate(currend);
+			sethazardZoneStartMinDate(currstart);
+		}
+
+		if (end === null) {
+			var currend = new Date();
+			var currstart = new Date(start);
+			var diff = (currend.getTime() - currstart.getTime()) / (1000 * 3600 * 24);
+
+			if (diff > 3) {
+				var curr = new Date();
+				curr.setDate(curr.getDate() - 3);
+				setstartDate(curr);
+			}
+			if (diff <= 3) {
+				setstartDate(currstart);
+			}
+			sethazardZoneEndMaxDate(currend);
+			sethazardZoneEndMinDate(currstart);
+
+			sethazardZoneStartMaxDate(currend);
+			sethazardZoneStartMinDate(currstart);
+		}
+	}
 
 	const generateVideos = async (start, end) => {
 		console.log('here');
@@ -307,6 +319,22 @@ const Canvas = (props) => {
 		);
 		console.log(res.data);
 		sethazardVideos(res.data.hazard_zone_violations);
+
+		const newData = {
+			project_id: Number(localStorage.getItem('projectID')),
+			camera_id: cameraID,
+			company_id: Number(localStorage.getItem('company_id')),
+			start_date: start.toISOString().slice(0, 10) + ' 00:00:00',
+			end_date: end.toISOString().slice(0, 10) + ' 00:00:00',
+		};
+		console.log(newData);
+		const metricsRes = await axios.post(
+			'https://api.reflective.ai/metrics/hazard_zone',
+			newData
+		);
+		setriskValue(metricsRes.data.risk_score);
+		setincidenceValue(metricsRes.data.total_incidences);
+		console.log(metricsRes.data);
 		setLoading(false);
 	};
 	////// Button Click Handlers
@@ -539,7 +567,7 @@ const Canvas = (props) => {
 		setOpen(true);
 	};
 
-	//Camera API call
+	////////////Camera API call/////////////
 	const [cameras, setCameras] = useState([]);
 
 	useEffect(() => {
@@ -564,14 +592,14 @@ const Canvas = (props) => {
 						res.data.cameras[0].start_date
 					);
 				}
-				setLoading(false);
+				//setLoading(false);
 			})
 			.catch((err) => console.log(err));
 	}, []);
 
 	function onClickHandler(index, end, start) {
 		setcameraID(index + 2);
-		console.log('1');
+		//console.log('1');
 		if (end !== null) {
 			setcameraEndDate(new Date(end));
 		}
@@ -684,57 +712,63 @@ const Canvas = (props) => {
 									</Select>
 								</FormControl>
 							</Grid>
-							<Grid item lg={4} md={6} xs={12}>
-								<Typography variant="h6" style={{ color: 'black' }}>
-									From Date:
-								</Typography>
-								<MuiPickersUtilsProvider utils={DateFnsUtils}>
-									<KeyboardDatePicker
-										style={{ margin: '5px 0px' }}
-										margin="normal"
-										id="date-picker-dialog"
-										format="MM/dd/yyyy"
-										onChange={hazardZoneCameraStartDateChangeHandler}
-										value={hazardZoneCameraStartDate}
-										KeyboardButtonProps={{
-											'aria-label': 'change date',
-										}}
-										variant="outlined"
-										disabled={disableCameraDate}
-										//minDate={cameraStartDate}
-										//maxDate={cameraEndDate}
-									/>
-								</MuiPickersUtilsProvider>
-							</Grid>
-							<Grid item lg={4} md={6} xs={12}>
-								<Typography variant="h6" style={{ color: 'black' }}>
-									To Date:
-								</Typography>
-								<MuiPickersUtilsProvider utils={DateFnsUtils}>
-									<KeyboardDatePicker
-										style={{ margin: '5px 0px' }}
-										margin="normal"
-										id="date-picker-dialog"
-										format="MM/dd/yyyy"
-										onChange={hazardZoneCameraEndDateChangeHandler}
-										value={hazardZoneCameraEndDate}
-										KeyboardButtonProps={{
-											'aria-label': 'change date',
-										}}
-										variant="outlined"
-										disabled={disableCameraDate}
-										//minDate={cameraStartDate}
-										//maxDate={cameraEndDate}
-									/>
-								</MuiPickersUtilsProvider>
-							</Grid>
+							{disableCameraDate === false && (
+								<Grid item lg={4} md={6} xs={12}>
+									<Typography variant="h6" style={{ color: 'black' }}>
+										From Date:
+									</Typography>
+									<MuiPickersUtilsProvider utils={DateFnsUtils}>
+										<KeyboardDatePicker
+											style={{ margin: '5px 0px' }}
+											margin="normal"
+											id="date-picker-dialog"
+											format="MM/dd/yyyy"
+											onChange={hazardZoneCameraStartDateChangeHandler}
+											value={hazardZoneCameraStartDate}
+											KeyboardButtonProps={{
+												'aria-label': 'change date',
+											}}
+											variant="outlined"
+											disabled={disableCameraDate}
+											minDate={hazardZoneStartMinDate}
+											maxDate={hazardZoneStartMaxDate}
+										/>
+									</MuiPickersUtilsProvider>
+								</Grid>
+							)}
+							{disableCameraDate === false && (
+								<Grid item lg={4} md={6} xs={12}>
+									<Typography variant="h6" style={{ color: 'black' }}>
+										To Date:
+									</Typography>
+									<MuiPickersUtilsProvider utils={DateFnsUtils}>
+										<KeyboardDatePicker
+											style={{ margin: '5px 0px' }}
+											margin="normal"
+											id="date-picker-dialog"
+											format="MM/dd/yyyy"
+											onChange={hazardZoneCameraEndDateChangeHandler}
+											value={hazardZoneCameraEndDate}
+											KeyboardButtonProps={{
+												'aria-label': 'change date',
+											}}
+											variant="outlined"
+											disabled={disableCameraDate}
+											minDate={hazardZoneEndMinDate}
+											maxDate={hazardZoneEndMaxDate}
+										/>
+									</MuiPickersUtilsProvider>
+								</Grid>
+							)}
 						</Grid>
 					</div>
 				</Paper>
 			</Grid>
-			<Grid item xs={12} style={{ margin: '30px 0px', marginBottom: '15px' }}>
-				<CanvasMetrics time={14} incidences={22} />
-			</Grid>
+			{disableCameraDate === false && (
+				<Grid item xs={12} style={{ margin: '30px 0px', marginBottom: '15px' }}>
+					<CanvasMetrics risk={riskValue} incidences={incidenceValue} />
+				</Grid>
+			)}
 			<Grid item>
 				<Paper
 					style={{
