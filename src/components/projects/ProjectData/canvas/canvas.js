@@ -1343,7 +1343,7 @@ const Canvas = (props) => {
 			)}{' '}
 			{/* //////////////////////////////////////Add Hazard Button ////////////////////////////////// */}
 			{addMode === false && hazardZoneAvailable === false && (
-				<Grid item xs={6} sm={3} md={4}>
+				<Grid item xs={6} sm={3} md={5}>
 					<Paper
 						style={{
 							height: '424px',
@@ -1383,7 +1383,7 @@ const Canvas = (props) => {
 			)}
 			{/* //////////////////////////////////////Add Hazard Zone Form ////////////////////////////////// */}
 			{addMode === true && (
-				<Grid item xs={6} sm={3} md={4}>
+				<Grid item xs={6} sm={3} md={5}>
 					<Paper
 						style={{
 							height: '424px',
