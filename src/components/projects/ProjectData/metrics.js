@@ -70,15 +70,13 @@ const Risk = (props) => {
 	const paperHeight = matches ? '180px' : '250px';
 
 	// Metric
-	const [metric, setMetric] = useState([]);
+
 	const [mask, setmask] = useState('0');
 	const [social_distancing, setsocial_distancing] = useState('0');
 	const [crowding, setcrowding] = useState('0');
 	const [hard_hat, sethard_hat] = useState('0');
 	const [vis_vest, setvis_vest] = useState('0');
 	const [occ, setocc] = useState('0');
-
-	const [curr, setCurr] = useState({});
 
 	useEffect(() => {
 		setLoading(true);
@@ -115,7 +113,7 @@ const Risk = (props) => {
 						window.alert('Session Timed Out ! Please login in again');
 						history.push('/');
 					}
-					setMetric(res.data);
+					//setMetric(res.data);
 					setmask(res.data.ppe_compliance_mask);
 					setsocial_distancing(res.data.ppe_compliance_sd);
 					setcrowding(res.data.crowding_violations);

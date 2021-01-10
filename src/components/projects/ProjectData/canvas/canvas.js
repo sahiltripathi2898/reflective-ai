@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Konva from 'konva';
-import ColorPicker from 'material-ui-color-picker';
+//import ColorPicker from 'material-ui-color-picker';
 import { makeStyles } from '@material-ui/core/styles';
 import { HuePicker } from 'react-color';
-import { Stage, Layer, Line, Circle, Image, Text } from 'react-konva';
+import { Stage, Layer, Line, Circle, Image } from 'react-konva';
 import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker,
@@ -35,7 +35,7 @@ import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import FormatColorResetIcon from '@material-ui/icons/FormatColorReset';
 import SwitchCameraIcon from '@material-ui/icons/SwitchCamera';
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+//import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import EditIcon from '@material-ui/icons/Edit';
 import VideocamIcon from '@material-ui/icons/Videocam';
 
@@ -159,24 +159,24 @@ const Canvas = (props) => {
 	const [freeDraw, setfreeDraw] = useState(false);
 
 	////// Metrics Value
-	const [riskValue, setriskValue] = useState(0);
-	const [incidenceValue, setincidenceValue] = useState(0);
+	//const [riskValue, setriskValue] = useState(0);
+	const [entries, setentries] = useState(0);
 
 	////// Hazard Zone values
 	const [hazardName, sethazardName] = useState('');
 	const [hazardColor, sethazardColor] = useState('#ba000d');
 	// Dates
-	const [hazardZoneCameraStartDate, setstartDate] = useState(new Date());
-	const [hazardZoneCameraEndDate, setendDate] = useState(new Date());
+	const [hazardZoneCameraStartDate, setstartDate] = useState();
+	const [hazardZoneCameraEndDate, setendDate] = useState();
 
 	const [hazardZoneStartMinDate, sethazardZoneStartMinDate] = useState();
 	const [hazardZoneStartMaxDate, sethazardZoneStartMaxDate] = useState();
 	const [hazardZoneEndMinDate, sethazardZoneEndMinDate] = useState();
 	const [hazardZoneEndMaxDate, sethazardZoneEndMaxDate] = useState();
 
-	const hazardZoneColorChangeHandler = (event) => {
+	/* 	const hazardZoneColorChangeHandler = (event) => {
 		sethazardColor(event.target.value);
-	};
+	}; */
 
 	const hazardZoneNameChangeHandler = (event) => {
 		sethazardName(event.target.value);
@@ -184,7 +184,7 @@ const Canvas = (props) => {
 
 	const [fire, setFire] = useState(false);
 
-	/////////////////////API calls//////
+	/////////////////////API calls////////////////
 	useEffect(() => {
 		setLoading(true);
 		sethazardName('');
@@ -194,7 +194,7 @@ const Canvas = (props) => {
 		seteditMode(false);
 		setfreeDraw(false);
 		sethazardZoneAvailable(false);
-	}, [cameraID]);
+	}, [cameraID, hazardZoneCameraStartDate, hazardZoneCameraEndDate]);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -203,15 +203,16 @@ const Canvas = (props) => {
 				camera_id: cameraID,
 				company_id: Number(localStorage.getItem('company_id')),
 			};
-			console.log('1');
-
+			console.log('Main Hazard Zone API');
+			console.log(data);
 			const res = await axios.post(
 				'https://api.reflective.ai/hazard_zone',
 				data
 			);
-			//console.log(res.data);
+			console.log(res.data);
 			setimgWidthRatio(res.data.image_width / 720);
 			setimgHeightRatio(res.data.image_height / 420);
+			setimgSrc(res.data.src);
 
 			if (res.data.hazard_flag === 0) {
 				setdisableCameraDate(true);
@@ -236,7 +237,6 @@ const Canvas = (props) => {
 				}
 				setCoordinates(stored);
 			}
-			setimgSrc(res.data.src);
 		}
 		fetchData();
 	}, [fire, cameraID]);
@@ -300,16 +300,20 @@ const Canvas = (props) => {
 		}
 	}
 
+	///////////// video and metrics api caller///////
 	const generateVideos = async (start, end) => {
-		console.log('here');
+		//console.log('Generate Video');
+		//console.log(start);
+		//console.log(end);
 		const data = {
 			project_id: Number(localStorage.getItem('projectID')),
 			jwt_token: localStorage.getItem('jwt_token'),
 			camera_id: cameraID,
 			company_id: Number(localStorage.getItem('company_id')),
 			start_date: start.toISOString().slice(0, 10) + ' 00:00:00',
-			end_date: end.toISOString().slice(0, 10) + ' 00:00:00',
+			end_date: end.toISOString().slice(0, 10) + ' 23:00:00',
 		};
+		console.log('Videos');
 		console.log(data);
 		setPoints([]);
 		setCoordinates([]);
@@ -325,16 +329,17 @@ const Canvas = (props) => {
 			camera_id: cameraID,
 			company_id: Number(localStorage.getItem('company_id')),
 			start_date: start.toISOString().slice(0, 10) + ' 00:00:00',
-			end_date: end.toISOString().slice(0, 10) + ' 00:00:00',
+			end_date: end.toISOString().slice(0, 10) + ' 23:00:00',
 		};
+		console.log('Hazard Metrics');
 		console.log(newData);
 		const metricsRes = await axios.post(
 			'https://api.reflective.ai/metrics/hazard_zone',
 			newData
 		);
-		setriskValue(metricsRes.data.risk_score);
-		setincidenceValue(metricsRes.data.total_incidences);
 		console.log(metricsRes.data);
+		//setriskValue(metricsRes.data.risk_score);
+		setentries(metricsRes.data.no_of_unauthorized_entries);
 		setLoading(false);
 	};
 	////// Button Click Handlers
@@ -366,7 +371,7 @@ const Canvas = (props) => {
 			name: hazardName,
 			color: hazardColor,
 			start_date: cameraStartDate.toISOString().slice(0, 10) + ' 00:00:00',
-			end_date: cameraEndDate.toISOString().slice(0, 10) + ' 00:00:00',
+			end_date: cameraEndDate.toISOString().slice(0, 10) + ' 23:00:00',
 			coordinates: finalCoordinates,
 		};
 		console.log(newdata);
@@ -417,14 +422,44 @@ const Canvas = (props) => {
 
 	///////////////// Date Change Handler///////////////////
 
+	const [go, setGo] = useState(true);
 	const hazardZoneCameraStartDateChangeHandler = (date) => {
 		setstartDate(date);
+		setGo((old) => !old);
 		//console.log(sDate)
 	};
 	const hazardZoneCameraEndDateChangeHandler = (date) => {
 		setendDate(date);
+		setGo((old) => !old);
 		//console.log(endDate)
 	};
+
+	useEffect(() => {
+		/* console.log(hazardZoneCameraStartDate);
+		console.log(hazardZoneCameraEndDate); */
+		async function fetchMetrics() {
+			const newData = {
+				project_id: Number(localStorage.getItem('projectID')),
+				camera_id: cameraID,
+				company_id: Number(localStorage.getItem('company_id')),
+				start_date:
+					hazardZoneCameraStartDate.toISOString().slice(0, 10) + ' 00:00:00',
+				end_date:
+					hazardZoneCameraEndDate.toISOString().slice(0, 10) + ' 23:00:00',
+			};
+			console.log('Hazard Metrics using date change');
+			console.log(newData);
+			const metricsRes = await axios.post(
+				'https://api.reflective.ai/metrics/hazard_zone',
+				newData
+			);
+			console.log(metricsRes.data);
+			//setriskValue(metricsRes.data.risk_score);
+			setentries(metricsRes.data.no_of_unauthorized_entries);
+			setLoading(false);
+		}
+		if (hazardZoneCameraStartDate !== undefined) fetchMetrics();
+	}, [go]);
 
 	/////////////////////// Draw polygon///////////////////
 
@@ -723,6 +758,13 @@ const Canvas = (props) => {
 											margin="normal"
 											id="date-picker-dialog"
 											format="MM/dd/yyyy"
+											/* onChange={() => {
+												hazardZoneCameraStartDateChangeHandler();
+												generateVideos(
+													hazardZoneCameraStartDate,
+													hazardZoneCameraEndDate
+												);
+											}} */
 											onChange={hazardZoneCameraStartDateChangeHandler}
 											value={hazardZoneCameraStartDate}
 											KeyboardButtonProps={{
@@ -766,7 +808,7 @@ const Canvas = (props) => {
 			</Grid>
 			{disableCameraDate === false && (
 				<Grid item xs={12} style={{ margin: '30px 0px', marginBottom: '15px' }}>
-					<CanvasMetrics risk={riskValue} incidences={incidenceValue} />
+					<CanvasMetrics /* risk={riskValue} */ incidences={entries} />
 				</Grid>
 			)}
 			<Grid item>

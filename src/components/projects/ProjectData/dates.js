@@ -66,7 +66,7 @@ export default function MaterialUIPickers(props) {
 	const [sDate, setsDate] = useState(new Date());
 	const [eDate, seteDate] = useState(new Date());
 
-	const [startMax, setstartMax] = useState();
+	//const [startMax, setstartMax] = useState();
 	const [startMin, setstartMin] = useState();
 	const [endMax, setendMax] = useState();
 	const [endMin, setendMin] = useState();
@@ -170,7 +170,7 @@ export default function MaterialUIPickers(props) {
 			setendMax(currend);
 			setendMin(currstart);
 
-			setstartMax(currend);
+			//setstartMax(currend);
 			setstartMin(currstart);
 		}
 
@@ -190,7 +190,7 @@ export default function MaterialUIPickers(props) {
 			setendMax(currend);
 			setendMin(currstart);
 
-			setstartMax(currend);
+			//setstartMax(currend);
 			setstartMin(currstart);
 		}
 	}

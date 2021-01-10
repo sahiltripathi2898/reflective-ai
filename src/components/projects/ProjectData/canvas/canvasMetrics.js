@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 function CanvasMetrics(props) {
 	const classes = useStyles();
-	const { risk, incidences } = props;
+	const { incidences } = props;
 
 	const matches = useMediaQuery('(min-width:700px)');
 	const floatPic = matches ? 'right' : 'right';
@@ -183,7 +183,7 @@ function CanvasMetrics(props) {
 								variant="h5"
 								style={{ fontFamily: 'Roboto , sans-serif' }}
 							>
-								Total Incidences
+								No. of Unauthorized Entries
 							</Typography>
 							<Typography
 								variant="h4"
@@ -208,7 +208,7 @@ function CanvasMetrics(props) {
 						</div>
 					</Paper>
 				</Grid>
-				<Grid item lg={6} xs={12} md={6}>
+				{/* <Grid item lg={6} xs={12} md={6}>
 					<Paper
 						className={classes.paper}
 						style={{ height: paperHeight }}
@@ -249,7 +249,7 @@ function CanvasMetrics(props) {
 							/>
 						</div>
 					</Paper>
-				</Grid>
+				</Grid> */}
 			</Grid>
 		</div>
 	);
