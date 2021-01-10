@@ -194,7 +194,11 @@ const Canvas = (props) => {
 		seteditMode(false);
 		setfreeDraw(false);
 		sethazardZoneAvailable(false);
-	}, [cameraID, hazardZoneCameraStartDate, hazardZoneCameraEndDate]);
+	}, [cameraID]);
+
+	useEffect(() => {
+		setLoading(true);
+	}, [hazardZoneCameraStartDate, hazardZoneCameraEndDate]);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -434,9 +438,9 @@ const Canvas = (props) => {
 		//console.log(endDate)
 	};
 
+	//// Metrics API
+
 	useEffect(() => {
-		/* console.log(hazardZoneCameraStartDate);
-		console.log(hazardZoneCameraEndDate); */
 		async function fetchMetrics() {
 			const newData = {
 				project_id: Number(localStorage.getItem('projectID')),
@@ -456,6 +460,33 @@ const Canvas = (props) => {
 			console.log(metricsRes.data);
 			//setriskValue(metricsRes.data.risk_score);
 			setentries(metricsRes.data.no_of_unauthorized_entries);
+			setLoading(false);
+		}
+		if (hazardZoneCameraStartDate !== undefined) fetchMetrics();
+	}, [go]);
+
+	//// Video API
+
+	useEffect(() => {
+		async function fetchMetrics() {
+			const data = {
+				project_id: Number(localStorage.getItem('projectID')),
+				jwt_token: localStorage.getItem('jwt_token'),
+				camera_id: cameraID,
+				company_id: Number(localStorage.getItem('company_id')),
+				start_date:
+					hazardZoneCameraStartDate.toISOString().slice(0, 10) + ' 00:00:00',
+				end_date:
+					hazardZoneCameraEndDate.toISOString().slice(0, 10) + ' 23:00:00',
+			};
+			console.log('Videos using date change');
+			console.log(data);
+			const res = await axios.post(
+				'https://api.reflective.ai/hazard/videos',
+				data
+			);
+			console.log(res.data);
+			sethazardVideos(res.data.hazard_zone_violations);
 			setLoading(false);
 		}
 		if (hazardZoneCameraStartDate !== undefined) fetchMetrics();
@@ -811,7 +842,7 @@ const Canvas = (props) => {
 					<CanvasMetrics /* risk={riskValue} */ incidences={entries} />
 				</Grid>
 			)}
-			{/* 			<Grid item>
+			{/*<Grid item>
 				<Paper
 					style={{
 						height: '424px',
@@ -1201,14 +1232,14 @@ const Canvas = (props) => {
 			{/* ///////////////////////////////////// Right Grid ///////////////////////////////////////////*/}
 			{/* //////////////////////////////////////Hazard Zone Metrics and Videos /////////////////////////////////*/}
 			{hazardZoneAvailable === true && addMode === false && (
-				<Grid item xs={6} sm={3} md={4}>
+				<Grid item xs={6} sm={3} md={5}>
 					<Paper
 						style={{
 							height: '424px',
 							marginTop: '60px',
 							borderRadius: '10px',
 							padding: '7px',
-							minWidth: '150px',
+							minWidth: '250px',
 							position: 'relative',
 						}}
 						elevation={10}
@@ -1271,7 +1302,7 @@ const Canvas = (props) => {
 											<Grid item xs={4}>
 												<div style={{ position: 'relative' }}>
 													<img
-														width="100%"
+														width="90%"
 														height="64px"
 														src={
 															'https://api.reflective.ai/media' +
