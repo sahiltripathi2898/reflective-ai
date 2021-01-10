@@ -811,7 +811,7 @@ const Canvas = (props) => {
 					<CanvasMetrics /* risk={riskValue} */ incidences={entries} />
 				</Grid>
 			)}
-			<Grid item>
+			{/* 			<Grid item>
 				<Paper
 					style={{
 						height: '424px',
@@ -920,7 +920,7 @@ const Canvas = (props) => {
 								</Tooltip>
 							</ListItem>
 						)}
-						{/*{addMode === true && (
+						{addMode === true && (
 							<ListItem style={{ padding: '0px' }} onClick={undoStage}>
 								<Tooltip title="Done ?">
 									<IconButton>
@@ -928,10 +928,10 @@ const Canvas = (props) => {
 									</IconButton>
 								</Tooltip>
 							</ListItem>
-						)} */}
+						)} 
 					</List>
 				</Paper>
-			</Grid>
+			</Grid> */}
 			<Grid item xl={7}>
 				<Grid container style={{ marginBottom: '10px' }}>
 					<Grid item xs={9}>
