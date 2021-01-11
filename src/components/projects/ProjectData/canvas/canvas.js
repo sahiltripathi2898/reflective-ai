@@ -963,7 +963,7 @@ const Canvas = (props) => {
 					</List>
 				</Paper>
 			</Grid> */}
-			<Grid item xl={7}>
+			<Grid item md={7} xs={12}>
 				<Grid container style={{ marginBottom: '10px' }}>
 					<Grid item xs={9}>
 						<Typography
@@ -1231,8 +1231,9 @@ const Canvas = (props) => {
 			</Grid>
 			{/* ///////////////////////////////////// Right Grid ///////////////////////////////////////////*/}
 			{/* //////////////////////////////////////Hazard Zone Metrics and Videos /////////////////////////////////*/}
+			<Grid item md={1}></Grid>
 			{hazardZoneAvailable === true && addMode === false && (
-				<Grid item xs={6} sm={3} md={5}>
+				<Grid item xs={6} sm={3} md={4}>
 					<Paper
 						style={{
 							height: '424px',
@@ -1343,7 +1344,7 @@ const Canvas = (props) => {
 			)}{' '}
 			{/* //////////////////////////////////////Add Hazard Button ////////////////////////////////// */}
 			{addMode === false && hazardZoneAvailable === false && (
-				<Grid item xs={6} sm={3} md={5}>
+				<Grid item xs={6} sm={3} md={4}>
 					<Paper
 						style={{
 							height: '424px',
@@ -1383,7 +1384,7 @@ const Canvas = (props) => {
 			)}
 			{/* //////////////////////////////////////Add Hazard Zone Form ////////////////////////////////// */}
 			{addMode === true && (
-				<Grid item xs={6} sm={3} md={5}>
+				<Grid item xs={6} sm={3} md={4}>
 					<Paper
 						style={{
 							height: '424px',
