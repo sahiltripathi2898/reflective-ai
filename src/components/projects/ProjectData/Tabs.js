@@ -159,13 +159,14 @@ const ProjectHome = (props) => {
 						Safety Metrics
 					</Button>
 					<Button onClick={secondBtn} style={{ backgroundColor: btnB }}>
-						Incident Visuals
+						Violation Visuals
+					</Button>
+
+					<Button onClick={fourthBtn} style={{ backgroundColor: btnD }}>
+						Hazard Zones
 					</Button>
 					<Button onClick={thirdBtn} style={{ backgroundColor: btnC }}>
 						Project Team
-					</Button>
-					<Button onClick={fourthBtn} style={{ backgroundColor: btnD }}>
-						Hazard Zones
 					</Button>
 					{/* <Button onClick={fivthBtn} style={{ backgroundColor: btnE }}>
 						Hazard Zones 2

@@ -232,7 +232,7 @@ const Visual = (props) => {
 									fontSize: '36px',
 								}}
 							>
-								Incident Visuals
+								Violation Visuals
 							</div>
 							<div
 								style={{
