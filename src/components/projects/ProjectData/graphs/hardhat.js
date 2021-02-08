@@ -131,13 +131,14 @@ function HardHatGraph2(props) {
 
 	if (loading) return <Spinner />;
 	return (
-		<div id="chart" style={{ marginTop: '25px' }}>
+		<div id="chart" style={{ marginTop: '20px', marginBottom: '20px' }}>
 			<Typography
 				variant="h6"
 				style={{
-					marginTop: '20px',
-					fontWeight: '600',
+					marginTop: '5px',
+					fontWeight: '400',
 					marginBottom: '20px',
+					fontSize: '1rem',
 				}}
 			>
 				PPE Compliance - Hard Hat

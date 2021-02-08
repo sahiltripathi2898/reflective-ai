@@ -31,7 +31,7 @@ function CanvasMetrics(props) {
 
 	const matches = useMediaQuery('(min-width:700px)');
 	const floatPic = matches ? 'right' : 'right';
-	const paperHeight = matches ? '180px' : '250px';
+	const paperHeight = matches ? '125px' : '125px';
 	return (
 		<div>
 			<Grid container spacing={3}>
@@ -181,7 +181,11 @@ function CanvasMetrics(props) {
 						>
 							<Typography
 								variant="h5"
-								style={{ fontFamily: 'Roboto , sans-serif' }}
+								style={{
+									fontFamily: 'Roboto , sans-serif',
+									fontWeight: '400',
+									fontSize: '1rem',
+								}}
 							>
 								No. of Unauthorized Entries
 							</Typography>
@@ -190,7 +194,7 @@ function CanvasMetrics(props) {
 								style={{
 									color: 'orange',
 									margin: '3px 0px 3px 0px',
-									fontSize: '30px',
+									fontSize: '1.5rem',
 									fontWeight: '600',
 								}}
 							>

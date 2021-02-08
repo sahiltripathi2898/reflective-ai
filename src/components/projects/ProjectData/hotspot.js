@@ -78,15 +78,16 @@ function Hotspot(props) {
 			<Typography
 				variant="h4"
 				style={{
-					marginBottom: '5px',
+					marginBottom: '20px',
 					marginTop: '30px',
 					fontFamily: 'Roboto , sans-serif',
-					fontWeight: '600',
+					fontWeight: '500',
+					fontSize: '1.5rem',
 				}}
 			>
 				Hotspot Analysis
 			</Typography>
-			<div
+			{/* 			<div
 				style={{
 					height: '9px',
 					width: '320px',
@@ -94,7 +95,7 @@ function Hotspot(props) {
 					borderRadius: '10px',
 					marginBottom: '25px',
 				}}
-			></div>
+			></div> */}
 			<Paper
 				style={{ height: '52vw', marginBottom: '50px', padding: '20px' }}
 				elevation={10}

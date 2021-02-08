@@ -214,7 +214,6 @@ const Visual = (props) => {
 						style={{
 							textAlign: 'center',
 							marginTop: '50px',
-							fontWeight: '600',
 						}}
 					>
 						No Observation
@@ -226,15 +225,14 @@ const Visual = (props) => {
 						<Grid item lg={5} xs={12}>
 							<div
 								style={{
-									marginBottom: '5px',
 									fontFamily: 'Roboto , sans-serif',
-									fontWeight: '600',
-									fontSize: '36px',
+									fontWeight: '500',
+									fontSize: '1.5rem',
 								}}
 							>
 								Violation Visuals
 							</div>
-							<div
+							{/* <div
 								style={{
 									height: '9px',
 									width: '310px',
@@ -242,7 +240,7 @@ const Visual = (props) => {
 									borderRadius: '10px',
 									marginBottom: '25px',
 								}}
-							></div>
+							></div> */}
 						</Grid>
 						{/* <Grid item lg={7} xs={12}>
 							<Container className={classes.bg}>
@@ -293,7 +291,11 @@ const Visual = (props) => {
 									<Grid item xs={12}>
 										<Typography
 											variant="h5"
-											style={{ marginTop: '40px', fontWeight: '600' }}
+											style={{
+												marginTop: '35px',
+												fontWeight: '400',
+												fontSize: '1rem',
+											}}
 										>
 											Physical Distancing Violations
 										</Typography>
@@ -346,7 +348,11 @@ const Visual = (props) => {
 									<Grid item xs={12}>
 										<Typography
 											variant="h5"
-											style={{ marginTop: '40px', fontWeight: '600' }}
+											style={{
+												marginTop: '35px',
+												fontWeight: '400',
+												fontSize: '1rem',
+											}}
 										>
 											Mask Violations
 										</Typography>
@@ -399,7 +405,11 @@ const Visual = (props) => {
 									<Grid item xs={12}>
 										<Typography
 											variant="h5"
-											style={{ marginTop: '40px', fontWeight: '600' }}
+											style={{
+												marginTop: '35px',
+												fontWeight: '400',
+												fontSize: '1rem',
+											}}
 										>
 											PPE Compliance - Hard Hat (Violations)
 										</Typography>
@@ -452,7 +462,11 @@ const Visual = (props) => {
 									<Grid item xs={12}>
 										<Typography
 											variant="h5"
-											style={{ marginTop: '40px', fontWeight: '600' }}
+											style={{
+												marginTop: '35px',
+												fontWeight: '400',
+												fontSize: '1rem',
+											}}
 										>
 											PPE Compliance - High Viz Vest (Violations)
 										</Typography>

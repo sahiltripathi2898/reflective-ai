@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	paper: {
 		color: 'black',
-		height: '220px',
+		height: '125px',
 		borderRadius: '10px',
 		padding: '30px 20px 30px 20px',
 	},
@@ -67,7 +67,7 @@ const Risk = (props) => {
 
 	const matches = useMediaQuery('(min-width:700px)');
 	const floatPic = matches ? 'right' : 'right';
-	const paperHeight = matches ? '180px' : '250px';
+	const paperHeight = matches ? '125px' : '125px';
 
 	// Metric
 
@@ -149,15 +149,16 @@ const Risk = (props) => {
 						<Typography
 							variant="h4"
 							style={{
-								marginBottom: '5px',
+								marginBottom: '20px',
 								marginTop: '20px',
 								fontFamily: 'Roboto , sans-serif',
-								fontWeight: '600',
+								fontWeight: '500',
+								fontSize: '1.5rem',
 							}}
 						>
 							Alerts
 						</Typography>
-						<div
+						{/* <div
 							style={{
 								height: '9px',
 								width: '150px',
@@ -165,7 +166,7 @@ const Risk = (props) => {
 								borderRadius: '10px',
 								marginBottom: '25px',
 							}}
-						></div>
+						></div> */}
 						<Grid container spacing={3}>
 							<Grid item lg={6} xs={12} md={6}>
 								<Paper
@@ -181,7 +182,11 @@ const Risk = (props) => {
 									>
 										<Typography
 											variant="h5"
-											style={{ fontFamily: 'Roboto , sans-serif' }}
+											style={{
+												fontFamily: 'Roboto , sans-serif',
+												fontWeight: '400',
+												fontSize: '1rem',
+											}}
 										>
 											{' '}
 											Project Status
@@ -192,6 +197,7 @@ const Risk = (props) => {
 												color: '#36c95e',
 												margin: '3px 0px 3px 0px',
 												fontWeight: '600',
+												fontSize: '1.5rem',
 											}}
 										>
 											Low Risk
@@ -214,15 +220,16 @@ const Risk = (props) => {
 						<Typography
 							variant="h4"
 							style={{
-								marginBottom: '5px',
-								marginTop: '20px',
+								marginBottom: '20px',
+								marginTop: '30px',
 								fontFamily: 'Roboto , sans-serif',
-								fontWeight: '600',
+								fontWeight: '500',
+								fontSize: '1.5rem',
 							}}
 						>
 							Safety Metrics
 						</Typography>
-						<div
+						{/* <div
 							style={{
 								height: '9px',
 								width: '250px',
@@ -230,7 +237,7 @@ const Risk = (props) => {
 								borderRadius: '10px',
 								marginBottom: '25px',
 							}}
-						></div>
+						></div> */}
 						<Grid container spacing={3}>
 							{mask !== null && (
 								<Grid item lg={6} xs={12} md={6}>
@@ -247,7 +254,11 @@ const Risk = (props) => {
 										>
 											<Typography
 												variant="h5"
-												style={{ fontFamily: 'Roboto , sans-serif' }}
+												style={{
+													fontFamily: 'Roboto , sans-serif',
+													fontWeight: '400',
+													fontSize: '1rem',
+												}}
 											>
 												{' '}
 												PPE Compliance - Face Mask (%)
@@ -258,6 +269,7 @@ const Risk = (props) => {
 													color: 'orange',
 													margin: '3px 0px 3px 0px',
 													fontWeight: '600',
+													fontSize: '1.5rem',
 												}}
 											>
 												{mask}
@@ -291,7 +303,11 @@ const Risk = (props) => {
 										>
 											<Typography
 												variant="h5"
-												style={{ fontFamily: 'Roboto , sans-serif' }}
+												style={{
+													fontFamily: 'Roboto , sans-serif',
+													fontWeight: '400',
+													fontSize: '1rem',
+												}}
 											>
 												Physical Distancing Violations
 											</Typography>
@@ -302,6 +318,7 @@ const Risk = (props) => {
 													color: 'orange',
 													margin: '3px 0px 3px 0px',
 													fontWeight: '600',
+													fontSize: '1.5rem',
 												}}
 											>
 												{social_distancing}
@@ -334,7 +351,11 @@ const Risk = (props) => {
 										>
 											<Typography
 												variant="h5"
-												style={{ fontFamily: 'Roboto , sans-serif' }}
+												style={{
+													fontFamily: 'Roboto , sans-serif',
+													fontWeight: '400',
+													fontSize: '1rem',
+												}}
 											>
 												PPE Compliance - Hard Hat (%)
 											</Typography>
@@ -345,6 +366,7 @@ const Risk = (props) => {
 													color: 'orange',
 													margin: '3px 0px 3px 0px',
 													fontWeight: '600',
+													fontSize: '1.5rem',
 												}}
 											>
 												{hard_hat}
@@ -377,7 +399,11 @@ const Risk = (props) => {
 										>
 											<Typography
 												variant="h5"
-												style={{ fontFamily: 'Roboto , sans-serif' }}
+												style={{
+													fontFamily: 'Roboto , sans-serif',
+													fontWeight: '400',
+													fontSize: '1rem',
+												}}
 											>
 												PPE Compliance - High Viz Vest (%)
 											</Typography>
@@ -388,6 +414,7 @@ const Risk = (props) => {
 													color: 'orange',
 													margin: '3px 0px 3px 0px',
 													fontWeight: '600',
+													fontSize: '1.5rem',
 												}}
 											>
 												{vis_vest}
@@ -420,7 +447,11 @@ const Risk = (props) => {
 										>
 											<Typography
 												variant="h5"
-												style={{ fontFamily: 'Roboto , sans-serif' }}
+												style={{
+													fontFamily: 'Roboto , sans-serif',
+													fontWeight: '400',
+													fontSize: '1rem',
+												}}
 											>
 												Crowding Violations
 											</Typography>
@@ -430,7 +461,7 @@ const Risk = (props) => {
 												style={{
 													color: 'orange',
 													margin: '3px 0px 3px 0px',
-													fontSize: '30px',
+													fontSize: '1.5rem',
 													fontWeight: '600',
 												}}
 											>
@@ -465,7 +496,11 @@ const Risk = (props) => {
 										>
 											<Typography
 												variant="h5"
-												style={{ fontFamily: 'Roboto , sans-serif' }}
+												style={{
+													fontFamily: 'Roboto , sans-serif',
+													fontWeight: '400',
+													fontSize: '1rem',
+												}}
 											>
 												Occupancy Maximum
 											</Typography>
@@ -474,7 +509,7 @@ const Risk = (props) => {
 												style={{
 													color: 'orange',
 													margin: '3px 0px 3px 0px',
-													fontSize: '30px',
+													fontSize: '1.5rem',
 													fontWeight: '600',
 												}}
 											>
@@ -505,14 +540,14 @@ const Risk = (props) => {
 										variant="h4"
 										style={{
 											marginTop: '30px',
-											marginBottom: '5px',
 											fontFamily: 'Roboto , sans-serif',
-											fontWeight: '600',
+											fontWeight: '500',
+											fontSize: '1.5rem',
 										}}
 									>
 										Safety Metrics By Date
 									</Typography>
-									<div
+									{/* <div
 										style={{
 											height: '9px',
 											width: '360px',
@@ -520,7 +555,7 @@ const Risk = (props) => {
 											borderRadius: '10px',
 											marginBottom: '40px',
 										}}
-									></div>
+									></div> */}
 									{hard_hat !== null && (
 										<HardHatGraph cID={cID} sDate={sDate} eDate={eDate} />
 									)}

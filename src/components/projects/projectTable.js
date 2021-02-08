@@ -106,9 +106,10 @@ const Projects = (props) => {
 						style={{
 							textAlign: 'center',
 							marginBottom: '30px',
-							fontWeight: '600',
+							fontWeight: '400',
 							letterSpacing: '1px',
 							fontFamily: 'sans-serif',
+							fontSize: '2.5rem',
 						}}
 					>
 						Project List

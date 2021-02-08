@@ -118,10 +118,18 @@ const ProjectHome = (props) => {
 		<div style={{ width: '100%' }}>
 			<div style={{ marginTop: '85px', marginLeft: '20px', display: 'flex' }}>
 				<div>
-					<Typography variant="h5" style={{ fontWeight: '600' }}>
+					<Typography
+						variant="h5"
+						style={{ fontWeight: '600', fontSize: '1rem' }}
+					>
 						{project_name}
 					</Typography>
-					<Typography variant="h6">{project_address}</Typography>
+					<Typography
+						variant="h6"
+						style={{ fontWeight: '400', fontSize: '1rem' }}
+					>
+						{project_address}
+					</Typography>
 				</div>
 				<div>
 					{/* <Paper

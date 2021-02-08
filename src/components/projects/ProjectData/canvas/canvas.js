@@ -780,7 +780,14 @@ const Canvas = (props) => {
 							</Grid>
 							{disableCameraDate === false && (
 								<Grid item lg={4} md={6} xs={12}>
-									<Typography variant="h6" style={{ color: 'black' }}>
+									<Typography
+										variant="h6"
+										style={{
+											color: 'black',
+											fontSize: '1rem',
+											fontWeight: '400',
+										}}
+									>
 										From Date:
 									</Typography>
 									<MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -811,7 +818,14 @@ const Canvas = (props) => {
 							)}
 							{disableCameraDate === false && (
 								<Grid item lg={4} md={6} xs={12}>
-									<Typography variant="h6" style={{ color: 'black' }}>
+									<Typography
+										variant="h6"
+										style={{
+											color: 'black',
+											fontSize: '1rem',
+											fontWeight: '400',
+										}}
+									>
 										To Date:
 									</Typography>
 									<MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -971,7 +985,7 @@ const Canvas = (props) => {
 							style={{
 								textAlign: 'center',
 								margin: '10px',
-								fontWeight: '600',
+								fontWeight: '400',
 								float: 'right',
 								marginRight: '60px',
 							}}
@@ -1248,7 +1262,7 @@ const Canvas = (props) => {
 						<Typography
 							variant="h5"
 							style={{
-								fontWeight: '600',
+								fontWeight: '400',
 								textAlign: 'center',
 								marginBottom: '15px',
 							}}
@@ -1325,7 +1339,7 @@ const Canvas = (props) => {
 											<Grid item xs={8} style={{ fontSize: '18px' }}>
 												<Typography
 													variant="body1"
-													style={{ fontWeight: '600' }}
+													style={{ fontWeight: '300' }}
 												>
 													{zone.datetime.substring(0, 16)}
 												</Typography>

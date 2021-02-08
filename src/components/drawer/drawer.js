@@ -44,9 +44,9 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 	},
 	listItemText: {
-		fontSize: '18px', //Insert your required size
+		fontSize: '0.875', //Insert your required size
 		fontFamily: 'Hind , sans-serif',
-		fontWeight: '600',
+		fontWeight: '400',
 		letterSpacing: '1px',
 	},
 	item: {
@@ -267,8 +267,9 @@ const MiniDrawer = (props) => {
 								style={{
 									color: 'black',
 									padding: '2px',
-									fontSize: '16px',
+									fontSize: '0.875rem',
 									textTransform: 'none',
+									fontWeight: '500',
 									fontFamily: 'Quicksand , sans-serif',
 								}}
 							>

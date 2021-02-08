@@ -275,7 +275,14 @@ export default function MaterialUIPickers(props) {
 											</FormControl>
 										</Grid>
 										<Grid item lg={4} md={6} xs={12}>
-											<Typography variant="h6" style={{ color: 'black' }}>
+											<Typography
+												variant="h6"
+												style={{
+													fontWeight: '400',
+													fontSize: '1rem',
+													color: 'black',
+												}}
+											>
 												From Date:
 											</Typography>
 											<MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -297,7 +304,14 @@ export default function MaterialUIPickers(props) {
 											</MuiPickersUtilsProvider>
 										</Grid>
 										<Grid item lg={4} md={6} xs={12}>
-											<Typography variant="h6" style={{ color: 'black' }}>
+											<Typography
+												variant="h6"
+												style={{
+													fontWeight: '400',
+													fontSize: '1rem',
+													color: 'black',
+												}}
+											>
 												To Date:
 											</Typography>
 											<MuiPickersUtilsProvider utils={DateFnsUtils}>
